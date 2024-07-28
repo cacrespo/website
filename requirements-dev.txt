@@ -1,0 +1,6 @@
+-r requirements.txt
+
+flake8
+pytest
+
+django-extensions==3.2.1
