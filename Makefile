@@ -36,7 +36,7 @@ webshell:
 	docker compose run --rm web bash
 
 dbshell:
-	docker compose exec db psql --username=hello_django --dbname=hello_django_dev
+	docker compose exec db psql --username=my_site --dbname=my_site_prod
 	
 migrations:
 	docker compose run --rm web python3 manage.py makemigrations
