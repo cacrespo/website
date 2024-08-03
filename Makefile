@@ -5,7 +5,8 @@ help:
 	@echo "ps    -- show status"
 	@echo "clean -- clean all artifacts"
 	@echo "test  -- run tests using docker"
-	@echo "dockershell -- run bash inside docker"
+	@echo "webshell -- run bash inside web container"
+	@echo "dbshell -- run bash inside db container"
 	@echo "migrations -- make migrations"
 	@echo "migrate -- migrate"
 
@@ -31,13 +32,16 @@ pep8:
 
 test: pep8 only_test
 
-dockershell:
+webshell:
 	docker compose run --rm web bash
 
+dbshell:
+	docker compose exec db psql --username=hello_django --dbname=hello_django_dev
+	
 migrations:
 	docker compose run --rm web python3 manage.py makemigrations
 
 migrate:
 	docker compose run --rm web python3 manage.py migrate --skip-checks
 
-.PHONY: help start stop ps clean test dockershell only_test pep8
+.PHONY: help start stop ps clean test webshell dbshell migrations migrate only_test pep8
