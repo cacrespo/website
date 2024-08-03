@@ -6,6 +6,9 @@ help:
 	@echo "clean -- clean all artifacts"
 	@echo "test  -- run tests using docker"
 	@echo "dockershell -- run bash inside docker"
+	@echo "migrations -- make migrations"
+	@echo "migrate -- migrate"
+
 
 start:
 	docker build -t mysite .
