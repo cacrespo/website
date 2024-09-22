@@ -3,6 +3,8 @@ from .base import *
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(",")
+
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get('SQL_ENGINE'),
