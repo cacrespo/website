@@ -1,0 +1,89 @@
+/* General reset and typography */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', Courier, monospace; /* Vintage typewriter look */
+    background-color: #1a1a1a; /* Dark, moody background */
+    color: #f2f2f2; /* Light, off-white text */
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Header and navigation */
+header {
+    text-align: center;
+    padding: 20px;
+    border-bottom: 2px solid #ffcc00; /* Art-deco inspired accent color */
+}
+
+nav a {
+    color: #ffcc00; /* Same bold accent for links */
+    text-decoration: none;
+    font-size: 1.2rem;
+    margin: 0 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+nav a:hover {
+    color: #ffffff; /* Hover effect: makes links pop */
+    border-bottom: 2px solid #ffffff;
+}
+
+/* Main content */
+main {
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+h1 {
+    font-size: 3rem;
+    color: #ffcc00; /* Title in signature accent color */
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #ffcc00;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    font-weight: 300;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 0.9rem;
+    color: #999999; /* Subtle, less prominent footer */
+}
+
+footer p {
+    border-top: 1px solid #444444;
+    padding-top: 10px;
+}
+
+/* Button styles for potential interactive elements */
+button, a.button {
+    background-color: #ffcc00;
+    color: #1a1a1a;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+}
+
+button:hover, a.button:hover {
+    background-color: #ffaa00;
+    color: #ffffff;
+}
