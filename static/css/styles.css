@@ -20,19 +20,43 @@ header {
     border-bottom: 2px solid #ffcc00; /* Art-deco inspired accent color */
 }
 
+header h2 {
+    text-transform: uppercase;
+}
+
 nav a {
     color: #ffcc00; /* Same bold accent for links */
     text-decoration: none;
     font-size: 1.2rem;
     margin: 0 15px;
     font-weight: bold;
-    text-transform: uppercase;
+    stext-transform: uppercase;
 }
 
 nav a:hover {
     color: #ffffff; /* Hover effect: makes links pop */
     border-bottom: 2px solid #ffffff;
 }
+
+nav a:visited {
+    color: #ffcc00; 
+}
+
+/* Links */
+a {
+    color: #ffcc00; 
+    text-decoration: none; 
+}
+
+a:visited {
+    color: #ffcc00;
+}
+
+a:hover {
+    color: #ffffff;
+    border-bottom: 2px solid #ffffff; 
+}
+
 
 /* Main content */
 main {

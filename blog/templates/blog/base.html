@@ -1,9 +1,20 @@
-<html>
-    <head>
-        <title>All posts by Carlos A. Crespo</title>
-    </head>
-    <body>
-        <p>Hi there!</p>
-        <p>It works!</p>
-    </body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}My Blog{% endblock %}
+
+{% block content %}
+    <h1>All Posts ({{ posts|length }}) 🍡</h1>
+        <p>Some random texts written by friends and myself!</p>
+        {% for post in posts %}
+            <h3><a href="{% url 'blog_post' post.pk %}">{{ post.title }}</a></h3>
+            <small>
+                {{ post.created_at.date }} | Categories:
+                {% for category in post.categories.all %}
+                    <a href="{% url 'blog_category' category.name %}">
+                        {{category.name}}
+                    </a>
+                {% endfor %}
+            </small>
+            <p>{{ post.body | slice:":400" }}...</p>
+        {% endfor %}
+{% endblock content %}

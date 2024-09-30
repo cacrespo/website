@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Articles{% endblock page_title %}
+
+{% block content %}
+    <h1>All Articles ({{ articles|length }}) ✨</h1>
+        <p>I often come across articles and resources that deeply resonate with my work or challenge my perspectives. This section is a collection of the most interesting articles I’ve read.</p>
+        {% for article in articles %}
+        <section>
+            <h3><a href="{{ article.link }}">{{article.title}}</a> by {{article.author}} </h3> 
+            <small>
+                {{ article.comment }}
+            </small>
+        </section>
+        {% endfor %}
+{% endblock content %}

@@ -1,0 +1,115 @@
+
+/* Global variables with green tones */
+:root,
+::backdrop {
+  --sans-font: -apple-system, BlinkMacSystemFont, "Avenir Next", Avenir,
+    "Nimbus Sans L", Roboto, "Noto Sans", "Segoe UI", Arial, Helvetica,
+    "Helvetica Neue", sans-serif;
+  --mono-font: Consolas, Menlo, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+  --standard-border-radius: 5px;
+
+  /* Light theme with green tones */
+  --bg: #f0fdf4;
+  --accent-bg: #d1fae5;
+  --text: #1f2937;
+  --text-light: #6b7280;
+  --border: #10b981;
+  --accent: #047857;
+  --accent-hover: #065f46;
+  --accent-text: #ffffff;
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+  :root,
+  ::backdrop {
+    --bg: #1f2937;
+    --accent-bg: #065f46;
+    --text: #f0fdf4;
+    --text-light: #d1fae5;
+    --accent: #34d399;
+    --accent-hover: #6ee7b7;
+    --accent-text: #1f2937;
+  }
+}
+
+/* Basic reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--sans-font);
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--text);
+  background-color: var(--bg);
+  font-size: 1.15rem;
+  line-height: 1.5;
+  margin: 0;
+/*  display: flex; */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Simplified layout */
+main {
+  padding: 0.5rem 20% 1rem;
+  background-color: var(--accent-bg);
+  border-radius: var(--standard-border-radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: justify;
+}
+
+/* Headers */
+header {
+  margin: 1.5rem;
+}
+
+h1, h2, h3 {
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  color: var(--accent);
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+
+/* Links */
+a, a:visited {
+  color: var(--accent);
+}
+
+a:hover {
+  color: var(--accent-hover);
+  text-decoration: none;
+}
+
+/* Buttons */
+button, .button {
+  border: 1px solid var(--accent);
+  background-color: var(--accent);
+  color: var(--accent-text);
+  padding: 0.5rem 1rem;
+  border-radius: var(--standard-border-radius);
+  cursor: pointer;
+}
+
+button:hover, .button:hover {
+  background-color: var(--accent-hover);
+}
+
+/* Footer */
+footer {
+  padding: 1rem;
+  text-align: center;
+  color: var(--text-light);
+  border-top: 10px solid var(--border);
+}
