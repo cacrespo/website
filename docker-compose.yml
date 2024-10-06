@@ -20,9 +20,9 @@ services:
       - 5432:5432
     environment:
       - PGUSER=my_user
+      - POSTGRES_DB=my_site_prod
       - POSTGRES_USER=my_user
       - POSTGRES_PASSWORD=my_site
-      - POSTGRES_DB=my_site_prod
 
 volumes:
   postgres_data:
