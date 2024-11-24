@@ -12,7 +12,6 @@ help:
 
 
 start:
-	docker build -t mysite .
 	docker compose up
 
 stop:
