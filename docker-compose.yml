@@ -2,13 +2,17 @@ version: '3.8'
 
 services:
   web:
-    build: .
+    build:
+      context: .
+      target: ${TARGET:-development}
     ports:
       - 80:80
     env_file:
       - ./.env
     depends_on:
       - db
+    volumes:
+      - ./:/usr/src/app
   db:
     image: postgres:15
     volumes:
