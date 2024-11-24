@@ -12,6 +12,7 @@ help:
 
 
 start:
+	docker build --target development .
 	docker compose up
 
 stop:
