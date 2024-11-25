@@ -1,9 +1,13 @@
 # pull official base image
 FROM python:3.13 AS base
 
+# For use docker-compose enviroment vars
+ARG DJANGO_ALLOWED_HOSTS
+
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
 ENV DJANGO_SETTINGS_MODULE=mysite.settings.base
 
 # set work directory

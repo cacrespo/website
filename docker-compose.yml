@@ -5,6 +5,8 @@ services:
     build:
       context: .
       target: ${TARGET:-development}
+      args:
+        DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
     ports:
       - 80:80
     env_file:
