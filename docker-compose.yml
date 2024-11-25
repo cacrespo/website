@@ -2,18 +2,19 @@ version: '3.8'
 
 services:
   web:
-    build: .
-    command: >
-+      sh -c "python manage.py collectstatic --no-input &&
-+      gunicorn mysite.wsgi:application --bind 0.0.0.0:80"
+    build:
+      context: .
+      target: ${TARGET:-development}
+      args:
+        DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
     ports:
       - 80:80
     env_file:
       - ./.env
     depends_on:
       - db
-    environment:
-      - DJANGO_SETTINGS_MODULE=mysite.settings.prod
+    volumes:
+      - ./:/usr/src/app
   db:
     image: postgres:15
     volumes:

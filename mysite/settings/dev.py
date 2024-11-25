@@ -3,6 +3,8 @@ from .base import *
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1']
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -17,7 +19,7 @@ LOGGING = {
       'file': {
          'level': 'DEBUG',
          'class': 'logging.FileHandler',
-         'filename': 'tmp/debug.log',
+         'filename': '/tmp/debug.log',
       },
    },
    'loggers': {

@@ -12,7 +12,7 @@ help:
 
 
 start:
-	docker build -t mysite .
+	docker build --target development .
 	docker compose up
 
 stop:
