@@ -10,7 +10,6 @@ help:
 	@echo "migrations -- make migrations"
 	@echo "migrate -- migrate"
 
-
 start:
 	TARGET=development docker build .
 	docker compose up
@@ -32,12 +31,17 @@ pep8:
 
 test: pep8 only_test
 
+# attach to a new container
 webshell:
 	docker compose run --rm web bash
 
+# attach to running container
+ssh:
+	docker compose exec web bash
+
 dbshell:
 	docker compose exec db psql --username=my_site --dbname=my_site_prod
-	
+
 migrations:
 	docker compose run --rm web python3 manage.py makemigrations
 
