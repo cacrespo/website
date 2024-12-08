@@ -1,10 +1,12 @@
-from .base import *
+import os
+from .base import *  # noqa
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(",")
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
 
+# Aca a reemplazar con dj-database-url
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get('SQL_ENGINE'),
