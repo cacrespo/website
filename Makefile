@@ -40,7 +40,7 @@ ssh:
 	docker compose exec web bash
 
 dbshell:
-	docker compose exec db psql --username=my_site --dbname=my_site_prod
+	docker compose exec db psql --username=carlos --dbname=my_site_prod
 
 migrations:
 	docker compose run --rm web python3 manage.py makemigrations
