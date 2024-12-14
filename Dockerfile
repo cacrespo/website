@@ -33,7 +33,7 @@ COPY ./requirements-dev.txt .
 RUN pip install -r requirements-dev.txt
 
 # Run the Django development server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:80"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
 # ------------------------------
 # Production Configuration
