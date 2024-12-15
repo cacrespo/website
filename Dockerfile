@@ -45,4 +45,4 @@ ENV DJANGO_SETTINGS_MODULE=mysite.settings.prod
 RUN python manage.py collectstatic --no-input
 
 # Command to run Gunicorn
-CMD ["sh", "-c", "gunicorn mysite.wsgi:application --bind 0.0.0.0:80"]
+CMD ["sh", "-c", "gunicorn mysite.wsgi:application --bind 0.0.0.0:8000"]
