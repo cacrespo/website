@@ -6,7 +6,7 @@ services:
       args:
         DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
     ports:
-      - 80:80
+      - 8000:8000
     env_file:
       - ./.env
     depends_on:
@@ -20,10 +20,7 @@ services:
     ports:
       - 5432:5432
     environment:
-      - PGUSER=my_user
-      - POSTGRES_DB=my_site_prod
-      - POSTGRES_USER=my_user
-      - POSTGRES_PASSWORD=my_site
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
 volumes:
   postgres_data:
