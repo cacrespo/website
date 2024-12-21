@@ -1,4 +1,12 @@
+ifneq (,$(wildcard .env))
+    include .env
+    export
+endif
+
+TIMESTAMP := $(shell date +%Y-%m-%d-%H%M%S)
+
 help:
+	@echo "DATABASE_URL = $(DATABASE_URL)"
 	@echo "help  -- print this help"
 	@echo "start -- start docker stack"
 	@echo "stop  -- stop docker stack"
@@ -40,7 +48,10 @@ ssh:
 	docker compose exec web bash
 
 dbshell:
-	docker compose exec db psql --username=carlos --dbname=my_site_prod
+	docker compose exec db psql $(DATABASE_URL)
+
+dbdump:
+	docker compose exec db pg_dump $(DATABASE_URL) > cacrespo-dbdump-$(TIMESTAMP).sql
 
 migrations:
 	docker compose run --rm web python3 manage.py makemigrations
