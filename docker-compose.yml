@@ -11,16 +11,22 @@ services:
       - ./.env
     depends_on:
       - db
+    environment:
+      HISTFILE: /root/hist/.bash_history
     volumes:
       - ./:/usr/src/app
+      - shell_history:/root/hist
   db:
     image: postgres:15
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      HISTFILE: /root/hist/.bash_history
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      - shell_history:/root/hist
 
 volumes:
   postgres_data:
+  shell_history:
