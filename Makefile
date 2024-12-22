@@ -7,16 +7,19 @@ TIMESTAMP := $(shell date +%Y-%m-%d-%H%M%S)
 
 help:
 	@echo "DATABASE_URL = $(DATABASE_URL)"
-	@echo "help  -- print this help"
-	@echo "start -- start docker stack"
-	@echo "stop  -- stop docker stack"
-	@echo "ps    -- show status"
-	@echo "clean -- clean all artifacts"
-	@echo "test  -- run tests using docker"
-	@echo "webshell -- run bash inside web container"
-	@echo "dbshell -- run bash inside db container"
-	@echo "migrations -- make migrations"
-	@echo "migrate -- migrate"
+	@echo "help        -- Show this help message"
+	@echo "start       -- Build and start the Docker stack"
+	@echo "stop        -- Stop the Docker stack"
+	@echo "ps          -- Show the status of the containers in the Docker stack"
+	@echo "clean       -- Stop and remove all Docker containers, networks, and volumes"
+	@echo "test        -- Run tests (including PEP8 check and unit tests)"
+	@echo "webshell    -- Open a new Bash shell in the web container"
+	@echo "ssh         -- Attach to a running web container and open a Bash shell"
+	@echo "dbshell     -- Open a psql shell inside the database container"
+	@echo "migrations  -- Create new database migrations"
+	@echo "migrate     -- Apply the database migrations"
+	@echo "dbdump      -- Dump the database to a file, with timestamp"
+	@echo "dbrunsql    -- Run a .sql file (can also restore the db from a dbdump file)"
 
 start:
 	TARGET=development docker build .
@@ -53,10 +56,17 @@ dbshell:
 dbdump:
 	docker compose exec db pg_dump $(DATABASE_URL) > cacrespo-dbdump-$(TIMESTAMP).sql
 
+dbrunsql:
+	@if [ -z "$(FILE)" ]; then \
+		echo "Error: Please specify the file using FILE=filename.sql"; \
+		exit 1; \
+	fi
+	cat $(FILE) | docker compose exec -T db psql $(DATABASE_URL)
+
 migrations:
 	docker compose run --rm web python3 manage.py makemigrations
 
 migrate:
 	docker compose run --rm web python3 manage.py migrate --skip-checks
 
-.PHONY: help start stop ps clean test webshell dbshell migrations migrate only_test pep8
+.PHONY: help start stop ps clean test webshell dbshell migrations migrate only_test pep8 dbdump dbrunsql
