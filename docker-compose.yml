@@ -5,6 +5,7 @@ services:
       target: ${TARGET:-development}
       args:
         DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
+        LOGFIRE_TOKEN: ${LOGFIRE_TOKEN}
     ports:
       - 8000:8000
     env_file:
@@ -22,7 +23,7 @@ services:
       - 5432:5432
     environment:
       HISTFILE: /root/hist/.bash_history
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      DATABASE_URL: ${DATABASE_URL}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
       - shell_history:/root/hist

@@ -2,14 +2,17 @@
 FROM python:3.13 AS base
 
 # For use docker-compose enviroment vars
+ARG DATABASE_URL
 ARG DJANGO_ALLOWED_HOSTS
 ARG LOGFIRE_TOKEN
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV DATABASE_URL=${DATABASE_URL}
 ENV DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
 ENV DJANGO_SETTINGS_MODULE=mysite.settings.base
+ENV LOGFIRE_TOKEN=${LOGFIRE_TOKEN}
 
 # set work directory
 WORKDIR /usr/src/app
@@ -41,7 +44,6 @@ CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 # ------------------------------
 FROM base AS production
 ENV DJANGO_SETTINGS_MODULE=mysite.settings.prod
-ENV LOGFIRE_TOKEN=${LOGFIRE_TOKEN}
 
 # Collect static files to be served in production
 RUN python manage.py collectstatic --no-input
