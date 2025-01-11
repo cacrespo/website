@@ -3,6 +3,7 @@ FROM python:3.13 AS base
 
 # For use docker-compose enviroment vars
 ARG DJANGO_ALLOWED_HOSTS
+ARG LOGFIRE_TOKEN
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
