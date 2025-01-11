@@ -40,6 +40,7 @@ CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 # ------------------------------
 FROM base AS production
 ENV DJANGO_SETTINGS_MODULE=mysite.settings.prod
+ENV LOGFIRE_TOKEN=${LOGFIRE_TOKEN}
 
 # Collect static files to be served in production
 RUN python manage.py collectstatic --no-input
