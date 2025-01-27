@@ -48,22 +48,28 @@ html {
 body {
   color: var(--text);
   background-color: var(--bg);
-  font-size: 1.15rem;
+  font-size: 1rem;
   line-height: 1.5;
   margin: 0;
-/*  display: flex; */
-  justify-content: center;
-  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
   height: 100vh;
+  flex-direction: column;
 }
 
 /* Simplified layout */
 main {
-  padding: 0.5rem 20% 1rem;
+  border: 10;
   background-color: var(--accent-bg);
   border-radius: var(--standard-border-radius);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: justify;
+  width: 80%;
+  max-width: 1200px;
+  flex-grow: 2;
+  align-self: center;
+  padding: 2%;
 }
 
 /* Headers */
@@ -72,15 +78,15 @@ header {
 }
 
 h1, h2, h3 {
-  font-weight: 800;
+  font-weight: 600;
   line-height: 1.1;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   color: var(--accent);
 }
 
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.75rem; }
+h1 { font-size: 1.5rem; }
+h2 { font-size: 1.3rem; }
+h3 { font-size: 1.1rem; }
 
 /* Links */
 a, a:visited {
