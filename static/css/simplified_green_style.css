@@ -60,12 +60,11 @@ body {
 
 /* Simplified layout */
 main {
-  border: 10;
   background-color: var(--accent-bg);
   border-radius: var(--standard-border-radius);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: justify;
-  width: 80%;
+  width: 90%;
   max-width: 1200px;
   flex-grow: 2;
   align-self: center;
@@ -117,5 +116,4 @@ footer {
   padding: 1rem;
   text-align: center;
   color: var(--text-light);
-  border-top: 10px solid var(--border);
 }

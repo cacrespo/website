@@ -3,6 +3,7 @@
 {% block title %}My Blog{% endblock %}
 
 {% block content %}
+<section>
     <h1>All Posts ({{ posts|length }}) 🍡</h1>
         <p>Some random texts written by friends and myself!</p>
         {% for post in posts %}
@@ -17,4 +18,5 @@
             </small>
             <p>{{ post.body | slice:":400" }}...</p>
         {% endfor %}
+</section>
 {% endblock content %}
