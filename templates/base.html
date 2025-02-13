@@ -12,24 +12,33 @@
     </head>
 <body>
     <header style="text-align: center;">
-        <a href="/"><h2>Carlos A. Crespo</h2></a>
         <nav>
-            <a href="{% url 'about' %}">About</a> |
+            <a href="/">Home</a> |
             <a href="{% url 'blog_list' %}">Blog</a> |
             <a href="{% url 'blog_article' %}">Articles</a> |
-            <a href="{% url 'contact' %}">Contact</a>
+            <a href="{% url 'about' %}">About</a> 
         </nav>
-    </header>
-
-    <main>
+   </header>
+   <main>
         {% block content %}
         <!-- Page content goes here -->
         {% endblock %}
     </main>
-
+ 
     <footer>
         <p>&copy; 2024 Carlos A. Crespo</p>
+        <note>The emojis in different parts of the site are the exclusive aesthetic touch of my daughter Sofía. 🧡</note>
     </footer>
+    <sidebar>
+        <section>
+            <h1>Contact Me 🤩</h1> 
+            <p>
+            I’d love to hear from you! Feel free to reach out through any of the following channels:
+            </p>
+            <a href="mailto:lvccrespo@gmail.com"><i class="bi bi-envelope-fill"></i></a> 
+            <a href="https://www.linkedin.com/in/carloscrespoi" target="_blank"><i class="bi bi-linkedin"></i></a>
+            <a href="https://github.com/cacrespo" target="_blank"><i class="bi bi-github"></i></a>
+        </section>
+    </sidevar>
 </body>
 </html>
-
