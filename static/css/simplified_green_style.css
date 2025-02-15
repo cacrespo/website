@@ -79,12 +79,8 @@ sidebar a:visited {
   color: white;
 }
 
-sidebar img {
-  transition: transform 0.7s ease-in-out;
-}
-
-sidebar img:hover {
-  transform: rotate(360deg);
+sidebar a i {
+font-size: large;
 }
 
 /* Header */
