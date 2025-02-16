@@ -7,7 +7,7 @@ services:
         DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
         LOGFIRE_TOKEN: ${LOGFIRE_TOKEN}
     ports:
-      - 8000:8000
+      - 8001:8000
     env_file:
       - ./.env
     depends_on:
@@ -19,8 +19,6 @@ services:
       - shell_history:/root/hist
   db:
     image: postgres:15
-    ports:
-      - 5432:5432
     environment:
       HISTFILE: /root/hist/.bash_history
       DATABASE_URL: ${DATABASE_URL}
