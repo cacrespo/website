@@ -128,11 +128,12 @@ footer p {
 a,
 a:visited {
   color: var(--accent);
+  text-decoration: none;
 }
 
 a:hover {
   color: var(--accent-hover);
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 /* Buttons */
@@ -165,7 +166,7 @@ button:hover,
   sidebar {
     flex-direction: row;
     justify-content: space-around;
-    padding: 1rem;
+    padding: 0.5rem;
   }
 
   sidebar section h1,
@@ -173,11 +174,10 @@ button:hover,
     margin: 0;
   }
 
-  footer {
-    padding: 0.5rem;
-  }
-
   sidebar h1 {
     display: none;
   }
-}
+
+  footer {
+    padding: 0.5rem;
+  }
