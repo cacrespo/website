@@ -162,7 +162,11 @@ button:hover,
       "sidebar"
       "footer";
   }
-
+  
+  main p {
+    margin-block-end: 1em;
+  }
+  
   sidebar {
     flex-direction: row;
     justify-content: space-around;
