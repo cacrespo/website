@@ -104,6 +104,10 @@ main {
   flex-grow: 1;
 }
 
+main section h3 {
+    margin-bottom: 0.2em;
+}
+
 /* Footer */
 footer {
   color: var(--accent);
