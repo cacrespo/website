@@ -3,7 +3,7 @@ exclude =
     migrations
     __pycache__
     manage.py
-    settings.py
+    mysite/settings/base.py
     env
     .env
     venv
