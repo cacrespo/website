@@ -8,7 +8,8 @@ class FaviconTests(SimpleTestCase):
         response = self.client.get("/favicon.ico")
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(response["Cache-Control"], "max-age=86400, immutable, public")
+        self.assertEqual(response["Cache-Control"],
+                         "max-age=86400, immutable, public")
         self.assertEqual(response["Content-Type"], "image/png")
         self.assertGreater(len(response.getvalue()), 0)
 
@@ -16,7 +17,7 @@ class FaviconTests(SimpleTestCase):
 class HomeViewTests(SimpleTestCase):
     def test_get(self):
         response = self.client.get("/")
-        
+
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, "pages/home.html")
 
@@ -24,7 +25,7 @@ class HomeViewTests(SimpleTestCase):
 class ContactViewTests(SimpleTestCase):
     def test_get(self):
         response = self.client.get("/contact/")
-        
+
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, "pages/contact.html")
 
@@ -32,6 +33,6 @@ class ContactViewTests(SimpleTestCase):
 class AboutViewTests(SimpleTestCase):
     def test_get(self):
         response = self.client.get("/about/")
-        
+
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, "pages/about.html")

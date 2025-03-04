@@ -6,6 +6,7 @@ from django.utils import timezone
 
 User = get_user_model()
 
+
 class BlogViewTests(TestCase):
     def setUp(self):
         # Create a test user
@@ -13,10 +14,10 @@ class BlogViewTests(TestCase):
             username='testuser',
             password='testpass123'
         )
-        
+
         # Create test category
         self.category = Category.objects.create(name='Test Category')
-        
+
         # Create test post
         self.post = Post.objects.create(
             author=self.user,
@@ -27,7 +28,7 @@ class BlogViewTests(TestCase):
             published_at=timezone.now()
         )
         self.post.categories.add(self.category)
-        
+
         # Create test article
         self.article = Article.objects.create(
             title='Test Article',
@@ -38,7 +39,7 @@ class BlogViewTests(TestCase):
 
     def test_blog_list_view(self):
         response = self.client.get('/blog/')
-        
+
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, 'blog/base.html')
         self.assertIn('posts', response.context)
@@ -47,7 +48,7 @@ class BlogViewTests(TestCase):
 
     def test_blog_category_view(self):
         response = self.client.get(f'/blog/category/{self.category.name}/')
-        
+
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, 'blog/base.html')
         self.assertIn('posts', response.context)
@@ -58,7 +59,7 @@ class BlogViewTests(TestCase):
 
     def test_blog_post_view(self):
         response = self.client.get(f'/blog/post/{self.post.pk}/')
-        
+
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, 'blog/post.html')
         self.assertIn('post', response.context)
@@ -66,7 +67,7 @@ class BlogViewTests(TestCase):
 
     def test_blog_article_view(self):
         response = self.client.get('/blog/article/')
-        
+
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, 'blog/article.html')
         self.assertIn('articles', response.context)
@@ -79,7 +80,7 @@ class BlogViewTests(TestCase):
 
     def test_blog_category_view_no_posts(self):
         response = self.client.get('/blog/category/non-existent/')
-        
+
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, 'blog/base.html')
-        self.assertEqual(len(response.context['posts']), 0) 
+        self.assertEqual(len(response.context['posts']), 0)
