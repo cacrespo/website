@@ -8,12 +8,26 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
       matrix:
         python-version: [3.13]
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     - uses: actions/checkout@v4
@@ -26,8 +40,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
     - name: Run Tests
+      env:
+        DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+        DJANGO_SETTINGS_MODULE: mysite.settings.test
+        DJANGO_ALLOWED_HOSTS: localhost
+        LOGFIRE_TOKEN: test_token
       run: |
         pytest
     - name: Check Migration
+      env:
+        DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+        DJANGO_SETTINGS_MODULE: mysite.settings.test
       run: |
         python manage.py makemigrations --dry-run --check
