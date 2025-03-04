@@ -42,14 +42,10 @@ jobs:
     - name: Run Tests
       env:
         DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
-        DJANGO_SETTINGS_MODULE: mysite.settings.test
+        DJANGO_SETTINGS_MODULE: mysite.settings.dev
         DJANGO_ALLOWED_HOSTS: localhost
-        LOGFIRE_TOKEN: test_token
       run: |
         pytest
     - name: Check Migration
-      env:
-        DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
-        DJANGO_SETTINGS_MODULE: mysite.settings.test
       run: |
         python manage.py makemigrations --dry-run --check
