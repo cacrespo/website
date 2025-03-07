@@ -23,9 +23,13 @@ build-backend = "hatchling.build"
 dev-dependencies = [
     "pytest>=8.3.3",
     "pytest-django>=4.9.0",
+    "ruff>=0.9.9",
 ]
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "mysite.settings.dev"
 python_files = "tests.py test_*.py *_tests.py"
 cache_dir = ".pytest_cache_dir"
+
+[tool.hatch.build.targets.wheel]
+packages = ["website"]
