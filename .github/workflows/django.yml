@@ -16,7 +16,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:15
+        image: postgres:16
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -30,15 +30,25 @@ jobs:
           --health-retries 5
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+
+    - name: Install the project
+      run: uv sync --all-extras
+
+    - name: Run Ruff
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements-dev.txt
+        uv run ruff check
+        uv run ruff format --check
+
     - name: Run Tests
       env:
         DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
@@ -46,6 +56,7 @@ jobs:
         DJANGO_ALLOWED_HOSTS: localhost
       run: |
         pytest
+    
     - name: Check Migration
       run: |
         python manage.py makemigrations --dry-run --check
