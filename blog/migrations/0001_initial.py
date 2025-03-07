@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -15,52 +14,84 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Article',
+            name="Article",
             fields=[
-                ('id', models.BigAutoField(auto_created=True,
-                 primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('title', models.CharField(max_length=200)),
-                ('author', models.CharField(max_length=200)),
-                ('comment', models.TextField()),
-                ('link', models.URLField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("title", models.CharField(max_length=200)),
+                ("author", models.CharField(max_length=200)),
+                ("comment", models.TextField()),
+                ("link", models.URLField()),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.BigAutoField(auto_created=True,
-                 primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=30)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=30)),
             ],
             options={
-                'verbose_name_plural': 'categories',
+                "verbose_name_plural": "categories",
             },
         ),
         migrations.CreateModel(
-            name='Post',
+            name="Post",
             fields=[
-                ('id', models.BigAutoField(auto_created=True,
-                 primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('title', models.CharField(max_length=200)),
-                ('slug', models.SlugField(max_length=200, unique=True)),
-                ('text', models.TextField()),
-                ('status', models.IntegerField(choices=[
-                 (0, 'Draft'), (1, 'Publish')], default=0)),
-                ('published_at', models.DateTimeField(blank=True, null=True)),
-                ('author', models.ForeignKey(
-                    on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('categories', models.ManyToManyField(
-                    related_name='posts', to='blog.category')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("title", models.CharField(max_length=200)),
+                ("slug", models.SlugField(max_length=200, unique=True)),
+                ("text", models.TextField()),
+                (
+                    "status",
+                    models.IntegerField(
+                        choices=[(0, "Draft"), (1, "Publish")], default=0
+                    ),
+                ),
+                ("published_at", models.DateTimeField(blank=True, null=True)),
+                (
+                    "author",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "categories",
+                    models.ManyToManyField(related_name="posts", to="blog.category"),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]
