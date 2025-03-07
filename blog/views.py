@@ -7,13 +7,13 @@ def blog_list(request):
     context = {
         "posts": posts,
     }
-    return render(request, 'blog/base.html', context)
+    return render(request, "blog/base.html", context)
 
 
 def blog_category(request, category):
-    posts = Post.objects.filter(
-        categories__name__contains=category
-    ).order_by("-created_at")
+    posts = Post.objects.filter(categories__name__contains=category).order_by(
+        "-created_at"
+    )
     context = {
         "category": category,
         "posts": posts,
@@ -34,4 +34,4 @@ def blog_article(request):
     context = {
         "articles": articles,
     }
-    return render(request, 'blog/article.html', context)
+    return render(request, "blog/article.html", context)

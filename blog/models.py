@@ -2,10 +2,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
-STATUS = (
-    (0, "Draft"),
-    (1, "Publish")
-)
+STATUS = ((0, "Draft"), (1, "Publish"))
 
 
 class TimeStampedModel(models.Model):
@@ -17,8 +14,7 @@ class TimeStampedModel(models.Model):
 
 
 class Post(TimeStampedModel):
-    author = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
     text = models.TextField()
