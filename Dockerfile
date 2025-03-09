@@ -9,6 +9,7 @@ ARG LOGFIRE_TOKEN
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy
 ENV DATABASE_URL=${DATABASE_URL}
 ENV DJANGO_ALLOWED_HOSTS=${DJANGO_ALLOWED_HOSTS}
 ENV DJANGO_SETTINGS_MODULE=mysite.settings.base
@@ -17,14 +18,18 @@ ENV LOGFIRE_TOKEN=${LOGFIRE_TOKEN}
 # set work directory
 WORKDIR /usr/src/app
 
-# install dependencies
-COPY ./requirements.txt .
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+## install dependencies
+#COPY ./requirements.txt .
+#
+#RUN pip install --upgrade pip
+#RUN pip install -r requirements.txt
 
 # copy project
 COPY . .
+RUN uv sync --frozen
 
 # ------------------------------
 # Development Configuration
@@ -33,11 +38,13 @@ FROM base AS development
 ENV DJANGO_SETTINGS_MODULE=mysite.settings.dev
 
 # Install the development dependencies
-COPY ./requirements-dev.txt .
-RUN pip install -r requirements-dev.txt
+#COPY ./requirements-dev.txt .
+#RUN pip install -r requirements-dev.txt
+
+RUN uv sync --all-extras
 
 # Run the Django development server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["uv", "run", "manage.py", "runserver", "0.0.0.0:8000"]
 
 # ------------------------------
 # Production Configuration

@@ -5,6 +5,8 @@ endif
 
 TIMESTAMP := $(shell date +%Y-%m-%d-%H%M%S)
 
+UVR=uv run
+
 help:
 	@echo "DATABASE_URL = $(DATABASE_URL)"
 	@echo "help        -- Show this help message"
@@ -35,10 +37,10 @@ clean: stop
 	docker compose rm --force -v
 
 only_test:
-	docker compose run --rm web /usr/local/bin/pytest -v
+	docker compose run --rm web ${UVR} pytest -v
 
 pep8:
-	docker compose run --rm web flake8
+	docker compose run --rm web ${UVR} ruff check
 
 test: pep8 only_test
 
@@ -64,9 +66,9 @@ dbrunsql:
 	cat $(FILE) | docker compose exec -T db psql $(DATABASE_URL)
 
 migrations:
-	docker compose run --rm web python3 manage.py makemigrations
+	docker compose run --rm web ${UVR} manage.py makemigrations
 
 migrate:
-	docker compose run --rm web python3 manage.py migrate --skip-checks
+	docker compose run --rm web ${UVR} manage.py migrate --skip-checks
 
 .PHONY: help start stop ps clean test webshell dbshell migrations migrate only_test pep8 dbdump dbrunsql
