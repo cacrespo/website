@@ -1,0 +1,47 @@
+# Byte-compiled / optimized / DLL files
+__pycache__
+*.py[cod]
+*.pyo
+*.pyd
+
+# C extensions
+*.so
+
+# Virtual environment directories
+env/
+.venv/
+.Python
+
+# pip related files
+pip-log.txt
+pip-delete-this-directory.txt
+
+# tox environments
+.tox/
+
+# Coverage reports
+.coverage
+.coverage.*
+*.cover
+coverage.xml
+
+# Test result files
+nosetests.xml
+
+# Logs
+*.log
+
+# Django migrations
+*/migrations/*.pyc
+*/migrations/*.pyo
+*/migrations/*.pyd
+*/migrations/__pycache__/
+
+# mypy
+.mypy_cache/
+
+# pytest
+.pytest_cache/
+
+# Cache files
+.cache/
