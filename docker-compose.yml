@@ -15,6 +15,7 @@ services:
     environment:
       HISTFILE: /root/hist/.bash_history
     volumes:
+      - /usr/src/app/.venv
       - ./:/usr/src/app
       - shell_history:/root/hist
   db:
