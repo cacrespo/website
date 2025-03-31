@@ -17,7 +17,7 @@ DEBUG = True
 # Only enable the toolbar when we're in debug mode and we're
 # not running tests. Django will change DEBUG to be False for
 # tests, so we can't rely on DEBUG alone.
-ENABLE_DEBUG_TOOLBAR = DEBUG and "test" not in sys.argv
+ENABLE_DEBUG_TOOLBAR = DEBUG and {"test", "pytest"}.isdisjoint(sys.argv)
 if ENABLE_DEBUG_TOOLBAR:
     INSTALLED_APPS += [
         "debug_toolbar",
