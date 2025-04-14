@@ -28,7 +28,7 @@ dev-dependencies = [
     "pytest-django>=4.9.0",
     "ruff>=0.9.9",
     "pre-commit>=4.1.0",
-    "django-debug-toolbar",
+    "django-debug-toolbar>=5.1.0",
 ]
 
 [tool.pytest.ini_options]

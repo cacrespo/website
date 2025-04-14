@@ -1,6 +1,6 @@
 from .base import *  # noqa
 from .base import INSTALLED_APPS, MIDDLEWARE
-import sys
+import os
 
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
 
@@ -17,7 +17,9 @@ DEBUG = True
 # Only enable the toolbar when we're in debug mode and we're
 # not running tests. Django will change DEBUG to be False for
 # tests, so we can't rely on DEBUG alone.
-ENABLE_DEBUG_TOOLBAR = DEBUG and not {"test", "pytest"}.isdisjoint(sys.argv)
+TESTING = "TESTING" in os.environ
+
+ENABLE_DEBUG_TOOLBAR = DEBUG and not TESTING
 if ENABLE_DEBUG_TOOLBAR:
     INSTALLED_APPS += [
         "debug_toolbar",
