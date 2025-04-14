@@ -37,7 +37,7 @@ clean: stop
 	docker compose rm --force -v
 
 only_test:
-	docker compose run --rm web ${UVR} pytest -v
+	docker compose run --rm -e TESTING=True web ${UVR} pytest -v
 
 pep8:
 	docker compose run --rm web ${UVR} ruff check

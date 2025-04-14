@@ -21,12 +21,6 @@ WORKDIR /usr/src/app
 # Install uv
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-## install dependencies
-#COPY ./requirements.txt .
-#
-#RUN pip install --upgrade pip
-#RUN pip install -r requirements.txt
-
 # copy project
 COPY . .
 RUN uv sync --frozen
@@ -37,11 +31,7 @@ RUN uv sync --frozen
 FROM base AS development
 ENV DJANGO_SETTINGS_MODULE=mysite.settings.dev
 
-# Install the development dependencies
-#COPY ./requirements-dev.txt .
-#RUN pip install -r requirements-dev.txt
-
-RUN uv sync --all-extras
+RUN uv sync --all-groups
 
 # Run the Django development server
 CMD ["uv", "run", "manage.py", "runserver", "0.0.0.0:8000"]
