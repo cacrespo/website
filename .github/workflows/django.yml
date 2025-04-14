@@ -54,6 +54,7 @@ jobs:
         DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
         DJANGO_SETTINGS_MODULE: mysite.settings.dev
         DJANGO_ALLOWED_HOSTS: localhost
+        TESTING: True
       run: |
         uv run pytest
     

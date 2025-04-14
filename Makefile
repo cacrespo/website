@@ -24,8 +24,8 @@ help:
 	@echo "dbrunsql    -- Run a .sql file (can also restore the db from a dbdump file)"
 
 start:
-	TARGET=development docker build .
-	docker compose up
+	docker build . --target development
+	TARGET=development docker compose up
 
 stop:
 	docker compose stop
@@ -37,7 +37,7 @@ clean: stop
 	docker compose rm --force -v
 
 only_test:
-	docker compose run --rm web ${UVR} pytest -v
+	docker compose run --rm -e TESTING=True web ${UVR} pytest -v
 
 pep8:
 	docker compose run --rm web ${UVR} ruff check
