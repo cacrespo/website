@@ -1,8 +1,26 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <section>
     <h1>🪻 Welcome to My Personal Website 🐞</h1>
-    <p>Feel free to explore and learn more about me.</p>
+    <p>This site serves as a <strong>live-lab</strong> for my projects and experiments! 🧪. </p>
+    <p>You'll also find articles and insights related to data engineering, software development, and a variety of other topics. </p>
+
+</section>
+<section>
+    <h3>What have I been doing lately?</h3>
+    <small>
+    {% for activity in activities %}
+        - {{ activity.details }} <a href="{{ activity.link }}">{{ activity.link_hpv }}</a>
+        <br>
+    {% endfor %}
+    </small>
+</section>    
+<section>
+    <h3>Last but not least...</h3>
+    <img src="{% static 'img/design_passion.jpg' %}" alt="Designed by Freepik" style="width: 50%; height: auto; "/>
+    <br>
+    <small style="margin-top: 5px;">☝️ Designed by Freepik</small>
 </section>
 {% endblock %}

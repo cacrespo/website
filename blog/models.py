@@ -48,3 +48,15 @@ class Article(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+
+class Activity(TimeStampedModel):
+    details = models.TextField()
+    link = models.URLField()
+    link_hpv = models.TextField()
+
+    class Meta:
+        verbose_name_plural = "activities"
+
+    def __str__(self):
+        return self.details
