@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from blog.models import Post, Article
 
 
@@ -22,7 +22,7 @@ def blog_category(request, category):
 
 
 def blog_post(request, pk):
-    post = Post.objects.get(pk=pk)
+    post = get_object_or_404(Post, pk=pk)
     context = {
         "post": post,
     }
