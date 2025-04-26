@@ -60,4 +60,4 @@ jobs:
     
     - name: Check Migration
       run: |
-        python manage.py makemigrations --dry-run --check
+        uv run python manage.py makemigrations --dry-run --check
