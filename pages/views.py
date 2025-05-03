@@ -15,7 +15,7 @@ def favicon(request: HttpRequest) -> HttpResponse:
 
 
 def home(request):
-    activities = Activity.objects.order_by("-created_at")[:3]
+    activities = Activity.objects.order_by("-created_at")[:5]
     context = {
         "activities": activities,
     }
