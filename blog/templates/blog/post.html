@@ -6,7 +6,7 @@
 <section>
     <h1>{{ post.title }} 🎀</h1>
     <small>
-        Published on {{ post.published_at|date:"F j, Y" }} by {{ post.author.username }}
+        Published on '{{ post.published_at|date:"Y-m-d" }}' by {{ post.author.username }}
         {% if post.categories.all %}
             | Categories:
             {% for category in post.categories.all %}
