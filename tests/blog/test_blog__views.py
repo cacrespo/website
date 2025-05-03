@@ -17,12 +17,12 @@ class BlogViewTests(TestCase):
         # Create test category
         self.category = Category.objects.create(name="Test Category")
 
-        # Create test post
+        # Create test post with detailed content
         self.post = Post.objects.create(
             author=self.user,
             title="Test Post",
             slug="test-post",
-            text="Test content",
+            text="This is a test post with some <strong>HTML content</strong> and multiple paragraphs.\n\nSecond paragraph here.",
             status=1,  # Published
             published_at=timezone.now(),
         )
@@ -83,3 +83,26 @@ class BlogViewTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, "blog/base.html")
         self.assertEqual(len(response.context["posts"]), 0)
+
+    def test_blog_post_content_rendering(self):
+        response = self.client.get(f"/blog/post/{self.post.pk}/")
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed(response, "blog/post.html")
+
+        # Check if the post title is in the response
+        self.assertContains(response, self.post.title)
+
+        # Check if the post content is in the response
+        self.assertContains(response, "This is a test post with some")
+        self.assertContains(response, "HTML content")
+        self.assertContains(response, "Second paragraph here")
+
+        # Check if the author is displayed
+        self.assertContains(response, self.user.username)
+
+        # Check if the category is displayed
+        self.assertContains(response, self.category.name)
+
+        # Check if the publication date is displayed
+        self.assertContains(response, self.post.published_at.strftime("%Y-%m-%d"))
