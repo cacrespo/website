@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block page_title %}{{ post.title }}{% endblock page_title %}
+
+{% block content %}
+<section>
+    <h1>{{ post.title }} 🎀</h1>
+    <small>
+        Published on {{ post.published_at|date:"Y-m-d" }} by {{ post.author.username }}
+        {% if post.categories.all %}
+            | Categories:
+            {% for category in post.categories.all %}
+                <a href="{% url 'blog_category' category.name %}">
+                    {{ category.name }}
+                </a>
+            {% endfor %}
+        {% endif %}
+    </small>
+    <article>
+        {{ post.text|linebreaks }}
+    </article>
+</section>
+{% endblock content %}
