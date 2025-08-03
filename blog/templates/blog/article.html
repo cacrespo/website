@@ -4,15 +4,27 @@
 
 {% block content %}
 <section>
-    <h1>All Articles ({{ articles|length }}) ✨</h1>
-        <p>I often come across articles and resources that deeply resonate with my work or challenge my perspectives. This section is a collection of the most interesting articles I’ve read.</p>
-        {% for article in articles %}
-        <section>
-            <h3><a href="{{ article.link }}">{{article.title}}</a> by {{article.author}} </h3> 
-            <small>
-                {{ article.comment }}
-            </small>
-        </section>
-        {% endfor %}
+  <h1>All Articles ({{ articles|length }}) ✨</h1>
+  <p>
+    I often come across articles and resources that deeply resonate with my work or challenge my perspectives.
+    This section is a collection of the most interesting articles I’ve read.
+  </p>
+</section>
+
+<section class="d-flex flex-wrap justify-content-center gap-3">
+  {% for article in articles %}
+    <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
+      <div class="card-body">
+        <h4 class="card-title">
+          <a href="{{ article.link }}" class="text-decoration-none text-light">
+            {{ article.title }}
+          </a>
+        </h4>
+        <h6 class="card-subtitle mb-2 text-muted">By {{ article.author }}</h6>
+        <p class="card-text">{{ article.comment }}</p>
+      </div>
+    </div>
+  {% endfor %}
 </section>
 {% endblock content %}
+
