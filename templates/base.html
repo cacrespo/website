@@ -3,42 +3,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Charly Website{% endblock %}</title>
-    <!-- link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css"> -->
-    <link rel="stylesheet" href="{% static 'css/simplified_green_style.css' %}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-    </head>
-<body>
-    <header style="text-align: center;">
-        <nav>
-            <a href="/">Home</a> |
-            <a href="{% url 'blog_list' %}">Blog</a> |
-            <a href="{% url 'blog_article' %}">Articles</a> |
-            <a href="{% url 'about' %}">About</a> 
-        </nav>
-   </header>
-   <main>
-        {% block content %}
-        <!-- Page content goes here -->
-        {% endblock %}
-    </main>
- 
-    <footer>
-        <p>&copy; 2025 Carlos A. Crespo</p>
-        <note>The emojis in different parts of the site are the exclusive aesthetic touch of my daughter Sofía. 🧡</note>
-    </footer>
-    <sidebar>
-        <section>
-            <h1>Contact Me 🤩</h1> 
-            <p>
-            I’d love to hear from you! Feel free to reach out through any of the following channels:
-            </p>
-            <a href="mailto:lvccrespo@gmail.com"><i class="bi bi-envelope-fill"></i></a> 
-            <a href="https://www.linkedin.com/in/carloscrespoi" target="_blank"><i class="bi bi-linkedin"></i></a>
-            <a href="https://github.com/cacrespo" target="_blank"><i class="bi bi-github"></i></a>
-        </section>
-    </sidevar>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Charly Website{% endblock %}</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/sketchy/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" />
+
+  {% block extra_css %}{% endblock %}
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+  <header class="mb-4 p-2">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">Carlos A. Crespo</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor04" aria-controls="navbarColor04" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon" style="font-size: 1rem;"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor04">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'blog_list' %}">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'blog_article' %}">Articles</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'about' %}">About</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle"
+                 href="#"
+                 role="button"
+                 data-bs-toggle="dropdown"
+                 aria-haspopup="true"
+                 aria-expanded="false"
+                 data-bs-toggle="tooltip"
+                 data-bs-placement="bottom"
+                 title="Get in touch with me!">
+                🤩 Contact Me
+              </a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="https://www.linkedin.com/in/carloscrespoi">
+                  <i class="bi bi-linkedin" aria-hidden="true" title="LinkedIn"></i> LinkedIn
+                </a>
+                <a class="dropdown-item" href="mailto:lvccrespo@gmail.com">
+                  <i class="bi bi-envelope-fill" aria-hidden="true" title="Email"></i> Email
+                </a>
+                <a class="dropdown-item" href="https://github.com/cacrespo">
+                  <i class="bi bi-github" aria-hidden="true" title="GitHub"></i> GitHub
+                </a>
+              </div>
+            </li>
+          </ul>
+
+          <form class="d-flex">
+            <input class="form-control me-sm-2" type="search" placeholder="..." />
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Ask</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-fill mx-5">
+    {% block content %}
+    <!-- Page content goes here -->
+    {% endblock %}
+  </main>
+
+  <footer class="mt-auto py-3 border-top text-center">
+    <p class="mb-1">&copy; 2025 Carlos A. Crespo</p>
+    <small class="text-muted">
+      The emojis in different parts of the site are the exclusive aesthetic touch of my daughter Sofía. 🧡
+    </small>
+  </footer>
+
+  <!-- Bootstrap Bundle JS (and Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+          crossorigin="anonymous"></script>
+  
+  {% block extra_js %}
+  {% endblock %}
+
 </body>
 </html>

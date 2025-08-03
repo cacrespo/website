@@ -2,25 +2,36 @@
 {% load static %}
 
 {% block content %}
-<section>
-    <h1>🪻 Welcome to My Personal Website 🐞</h1>
-    <p>This site serves as a <strong>live-lab</strong> for my projects and experiments! 🧪.
-    <br>You'll also find articles and insights related to data engineering, software development, and a variety of other topics. </p>
+  <section>
+    <h1>Welcome to My Personal Website 🐞</h1>
+    <p>
+      This site serves as a <strong>live lab</strong> for my projects and experiments! 🧪<br />
+      You'll also find articles and insights related to data engineering, software development, and a variety of other topics.
+    </p>
+  </section>
 
-</section>
-<section>
-    <h3>📌 What have I been doing lately?</h3>
-    <small>
-    {% for activity in activities %}
-        - {{ activity.details }} <a href="{{ activity.link }}">{{ activity.link_hpv }}</a>
-        <br>
-    {% endfor %}
-    </small>
-</section>    
-<section>
-    <h3>Last but not least...</h3>
-    <img src="{% static 'img/design_passion.jpg' %}" alt="Designed by Freepik" style="width: 50%; height: auto; "/>
-    <br>
-    <small style="margin-top: 5px;">☝️ Designed by Freepik</small>
-</section>
+  <section>
+    <h3 class="mb-3">📌 What have I been doing lately?</h3>
+    <ul class="ps-3">
+      {% for activity in activities %}
+        <li class="mb-1">
+          {{ activity.details }}
+          <a href="{{ activity.link }}">{{ activity.link_hpv }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section>
+    <h4 class="mb-3">Last but not least...</h3>
+    <img
+      src="{% static 'img/design_passion.jpg' %}"
+      alt="Designed by Freepik"
+      class="img-fluid rounded"
+      style="max-width: 50%;"
+    />
+  </section>
+
+</div>
 {% endblock %}
+

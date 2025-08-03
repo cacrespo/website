@@ -9,7 +9,7 @@
      My name is Carlos and I've been working with <strong>Python</strong> for the last few years, mostly as a Data-Many Hats-Something :P. Having successfully <strong>transitioned from Data Analyst to Data Engineer</strong>, I am now eager to focus fully on <strong>Software Development</strong>.
 </p>
 <p>
-    I have a Bachelor's degree in <strong>Sociology</strong> from the University of Buenos Aires and extensive experience in data engineering and analysis, which helps me connect the dots between technical stuff and what people actually need.
+    I have a Bachelor's degree in <strong data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Apparently, I'm the only Sociologist in the world who uses vim.">Sociology</strong> from the University of Buenos Aires and extensive experience in data engineering and analysis, which helps me connect the dots between technical stuff and what people actually need.
 </p>
 <p>
     My skills cover a wide range of technologies, mainly everything related to the <strong>'Modern Data Stack'</strong> (maybe post-modern!).
@@ -18,10 +18,25 @@
     I also like to contribute to <strong>open-source projects</strong>, such as helping with the Spanish translation of <a href="https://github.com/python/python-docs-es"> Python’s official documentation</a> or organizing <a href="https://eventos.python.org.ar/events/pyday-hurlingham-2024">PyDay Hurlingham</a>, a local Python conference.
 </p>
 <p>
-    Apparently, I'm the only Sociologist in the world who uses <strong>vim</strong>.</p>
-
-<p>
     If you have something interesting to share about intersection of data, technology, and/or society, don't hesitate to contact me!
 </p>
 </section>
+<section>
+<h4>About this site</h4>
+    Styling by 
+    <a href="https://bootswatch.com/sketchy/" target="_blank" rel="noopener">Sketchy</a>, 
+    a Bootswatch theme with a hand-drawn feel. Images designed by 
+    <a href="https://www.freepik.com" target="_blank" rel="noopener">Freepik</a>. The rest? Only God knows where I found it.
+</section>
+{% endblock %}
+
+{% block extra_js %}}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+      new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  });
+</script>
 {% endblock %}
