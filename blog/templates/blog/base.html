@@ -1,22 +1,30 @@
 {% extends 'base.html' %}
-
 {% block title %}My Blog{% endblock %}
 
 {% block content %}
 <section>
-    <h1>All Posts ({{ posts|length }}) 🍡</h1>
-        <p>Some random texts written by friends and myself!</p>
-        {% for post in posts %}
-            <h3><a href="{% url 'blog_post' post.pk %}">{{ post.title }}</a></h3>
-            <small>
-                {{ post.created_at.date }} | Categories:
-                {% for category in post.categories.all %}
-                    <a href="{% url 'blog_category' category.name %}">
-                        {{category.name}}
-                    </a>
-                {% endfor %}
-            </small>
-            </br>{{ post.text | slice:":100" }}...
-        {% endfor %}
+  <h1>All Posts ({{ posts|length }}) 🍡</h1>
+  <p>Some random texts written by friends and myself!</p>
+
+  <div class="d-flex flex-column gap-4 mt-4">
+    {% for post in posts %}
+      <div class="border p-3 rounded shadow-sm bg-light">
+        <h3>
+          <a href="{% url 'blog_post' post.pk %}" class="text-decoration-none text-dark">
+            {{ post.title }}
+          </a>
+        </h3>
+        <small class="text-muted">
+          {{ post.created_at.date }} | Categories:
+          {% for category in post.categories.all %}
+            <a href="{% url 'blog_category' category.name %}" class="text-decoration-underline text-muted">
+              {{ category.name }}
+            </a>{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </small>
+        <p class="mt-2 mb-0">{{ post.text|slice:":100" }}...</p>
+      </div>
+    {% endfor %}
+  </div>
 </section>
 {% endblock content %}
