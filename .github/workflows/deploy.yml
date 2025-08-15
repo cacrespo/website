@@ -27,9 +27,10 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          target: production 
           push: true
-          tags: lvccrespo/cacrespo-website:latest 
+          tags: |
+            lvccrespo/cacrespo-website:latest
+            lvccrespo/cacrespo-website:${{ github.sha }}
 
   deploy:
     name: Deploy to Server
@@ -49,10 +50,10 @@ jobs:
             # Create the .env file from the GitHub secret
             echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
 
-            # Pull the latest Docker image
-            docker pull lvccrespo/cacrespo-website:latest
+            # Pull the latest Docker image(s) defined in docker-compose.yml
+            docker compose pull
 
-            # Stop the current running containers
+            # Stop current running containers
             docker compose down
 
             # Start the application with the new image
@@ -60,3 +61,4 @@ jobs:
 
             # Clean up old, unused Docker images
             docker image prune -f
+
