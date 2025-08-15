@@ -42,6 +42,8 @@ CMD ["uv", "run", "manage.py", "runserver", "0.0.0.0:8000"]
 FROM base AS production
 ENV DJANGO_SETTINGS_MODULE=mysite.settings.prod
 
+RUN uv sync --no-dev
+
 # Collect static files to be served in production
 RUN python manage.py collectstatic --no-input
 
