@@ -31,6 +31,8 @@ jobs:
           tags: |
             lvccrespo/cacrespo-website:latest
             lvccrespo/cacrespo-website:${{ github.sha }}
+          build-args: |
+            LOGFIRE_TOKEN=${{ secrets.LOGFIRE_TOKEN }}
 
   deploy:
     name: Deploy to Server
