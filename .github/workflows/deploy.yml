@@ -9,6 +9,8 @@ jobs:
   build-and-push:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
+    env:
+      LOGFIRE_TOKEN: ${{ secrets.LOGFIRE_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -31,9 +33,7 @@ jobs:
           tags: |
             lvccrespo/cacrespo-website:latest
             lvccrespo/cacrespo-website:${{ github.sha }}
-          build-args: |
-            LOGFIRE_TOKEN=${{ secrets.LOGFIRE_TOKEN }}
-
+      
   deploy:
     name: Deploy to Server
     needs: build-and-push
