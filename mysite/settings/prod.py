@@ -8,7 +8,7 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
 
 CSRF_TRUSTED_ORIGINS = ["https://cacrespo.xyz"]
 
-logfire.configure()
+logfire.configure(send_to_logfire="if-token-present")
 logfire.instrument_django()
 
 sentry_sdk.init(
