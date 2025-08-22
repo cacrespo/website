@@ -2,35 +2,83 @@
 {% load static %}
 
 {% block content %}
-  <section>
-    <h1>Welcome to My Personal Website 🐞</h1>
-    <p>
-      This site serves as a <strong>live lab</strong> for my projects and experiments! 🧪<br />
-      You'll also find articles and insights related to data engineering, software development, and a variety of other topics.
+<div class="container-fluid">
+
+  <!-- Welcome Section -->
+  <section class="text-center mb-5">
+    <h1 class="display-4">Welcome to My Site 🧪</h1>
+    <p class="lead">
+      This space serves as a live lab for my projects and experiments!
     </p>
   </section>
 
-  <section>
-    <h3 class="mb-3">📌 What have I been doing lately?</h3>
-    <ul class="ps-3">
-      {% for activity in activities %}
-        <li class="mb-1">
-          {{ activity.details }}
-          <a href="{{ activity.link }}">{{ activity.link_hpv }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-  </section>
+  <div class="row">
+    <!-- Left Column -->
+    <div class="col-lg-8">
+      <!-- About Me Section -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h4 class="mb-0"><i class="bi bi-person-circle me-2"></i>About Me</h4>
+        </div>
+        <div class="card-body">
+          <p>
+              My name is Carlos. After a successful transition from Data Analyst to Data Engineer, I am now focusing on my passion for <strong>Software Development</strong>. I have a Bachelor's degree in <strong>Sociology</strong> from the University of Buenos Aires and extensive experience in data engineering and analysis, which helps me connect the dots between technical stuff and what people actually need.
+          </p>
+          <p>
+            I have extensive experience with Python and the 'Modern Data Stack'. I'm also a firm believer in community and contribute to open-source projects, like the <a href="https://github.com/python/python-docs-es">Spanish translation of Python's documentation</a>, and co-organize local events like <a href="https://eventos.python.org.ar/events/pyday-hurlingham-2024">PyDay Hurlingham</a>.
+          </p>
+          <p class="mb-0">
+            If you're interested in the intersection of data, technology, and society, let's connect!
+          </p>
+        </div>
+      </div>
 
-  <section>
-    <h4 class="mb-3">Last but not least...</h3>
-    <img
-      src="{% static 'img/design_passion.jpg' %}"
-      alt="Designed by Freepik"
-      class="img-fluid rounded"
-      style="max-width: 50%;"
-    />
-  </section>
+      <!-- Recent Activities Section -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h4 class="mb-0"><i class="bi bi-activity me-2"></i>What I've Been Up To</h4>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            {% for activity in activities %}
+              <li class="list-group-item">
+                {{ activity.details }}
+                <a href="{{ activity.link }}" class="float-end">{{ activity.link_hpv }}</a>
+              </li>
+            {% empty %}
+              <li class="list-group-item">No recent activities to show.</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="col-lg-4">
+      <!-- Image Section -->
+      <div class="card mb-4">
+        <div class="card-body text-center">
+          <img src="{% static 'img/design_passion.jpg' %}" alt="Design Passion by Freepik" class="img-fluid rounded mb-3">
+          <h5 class="card-title">A Touch of Creativity</h5>
+        </div>
+      </div>
+
+      <!-- About This Site Section -->
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0"><i class="bi bi-info-circle me-2"></i>About This Site</h4>
+        </div>
+        <div class="card-body">
+          <p>
+            This website is built with <strong>Django</strong> and styled using the hand-drawn <a href="https://bootswatch.com/sketchy/" target="_blank" rel="noopener">Sketchy</a> theme from Bootswatch.
+          </p>
+          <p class="mb-0">
+            Images are sourced from <a href="https://www.freepik.com" target="_blank" rel="noopener">Freepik</a>, and icons are provided by <a href="https://icons.getbootstrap.com/" target="_blank" rel="noopener">Bootstrap Icons</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
 {% endblock %}

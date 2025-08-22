@@ -43,9 +43,9 @@ class ContactViewTests(SimpleTestCase):
         self.assertTemplateUsed(response, "pages/contact.html")
 
 
-class AboutViewTests(SimpleTestCase):
-    def test_get(self):
-        response = self.client.get("/about/")
-
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, "pages/about.html")
+# class AboutViewTests(SimpleTestCase):
+#    def test_get(self):
+#        response = self.client.get("/about/")
+#
+#        self.assertEqual(response.status_code, HTTPStatus.OK)
+#        self.assertTemplateUsed(response, "pages/about.html")
