@@ -26,5 +26,5 @@ def contact(request):
     return render(request, "pages/contact.html", {})
 
 
-def about(request):
-    return render(request, "pages/about.html", {})
+#def about(request):
+#    return render(request, "pages/about.html", {})
