@@ -24,8 +24,7 @@ help:
 	@echo "dbrunsql    -- Run a .sql file (can also restore the db from a dbdump file)"
 
 start:
-	docker build . --target development
-	TARGET=development docker compose up
+	TARGET=development docker compose up --build
 
 stop:
 	docker compose stop
