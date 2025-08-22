@@ -43,7 +43,7 @@ class ContactViewTests(SimpleTestCase):
         self.assertTemplateUsed(response, "pages/contact.html")
 
 
-#class AboutViewTests(SimpleTestCase):
+# class AboutViewTests(SimpleTestCase):
 #    def test_get(self):
 #        response = self.client.get("/about/")
 #
