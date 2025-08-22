@@ -1,11 +1,6 @@
 services:
   web:
-    build:
-      context: .
-      target: ${TARGET:-development}
-      args:
-        DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
-        LOGFIRE_TOKEN: ${LOGFIRE_TOKEN}
+    image: index.docker.io/lvccrespo/cacrespo-website:latest
     ports:
       - 8000:8000
     env_file:
@@ -27,6 +22,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
       - shell_history:/root/hist
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --cleanup --interval 60
 
 volumes:
   postgres_data:
