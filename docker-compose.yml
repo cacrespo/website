@@ -33,6 +33,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     command: --cleanup --interval 60
+    profiles: ["production"]
 
 volumes:
   postgres_data:
