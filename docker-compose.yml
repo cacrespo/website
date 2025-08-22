@@ -1,6 +1,12 @@
 services:
   web:
     image: index.docker.io/lvccrespo/cacrespo-website:latest
+    build:
+      context: .
+      target: ${TARGET:-production}
+      args:
+        DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
+        LOGFIRE_TOKEN: ${LOGFIRE_TOKEN}
     ports:
       - 8000:8000
     env_file:
