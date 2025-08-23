@@ -22,10 +22,11 @@
         </div>
         <div class="card-body">
           <p>
-              My name is Carlos. After a successful transition from Data Analyst to Data Engineer, I am now focusing on my passion for <strong>Software Development</strong>. I have a Bachelor's degree in <strong>Sociology</strong> from the University of Buenos Aires and extensive experience in data engineering and analysis, which helps me connect the dots between technical stuff and what people actually need.
+              My name is Carlos and I live in the city of <u strong data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="The city is the birthplace of some of the main rock bands of the country, such as Sumo, Divididos and Las Pelotas. En el oeste está el agite!">Hurlingham</u> — Rock capital of the world!<br>
+              I have a Bachelor's degree in <strong>Sociology</strong> from the University of Buenos Aires and extensive experience in data engineering and analysis, which helps me connect the dots between technical aspects and real user needs. After a successful transition from Data Analyst to Data Engineer, I am now focusing on my passion for <strong>Software Development</strong>. 
           </p>
           <p>
-            I have extensive experience with Python and the 'Modern Data Stack'. I'm also a firm believer in community and contribute to open-source projects, like the <a href="https://github.com/python/python-docs-es">Spanish translation of Python's documentation</a>, and co-organize local events like <a href="https://eventos.python.org.ar/events/pyday-hurlingham-2024">PyDay Hurlingham</a>.
+            I have extensive experience with Python and the "Modern Data Stack". I'm also a strong believer in community and contribute to open-source projects, such as the <a href="https://github.com/python/python-docs-es">Spanish translation of Python's documentation</a>. I also co-organize local events like <a href="https://eventos.python.org.ar/events/pyday-hurlingham-2024">PyDay Hurlingham</a>.
           </p>
           <p class="mb-0">
             If you're interested in the intersection of data, technology, and society, let's connect!
@@ -82,4 +83,13 @@
 
 </div>
 {% endblock %}
-
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+      new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  });
+</script>
+{% endblock %}
