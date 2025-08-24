@@ -30,7 +30,7 @@ def blog_post(request, pk):
 
 
 def blog_article(request):
-    articles = Article.objects.all().order_by("-title")
+    articles = Article.objects.order_by("-created_at")
     context = {
         "articles": articles,
     }
