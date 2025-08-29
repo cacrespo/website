@@ -63,9 +63,9 @@
             </li>
           </ul>
 
-          <form class="d-flex">
-            <input class="form-control me-sm-2" type="search" placeholder="..." />
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Ask</button>
+          <form class="d-flex" action="{% url 'search_results' %}" method="get">
+            <input class="form-control me-sm-2" name="q" type="search" placeholder="Search...">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
           </form>
         </div>
       </div>

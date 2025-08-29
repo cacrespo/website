@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+  Search Results
+{% endblock page_title %}
+
+{% block content %}
+<section class="bg-light p-4 rounded mb-4">
+  <div class="container mt-4">
+    {% if query %}
+      <h1 class="mb-4">Search results for "<mark class="p-0 bg-warning">{{ query }}</mark>"</h1>
+    {% else %}
+      <h1 class="mb-4">Please enter a search term</h1>
+    {% endif %}
+
+    {% if posts %}
+      <div class="list-group">
+        {% for post in posts %}
+          <a href="{% url 'blog_post' post.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+              <h4 class="mb-1">{{ post.title }}</h4>
+              <small>{{ post.created_at.date }}</small>
+            </div>
+            {% if post.snippet %}
+              <p class="mb-1">{{ post.snippet|safe }}</p>
+            {% else %}
+              <p class="mb-1">{{ post.text|striptags|truncatewords:50 }}</p>
+            {% endif %}
+            <small>
+              Categories:
+              {% for category in post.categories.all %}
+                {{ category.name }}{% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            </small>
+          </a>
+        {% endfor %}
+      </div>
+    {% elif query %}
+      <div class="alert alert-warning mt-4" role="alert">
+        <h4 class="alert-heading">No Results Found</h4>
+        <p>Sorry, we couldn't find anything matching your search for "{{ query }}".</p>
+        <hr>
+        <p class="mb-0">Please try again with different keywords.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock content %}
