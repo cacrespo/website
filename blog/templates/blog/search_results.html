@@ -13,25 +13,27 @@
       <h1 class="mb-4">Please enter a search term</h1>
     {% endif %}
 
-    {% if posts %}
+    {% if results %}
       <div class="list-group">
-        {% for post in posts %}
-          <a href="{% url 'blog_post' post.pk %}" class="list-group-item list-group-item-action flex-column align-items-start">
+        {% for result in results %}
+          <a href="{{ result.url }}" class="list-group-item list-group-item-action flex-column align-items-start" {% if result.is_external %}target="_blank" rel="noopener noreferrer"{% endif %}>
             <div class="d-flex w-100 justify-content-between">
-              <h4 class="mb-1">{{ post.title }}</h4>
-              <small>{{ post.created_at.date }}</small>
+              <h4 class="mb-1">{{ result.title }} <span class="badge {% if result.type == 'Post' %}bg-primary{% else %}bg-success{% endif %}">{{ result.type }}</span></h4>
+              <small>{{ result.date|date:"Y-m-d" }}</small>
             </div>
-            {% if post.snippet %}
-              <p class="mb-1">{{ post.snippet|safe }}</p>
+            {% if result.snippet %}
+              <p class="mb-1">{{ result.snippet|safe }}</p>
             {% else %}
-              <p class="mb-1">{{ post.text|striptags|truncatewords:50 }}</p>
+              <p class="mb-1">{{ result.text|striptags|truncatewords:50 }}</p>
             {% endif %}
-            <small>
-              Categories:
-              {% for category in post.categories.all %}
-                {{ category.name }}{% if not forloop.last %}, {% endif %}
-              {% endfor %}
-            </small>
+            {% if result.categories %}
+              <small>
+                Categories:
+                {% for category in result.categories %}
+                  {{ category.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              </small>
+            {% endif %}
           </a>
         {% endfor %}
       </div>

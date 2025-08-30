@@ -1,7 +1,9 @@
 import re
+from itertools import chain
 
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
 from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
 
@@ -45,32 +47,67 @@ def blog_article(request):
 
 def search_results(request):
     query = request.GET.get("q")
+    processed_results = []
     if query:
-        results = Post.objects.filter(
+        post_results = Post.objects.filter(
             Q(title__icontains=query) | Q(text__icontains=query)
-        ).order_by("-created_at")
-        for post in results:
-            text = strip_tags(post.text)
-            # Find the position of the query in the text
+        )
+        article_results = Article.objects.filter(
+            Q(title__icontains=query) | Q(comment__icontains=query)
+        )
+
+        combined_results = sorted(
+            chain(post_results, article_results),
+            key=lambda instance: instance.created_at,
+            reverse=True,
+        )
+
+        for result in combined_results:
+            if isinstance(result, Post):
+                text_content = result.text
+                url = reverse("blog_post", args=[result.pk])
+                is_external = False
+                categories = result.categories.all()
+                item_type = "Post"
+            elif isinstance(result, Article):
+                text_content = result.comment
+                url = result.link
+                is_external = True
+                categories = None
+                item_type = "Article"
+            else:
+                continue
+
+            text = strip_tags(text_content)
             position = text.lower().find(query.lower())
+            snippet = ""
             if position != -1:
-                # Create a snippet around the query
                 start = max(0, position - 50)
                 end = min(len(text), position + len(query) + 50)
-                snippet = text[start:end]
-                # Highlight the query in the snippet, case-insensitively
+                raw_snippet = text[start:end]
                 highlighted_snippet = re.sub(
                     f"({re.escape(query)})",
                     r'<mark class="p-0 bg-warning">\1</mark>',
-                    snippet,
+                    raw_snippet,
                     flags=re.IGNORECASE,
                 )
-                post.snippet = mark_safe(f"...{highlighted_snippet}...")
-    else:
-        results = Post.objects.none()
+                snippet = mark_safe(f"...{highlighted_snippet}...")
+
+            processed_results.append(
+                {
+                    "type": item_type,
+                    "title": result.title,
+                    "url": url,
+                    "date": result.created_at,
+                    "snippet": snippet,
+                    "is_external": is_external,
+                    "categories": categories,
+                    "text": text_content,
+                }
+            )
 
     context = {
         "query": query,
-        "posts": results,
+        "results": processed_results,
     }
     return render(request, "blog/search_results.html", context)
