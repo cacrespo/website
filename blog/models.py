@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.contrib.postgres import search
 
 STATUS = ((0, "Draft"), (1, "Publish"))
 
@@ -28,6 +29,12 @@ class Post(TimeStampedModel):
 
     def __str__(self):
         return self.title
+
+    vector = models.GeneratedField(
+        db_persist=True,
+        expression=search.SearchVector("text", config="english"),
+        output_field=search.SearchVectorField(),
+    )
 
 
 class Category(models.Model):

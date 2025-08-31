@@ -50,10 +50,10 @@ def search_results(request):
     processed_results = []
     if query:
         post_results = Post.objects.filter(
-            Q(title__icontains=query) | Q(text__icontains=query)
+            Q(title__icontains=query) | Q(text__search=query)
         )
         article_results = Article.objects.filter(
-            Q(title__icontains=query) | Q(comment__icontains=query)
+            Q(title__icontains=query) | Q(comment__search=query)
         )
 
         combined_results = sorted(
