@@ -9,6 +9,6 @@ admin.site.register(Activity)
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'created_at', 'status')
     list_filter = ('status', 'created_at', 'categories')
-    search_fields = ('title', 'content', 'author__username')
+    search_fields = ('title', 'text', 'author__username')
     prepopulated_fields = {'slug': ('title',)}
     show_facets = admin.ShowFacets.ALWAYS
