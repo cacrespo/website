@@ -17,6 +17,8 @@ services:
       HISTFILE: /root/hist/.bash_history
     volumes:
       - shell_history:/root/hist
+      - /usr/src/app/.venv
+      - ./:/usr/src/app
   db:
     image: pgvector/pgvector:pg15-trixie
     environment:
