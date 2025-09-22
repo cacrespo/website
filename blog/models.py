@@ -20,9 +20,27 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
+class EmbeddableManager(models.Manager):
+    def search(self, q, dmax=0.5):
+        if not self.model._content_field:
+            raise NotImplementedError("Subclasses of Embeddable must define '_content_field'.")
+
+        filter_query = Q(title__icontains=q) | Q(**{f"{self.model._content_field}__icontains": q})
+        literal_qs = self.get_queryset().filter(filter_query)
+        semantic_qs = (
+            self.get_queryset()
+            .alias(distance=CosineDistance("embedding", T.encode(q)))
+            .filter(distance__lt=dmax)
+            .order_by("distance")
+        )
+        return literal_qs.union(semantic_qs)
+
+
 class Embeddable(TimeStampedModel):
     embedding = VectorField(dimensions=512, editable=False)
     _content_field = None  # To be defined in subclasses
+
+    objects = EmbeddableManager()
 
     class Meta:
         abstract = True
@@ -44,20 +62,6 @@ class Embeddable(TimeStampedModel):
     def save(self, *args, **kwargs):
         self.embedding = self.prepare_vector_information()
         super().save(*args, **kwargs)
-
-    @classmethod
-    def search(cls, q, dmax=0.5):
-        if not cls._content_field:
-            raise NotImplementedError("Subclasses of Embeddable must define '_content_field'.")
-
-        filter_query = Q(title__icontains=q) | Q(**{f"{cls._content_field}__icontains": q})
-        literal_qs = cls.objects.filter(filter_query)
-        semantic_qs = (
-            cls.objects.alias(distance=CosineDistance("embedding", T.encode(q)))
-            .filter(distance__lt=dmax)
-            .order_by("distance")
-        )
-        return literal_qs.union(semantic_qs)
 
 
 class Post(Embeddable):

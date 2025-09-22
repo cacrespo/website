@@ -49,8 +49,8 @@ def search_results(request):
     processed_results = []
     if query:
         # Full-text search cosine distance + literal
-        post_results = Post.search(query)
-        article_results = Article.search(query)
+        post_results = Post.objects.search(query)
+        article_results = Article.objects.search(query)
 
         combined_results = sorted(
             chain(post_results, article_results),
