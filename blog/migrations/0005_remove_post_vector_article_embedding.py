@@ -5,20 +5,21 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('blog', '0004_post_embedding'),
+        ("blog", "0004_post_embedding"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='post',
-            name='vector',
+            model_name="post",
+            name="vector",
         ),
         migrations.AddField(
-            model_name='article',
-            name='embedding',
-            field=pgvector.django.vector.VectorField(default=1, dimensions=512, editable=False),
+            model_name="article",
+            name="embedding",
+            field=pgvector.django.vector.VectorField(
+                default=1, dimensions=512, editable=False
+            ),
             preserve_default=False,
         ),
     ]

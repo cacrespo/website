@@ -5,15 +5,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('blog', '0001_initial'),
+        ("blog", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='post',
-            name='vector',
-            field=models.GeneratedField(db_persist=True, expression=django.contrib.postgres.search.SearchVector('text', config='english'), output_field=django.contrib.postgres.search.SearchVectorField()),
+            model_name="post",
+            name="vector",
+            field=models.GeneratedField(
+                db_persist=True,
+                expression=django.contrib.postgres.search.SearchVector(
+                    "text", config="english"
+                ),
+                output_field=django.contrib.postgres.search.SearchVectorField(),
+            ),
         ),
     ]

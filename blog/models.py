@@ -23,9 +23,13 @@ class TimeStampedModel(models.Model):
 class EmbeddableManager(models.Manager):
     def search(self, q, dmax=0.5):
         if not self.model._content_field:
-            raise NotImplementedError("Subclasses of Embeddable must define '_content_field'.")
+            raise NotImplementedError(
+                "Subclasses of Embeddable must define '_content_field'."
+            )
 
-        filter_query = Q(title__icontains=q) | Q(**{f"{self.model._content_field}__icontains": q})
+        filter_query = Q(title__icontains=q) | Q(
+            **{f"{self.model._content_field}__icontains": q}
+        )
         literal_qs = self.get_queryset().filter(filter_query)
         semantic_qs = (
             self.get_queryset()
@@ -47,7 +51,9 @@ class Embeddable(TimeStampedModel):
 
     def prepare_vector_information(self):
         if not self._content_field:
-            raise NotImplementedError("Subclasses of Embeddable must define '_content_field'.")
+            raise NotImplementedError(
+                "Subclasses of Embeddable must define '_content_field'."
+            )
         content = getattr(self, self._content_field)
         title_vec = T.encode(self.title)
         content_vec = T.encode(content)
