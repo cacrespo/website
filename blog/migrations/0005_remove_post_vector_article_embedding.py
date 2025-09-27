@@ -18,8 +18,7 @@ class Migration(migrations.Migration):
             model_name="article",
             name="embedding",
             field=pgvector.django.vector.VectorField(
-                default=1, dimensions=512, editable=False
+                dimensions=512, editable=False, null=True
             ),
-            preserve_default=False,
         ),
     ]
