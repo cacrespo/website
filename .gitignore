@@ -164,3 +164,6 @@ cython_debug/
 #.idea/
 
 cacrespo-dbdump-*
+
+.gemini/
+gha-creds-*.json
