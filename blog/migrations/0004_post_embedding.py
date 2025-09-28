@@ -13,6 +13,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="post",
             name="embedding",
-            field=pgvector.django.vector.VectorField(dimensions=384, editable=False, null=True),
+            field=pgvector.django.vector.VectorField(
+                dimensions=384, editable=False, null=True
+            ),
         ),
     ]
