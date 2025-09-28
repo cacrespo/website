@@ -17,8 +17,10 @@ services:
       HISTFILE: /root/hist/.bash_history
     volumes:
       - shell_history:/root/hist
+      - /usr/src/app/.venv
+      - ./:/usr/src/app
   db:
-    image: postgres:15
+    image: pgvector/pgvector:pg15-trixie
     environment:
       HISTFILE: /root/hist/.bash_history
       DATABASE_URL: ${DATABASE_URL}
