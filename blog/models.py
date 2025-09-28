@@ -41,7 +41,7 @@ class EmbeddableManager(models.Manager):
 
 
 class Embeddable(TimeStampedModel):
-    embedding = VectorField(dimensions=512, editable=False, null=True)
+    embedding = VectorField(dimensions=384, editable=False, null=True)
     _content_field = None  # To be defined in subclasses
 
     objects = EmbeddableManager()
