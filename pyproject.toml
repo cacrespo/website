@@ -16,8 +16,8 @@ dependencies = [
     "sentry-sdk[django]>=2.22.0",
     "psycopg[binary]>=3.2.9",
     "pgvector>=0.4.1",
-    "sentence-transformers>=5.1.0",
     "torch==2.8.0",
+    "transformers>=4.42.0",
 ]
 
 [build-system]

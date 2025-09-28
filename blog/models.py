@@ -4,13 +4,35 @@ from django.db.models import Q
 from django.utils import timezone
 
 from pgvector.django import VectorField, CosineDistance
-from sentence_transformers import SentenceTransformer
-import numpy as np
+import torch
+from transformers import AutoTokenizer, AutoModel
+
+# --- Transformer Setup ---
+# Load tokenizer and model from HuggingFace Hub
+tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+model = AutoModel.from_pretrained("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+model.eval() # Set model to evaluation mode
+
+# --- Pooling and Embedding Function ---
+def mean_pooling(model_output, attention_mask):
+    """Mean Pooling - Take attention mask into account for correct averaging."""
+    token_embeddings = model_output[0]  # First element of model_output contains all token embeddings
+    input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
+    return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)
+
+def get_embedding_tensor(text: str) -> torch.Tensor:
+    """Generates a sentence embedding tensor for a given text."""
+    # Tokenize sentences
+    encoded_input = tokenizer(text, padding=True, truncation=True, return_tensors='pt')
+    # Compute token embeddings
+    with torch.no_grad():
+        model_output = model(**encoded_input)
+    # Perform pooling and return tensor
+    return mean_pooling(model_output, encoded_input['attention_mask'])
+
+# --- Model Definitions ---
 
 STATUS = ((0, "Draft"), (1, "Publish"))
-
-T = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
-
 
 class TimeStampedModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -31,9 +53,13 @@ class EmbeddableManager(models.Manager):
             **{f"{self.model._content_field}__icontains": q}
         )
         literal_qs = self.get_queryset().filter(filter_query)
+
+        # Get query embedding as a numpy array for pgvector
+        q_embedding = get_embedding_tensor(q).squeeze().numpy()
+
         semantic_qs = (
             self.get_queryset()
-            .alias(distance=CosineDistance("embedding", T.encode(q)))
+            .alias(distance=CosineDistance("embedding", q_embedding))
             .filter(distance__lt=dmax)
             .order_by("distance")
         )
@@ -55,15 +81,20 @@ class Embeddable(TimeStampedModel):
                 "Subclasses of Embeddable must define '_content_field'."
             )
         content = getattr(self, self._content_field)
-        title_vec = T.encode(self.title)
-        content_vec = T.encode(content)
+
+        # Get embeddings as tensors
+        title_vec = get_embedding_tensor(self.title)
+        content_vec = get_embedding_tensor(content)
+
         # Normalize embeddings
-        title_vec /= np.linalg.norm(title_vec)
-        content_vec /= np.linalg.norm(content_vec)
+        title_vec = torch.nn.functional.normalize(title_vec, p=2, dim=1)
+        content_vec = torch.nn.functional.normalize(content_vec, p=2, dim=1)
+
         # Weighted average
         embedding = 0.7 * title_vec + 0.3 * content_vec
-        embedding /= np.linalg.norm(embedding)
-        return embedding
+        embedding = torch.nn.functional.normalize(embedding, p=2, dim=1)
+
+        return embedding.squeeze().numpy()
 
     def save(self, *args, **kwargs):
         self.embedding = self.prepare_vector_information()
