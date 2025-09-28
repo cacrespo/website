@@ -9,7 +9,7 @@ import numpy as np
 
 STATUS = ((0, "Draft"), (1, "Publish"))
 
-T = SentenceTransformer("distiluse-base-multilingual-cased-v2")
+T = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
 
 
 class TimeStampedModel(models.Model):

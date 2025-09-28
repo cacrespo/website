@@ -17,6 +17,7 @@ dependencies = [
     "psycopg[binary]>=3.2.9",
     "pgvector>=0.4.1",
     "sentence-transformers>=5.1.0",
+    "torch==2.8.0",
 ]
 
 [build-system]
@@ -39,3 +40,6 @@ cache_dir = ".pytest_cache_dir"
 
 [tool.hatch.build.targets.wheel]
 packages = ["website"]
+
+[tool.uv.pip]
+extra-index-url = ["https://download.pytorch.org/whl/cpu"]
