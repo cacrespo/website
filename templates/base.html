@@ -16,7 +16,7 @@
 <body class="d-flex flex-column min-vh-100">
 
   <header class="mb-2 p-2">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">Carlos A. Crespo</a>
 
@@ -72,7 +72,7 @@
     </nav>
   </header>
 
-  <main class="flex-fill mx-3 p-2">
+  <main class="flex-fill mx-3 p-2" style="margin-top: 40px;">
     {% block content %}
     <!-- Page content goes here -->
     {% endblock %}
