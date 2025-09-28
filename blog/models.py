@@ -9,7 +9,7 @@ import numpy as np
 
 STATUS = ((0, "Draft"), (1, "Publish"))
 
-T = SentenceTransformer("distiluse-base-multilingual-cased-v2")
+T = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
 
 
 class TimeStampedModel(models.Model):
@@ -41,7 +41,7 @@ class EmbeddableManager(models.Manager):
 
 
 class Embeddable(TimeStampedModel):
-    embedding = VectorField(dimensions=512, editable=False, null=True)
+    embedding = VectorField(dimensions=384, editable=False, null=True)
     _content_field = None  # To be defined in subclasses
 
     objects = EmbeddableManager()
