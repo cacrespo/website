@@ -1,6 +1,9 @@
 from http import HTTPStatus
-from django.test import SimpleTestCase, TestCase
+from django.core import mail
+from django.test import TestCase
+from django.urls import reverse
 from blog.models import Activity
+from pages.forms import ContactForm
 
 
 class FaviconTests(TestCase):
@@ -35,12 +38,55 @@ class HomeViewTests(TestCase):
         self.assertEqual(len(response.context["activities"]), 3)
 
 
-class ContactViewTests(SimpleTestCase):
+class ContactViewTests(TestCase):
     def test_get(self):
-        response = self.client.get("/contact/")
-
+        response = self.client.get(reverse("contact"))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, "pages/contact.html")
+        self.assertIsInstance(response.context["form"], ContactForm)
+
+    def test_post_valid_data(self):
+        form_data = {
+            "name": "Test User",
+            "email": "test@example.com",
+            "message": "This is a test message.",
+            "validator": "mostaza",
+        }
+        response = self.client.post(reverse("contact"), data=form_data)
+
+        self.assertEqual(response.status_code, HTTPStatus.FOUND)  # 302 redirect
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(
+            mail.outbox[0].subject, "Contact Form submission from Test User"
+        )
+
+    def test_post_invalid_data(self):
+        form_data = {
+            "name": "Test User",
+            "email": "",  # Invalid email
+            "message": "This is a test message.",
+            "validator": "mostaza",
+        }
+        response = self.client.post(reverse("contact"), data=form_data)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertIn("form", response.context)
+        self.assertTrue(response.context["form"].errors)
+
+    def test_post_invalid_validator(self):
+        form_data = {
+            "name": "Test User",
+            "email": "test@example.com",
+            "message": "This is a test message.",
+            "validator": "incorrecto",
+        }
+        response = self.client.post(reverse("contact"), data=form_data)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertIn("form", response.context)
+        self.assertIn("validator", response.context["form"].errors)
 
 
 # class AboutViewTests(SimpleTestCase):

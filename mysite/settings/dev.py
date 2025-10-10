@@ -29,3 +29,6 @@ if ENABLE_DEBUG_TOOLBAR:
     ]
 
     DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG}
+
+# Print emails to console in development
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

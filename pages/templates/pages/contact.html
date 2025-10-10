@@ -3,17 +3,66 @@
 {% block title %}Contact{% endblock %}
 
 {% block content %}
-<section>
-    <h1>Contact Me 🤩</h1>
-    <p>
-        I’d love to hear from you! Feel free to reach out through any of the following channels:
-    </p>
-            <i class="bi bi-envelope-fill"></i> 
-            <a href="mailto:lvccrespo@gmail.com">lvccrespo@gmail.com</a>
-            <i class="bi bi-linkedin"></i> 
-            <a href="https://www.linkedin.com/in/carloscrespoi" target="_blank">LinkedIn</a>
-            <i class="bi bi-github"></i> 
-            <a href="https://github.com/cacrespo" target="_blank">GitHub</a>
-</section>
+  <div class="row h-100 justify-content-center align-items-center m-5">
+    <div class="col-md-8">
+      <form method="post" id="contact-form">
+        {% csrf_token %}
+        <fieldset>
+          <legend>I’d love to hear from you! Please fill out the form below to get in touch.</legend>
+          
+          <div class="mb-3">
+            <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+            {{ form.name }}
+            {% for error in form.name.errors %}
+              <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+          </div>
 
+          <div class="mb-3">
+            <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+            {{ form.email }}
+            {% for error in form.email.errors %}
+              <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.message.id_for_label }}" class="form-label">{{ form.message.label }}</label>
+            {{ form.message }}
+            {% for error in form.message.errors %}
+              <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.validator.id_for_label }}" class="form-label">{{ form.validator.label }}</label>
+            {{ form.validator }}
+            {% for error in form.validator.errors %}
+              <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+<div class="d-grid">
+            <button type="submit" id="submit-button" class="btn btn-primary">Send</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('contact-form');
+  const submitButton = document.getElementById('submit-button');
+
+  if (form) {
+    form.addEventListener('submit', function() {
+      submitButton.disabled = true;
+    });
+  }
+});
+</script>
 {% endblock %}
