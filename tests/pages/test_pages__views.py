@@ -88,6 +88,20 @@ class ContactViewTests(TestCase):
         self.assertIn("form", response.context)
         self.assertIn("validator", response.context["form"].errors)
 
+    def test_post_empty_message(self):
+        form_data = {
+            "name": "Test User",
+            "email": "test@example.com",
+            "message": "",
+            "validator": "mostaza",
+        }
+        response = self.client.post(reverse("contact"), data=form_data)
+
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(len(mail.outbox), 0)
+        self.assertIn("form", response.context)
+        self.assertIn("message", response.context["form"].errors)
+
 
 # class AboutViewTests(SimpleTestCase):
 #    def test_get(self):
