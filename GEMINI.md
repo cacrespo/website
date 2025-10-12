@@ -70,6 +70,37 @@ The project uses `ruff` for code linting and formatting.
   ```
 - The project is also configured to use `pre-commit` to run `ruff` automatically before each commit.
 
+## Coding Style
+
+This project prefers the use of the "early exit" pattern (also known as guard clauses) in views and other functions. This approach helps to improve readability by handling edge cases and "unhappy paths" at the beginning of a function, which reduces nesting and makes the main logic easier to follow.
+
+For example:
+
+```python
+def my_view(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    if request.method != 'POST':
+        # handle GET request
+        return render(...)
+
+    # Main logic for POST request
+    ...
+```
+
+### Commit Messages
+
+This project follows the [Conventional Commits](https://www.conventionalcommits.org/) specification. This format provides a set of rules for creating an explicit commit history, which makes it easier to write automated tools on top of.
+
+Each commit message consists of a header, a body, and a footer. The header has a special format that includes a type, a scope, and a description:
+
+```
+<type>(<scope>): <description>
+```
+
+Common types include `feat` (for new features) and `fix` (for bug fixes).
+
 ## Deployment
 
 The `Dockerfile` includes a `production` stage that uses `gunicorn` to serve the Django application. The `.github/workflows/django.yml` file defines a GitHub Actions workflow for continuous integration and deployment.
