@@ -50,6 +50,10 @@
                 🤩 Contact Me
               </a>
               <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'contact' %}">
+                  <i class="bi bi-card-text" aria-hidden="true" title="Contact Form"></i> Contact Form
+                </a>
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="https://www.linkedin.com/in/carloscrespoi">
                   <i class="bi bi-linkedin" aria-hidden="true" title="LinkedIn"></i> LinkedIn
                 </a>
@@ -73,6 +77,17 @@
   </header>
 
   <main class="flex-fill mx-3 p-2" style="margin-top: 40px;">
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
     {% block content %}
     <!-- Page content goes here -->
     {% endblock %}
@@ -91,6 +106,15 @@
           crossorigin="anonymous"></script>
   
   {% block extra_js %}
+  <script>
+    // Auto-dismiss alerts
+    setTimeout(function() {
+      let alerts = document.querySelectorAll('.alert');
+      alerts.forEach(function(alert) {
+        new bootstrap.Alert(alert).close();
+      });
+    }, 5000);
+  </script>
   {% endblock %}
 
 </body>
