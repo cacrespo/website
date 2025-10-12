@@ -30,47 +30,46 @@ def home(request):
 
 
 def contact(request):
-    if request.method == "POST":
-        ip_address = request.META.get("REMOTE_ADDR")
-        cache_key = f"contact_form_{ip_address}"
-
-        # Check if this IP has submitted in the last hour (production only)
-        if not settings.DEBUG and cache.get(cache_key):
-            messages.warning(
-                request,
-                "You have already submitted the form recently. Please try again later.",
-            )
-            return HttpResponseRedirect(reverse("contact"))
-
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            # Simulate email sending delay in development
-            if settings.DEBUG:
-                time.sleep(2)
-
-            name = form.cleaned_data["name"]
-            email = form.cleaned_data["email"]
-            message = form.cleaned_data["message"]
-            message_body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
-            send_mail(
-                f"Contact Form submission from {name}",
-                message_body,
-                email,  # From user's submitted email
-                ["lvccrespo@gmail.com"],
-            )
-            messages.success(
-                request, "Your message has been sent successfully! Thank you. ✨"
-            )
-
-            # Set cache for this IP for 1 hour (production only)
-            if not settings.DEBUG:
-                cache.set(cache_key, True, 3600)
-
-            return HttpResponseRedirect(reverse("contact"))
-    else:
+    if request.method != "POST":
         form = ContactForm()
+        return render(request, "pages/contact.html", {"form": form})
 
-    return render(request, "pages/contact.html", {"form": form})
+    ip_address = request.META.get("REMOTE_ADDR")
+    cache_key = f"contact_form_{ip_address}"
+
+    # Check if this IP has submitted in the last hour (production only)
+    if not settings.DEBUG and cache.get(cache_key):
+        messages.warning(
+            request,
+            "You have already submitted the form recently. Please try again later.",
+        )
+        return HttpResponseRedirect(reverse("contact"))
+
+    form = ContactForm(request.POST)
+    if not form.is_valid():
+        return render(request, "pages/contact.html", {"form": form})
+
+    # Simulate email sending delay in development
+    if settings.DEBUG:
+        time.sleep(2)
+
+    name = form.cleaned_data["name"]
+    email = form.cleaned_data["email"]
+    message = form.cleaned_data["message"]
+    message_body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+    send_mail(
+        f"Contact Form submission from {name}",
+        message_body,
+        email,  # From user's submitted email
+        ["lvccrespo@gmail.com"],
+    )
+    messages.success(request, "Your message has been sent successfully! Thank you. ✨")
+
+    # Set cache for this IP for 1 hour (production only)
+    if not settings.DEBUG:
+        cache.set(cache_key, True, 3600)
+
+    return HttpResponseRedirect(reverse("contact"))
 
 
 # def about(request):
