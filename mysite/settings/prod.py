@@ -1,4 +1,5 @@
 import os
+from .base import *  # noqa
 from .base import INSTALLED_APPS, BASE_DIR
 
 import logfire
