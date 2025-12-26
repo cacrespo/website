@@ -33,12 +33,13 @@ INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
-    "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
     "django.contrib.postgres",
-    "pages",
+    "django.contrib.sessions",
+    "django.contrib.staticfiles",
     "blog",
+    "pages",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [

@@ -1,12 +1,16 @@
 import re
 from itertools import chain
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404, render
+
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.urls import reverse
 from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
 
 from blog.models import Post, Article
+from blog.serializers import ArticleSerializer
 
 
 def blog_list(request):
@@ -107,3 +111,31 @@ def search_results(request):
         "results": processed_results,
     }
     return render(request, "blog/search_results.html", context)
+
+
+class ArticleListCreateAPIView(generics.ListCreateAPIView):
+    """
+    API endpoint that allows articles to be viewed or created.
+
+    **GET:**
+    Returns a list of all existing articles.
+    No authentication is required for this method.
+
+    **POST:**
+    Creates a new article.
+    Authentication is required for this method.
+
+    *Request body:*
+    ```json
+    {
+        "title": "string",
+        "author": "string",
+        "comment": "string",
+        "link": "string (URL)"
+    }
+    ```
+    """
+
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
