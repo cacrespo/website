@@ -1,5 +1,5 @@
 import os
-from .base import *  # noqa
+from .base import INSTALLED_APPS, BASE_DIR
 
 import logfire
 import sentry_sdk
@@ -7,6 +7,10 @@ import sentry_sdk
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
 
 CSRF_TRUSTED_ORIGINS = ["https://cacrespo.xyz"]
+
+INSTALLED_APPS += [
+    "dbbackup",
+]
 
 # Production Email Settings
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -27,3 +31,11 @@ sentry_sdk.init(
         "continuous_profiling_auto_start": True,
     },
 )
+
+# DJANGO-DBBACKUP Settings
+STORAGES = {
+    "dbbackup": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+        "OPTIONS": {"location": BASE_DIR / "backups"},
+    },
+}

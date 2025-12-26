@@ -19,6 +19,7 @@ dependencies = [
     "torch>=2.8.0",
     "sentence-transformers>=5.1.1",
     "djangorestframework==3.16.1",
+    "django-dbbackup>=5.1.0",
 ]
 
 [build-system]
