@@ -1,6 +1,6 @@
 import os
 from .base import *  # noqa
-from .base import INSTALLED_APPS, BASE_DIR
+from .base import INSTALLED_APPS, BASE_DIR, STORAGES
 
 import logfire
 import sentry_sdk
@@ -34,9 +34,7 @@ sentry_sdk.init(
 )
 
 # DJANGO-DBBACKUP Settings
-STORAGES = {
-    "dbbackup": {
-        "BACKEND": "django.core.files.storage.FileSystemStorage",
-        "OPTIONS": {"location": BASE_DIR / "backups"},
-    },
+STORAGES["dbbackup"] = {
+    "BACKEND": "django.core.files.storage.FileSystemStorage",
+    "OPTIONS": {"location": BASE_DIR / "backups"},
 }
