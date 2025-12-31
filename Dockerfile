@@ -42,6 +42,11 @@ CMD ["uv", "run", "manage.py", "runserver", "0.0.0.0:8000"]
 FROM base AS production
 ENV DJANGO_SETTINGS_MODULE=mysite.settings.prod
 
+# Install pg_dump ONLY for production (django-dbbackup)
+RUN apt-get update \
+    && apt-get install -y postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
 # Collect static files to be served in production
 RUN uv run python manage.py collectstatic --no-input
 
