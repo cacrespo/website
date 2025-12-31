@@ -19,6 +19,7 @@ services:
       - shell_history:/root/hist
       - /usr/src/app/.venv
       - ./:/usr/src/app
+      - ./backups:/usr/src/app/backups
   db:
     image: pgvector/pgvector:pg15-trixie
     environment:
