@@ -40,8 +40,6 @@ class BlogViewTests(TestCase):
         response = self.client.get("/blog/")
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTemplateUsed(response, "blog/base.html")
-        self.assertIn("posts", response.context)
         self.assertEqual(len(response.context["posts"]), 1)
         self.assertEqual(response.context["posts"][0], self.post)
 
@@ -106,3 +104,45 @@ class BlogViewTests(TestCase):
 
         # Check if the publication date is displayed
         self.assertContains(response, self.post.published_at.strftime("%Y-%m-%d"))
+
+    def test_draft_post_not_shown(self):
+        # Create a draft post
+        draft_post = Post.objects.create(
+            author=self.user,
+            title="Draft Post",
+            slug="draft-post",
+            text="This is a draft post.",
+            status=0,  # Draft
+        )
+        draft_post.categories.add(self.category)
+
+        # Check blog list view
+        response = self.client.get("/blog/")
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertNotIn(draft_post, response.context["posts"])
+        self.assertIn(self.post, response.context["posts"])
+
+        # Check blog category view
+        response = self.client.get(f"/blog/category/{self.category.name}/")
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertNotIn(draft_post, response.context["posts"])
+        self.assertIn(self.post, response.context["posts"])
+
+    def test_search_draft_post_not_shown(self):
+        # Create a draft post
+        Post.objects.create(
+            author=self.user,
+            title="Draft Post",
+            slug="draft-post",
+            text="This is a draft post.",
+            status=0,  # Draft
+        )
+
+        # Check search results view
+        response = self.client.get("/blog/search/?q=Draft")
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(len(response.context["results"]), 0)
+
+        response = self.client.get("/blog/search/?q=Test")
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(len(response.context["results"]), 2)

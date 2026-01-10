@@ -14,7 +14,7 @@ from blog.serializers import ArticleSerializer
 
 
 def blog_list(request):
-    posts = Post.objects.all().order_by("-created_at")
+    posts = Post.objects.filter(status=1).order_by("-created_at")
     context = {
         "posts": posts,
     }
@@ -22,7 +22,7 @@ def blog_list(request):
 
 
 def blog_category(request, category):
-    posts = Post.objects.filter(categories__name__contains=category).order_by(
+    posts = Post.objects.filter(categories__name__contains=category, status=1).order_by(
         "-created_at"
     )
     context = {
@@ -53,7 +53,7 @@ def search_results(request):
     processed_results = []
     if query:
         # Full-text search cosine distance + literal
-        post_results = Post.objects.search(query)
+        post_results = Post.objects.search(query, status=1)
         article_results = Article.objects.search(query)
 
         combined_results = sorted(

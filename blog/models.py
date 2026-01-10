@@ -21,7 +21,7 @@ class TimeStampedModel(models.Model):
 
 
 class EmbeddableManager(models.Manager):
-    def search(self, q, dmax=0.5):
+    def search(self, q, dmax=0.5, status=None):
         if not self.model._content_field:
             raise NotImplementedError(
                 "Subclasses of Embeddable must define '_content_field'."
@@ -30,10 +30,14 @@ class EmbeddableManager(models.Manager):
         filter_query = Q(title__icontains=q) | Q(
             **{f"{self.model._content_field}__icontains": q}
         )
-        literal_qs = self.get_queryset().filter(filter_query)
+
+        queryset = self.get_queryset()
+        if status is not None and hasattr(self.model, "status"):
+            queryset = queryset.filter(status=status)
+
+        literal_qs = queryset.filter(filter_query)
         semantic_qs = (
-            self.get_queryset()
-            .alias(distance=CosineDistance("embedding", T.encode(q)))
+            queryset.alias(distance=CosineDistance("embedding", T.encode(q)))
             .filter(distance__lt=dmax)
             .order_by("distance")
         )
