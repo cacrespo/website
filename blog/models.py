@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models import Q
 from django.utils import timezone
 
+from markdown import markdown
 from pgvector.django import VectorField, CosineDistance
 from sentence_transformers import SentenceTransformer
 import numpy as np
@@ -75,11 +76,12 @@ class Embeddable(TimeStampedModel):
 
 
 class Post(Embeddable):
-    _content_field = "text"
+    _content_field = "content"
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True)
-    text = models.TextField()
+    content = models.TextField()
+    body = models.TextField()
     status = models.IntegerField(choices=STATUS, default=0)
     categories = models.ManyToManyField("Category", related_name="posts")
     published_at = models.DateTimeField(blank=True, null=True)
@@ -90,6 +92,10 @@ class Post(Embeddable):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.body = markdown(self.content)
+        super().save(*args, **kwargs)
 
 
 class Category(models.Model):

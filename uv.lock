@@ -175,6 +175,15 @@ wheels = [
 ]
 
 [[package]]
+name = "django-markdown-deux"
+version = "1.0.6"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "markdown2" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/26/af/3ed785b661e4545709ba1618926bb33bd585d1fd2faa42a548756743e874/django-markdown-deux-1.0.6.zip", hash = "sha256:1f7b4da6b4dd1a9a84e3da90887d356f8afdd9a1e7d6468c081b8ac50a7980b1", size = 18157 }
+
+[[package]]
 name = "djangorestframework"
 version = "3.16.1"
 source = { registry = "https://pypi.org/simple" }
@@ -369,6 +378,15 @@ django = [
 ]
 
 [[package]]
+name = "markdown"
+version = "3.10.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/b7/b1/af95bcae8549f1f3fd70faacb29075826a0d689a27f232e8cee315efa053/markdown-3.10.1.tar.gz", hash = "sha256:1c19c10bd5c14ac948c53d0d762a04e2fa35a6d58a6b7b1e6bfcbe6fefc0001a", size = 365402 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/59/1b/6ef961f543593969d25b2afe57a3564200280528caa9bd1082eecdd7b3bc/markdown-3.10.1-py3-none-any.whl", hash = "sha256:867d788939fe33e4b736426f5b9f651ad0c0ae0ecf89df0ca5d1176c70812fe3", size = 107684 },
+]
+
+[[package]]
 name = "markdown-it-py"
 version = "4.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -378,6 +396,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/5b/f5/4ec618ed16cc4f8fb3b701563655a69816155e79e24a17b651541804721d/markdown_it_py-4.0.0.tar.gz", hash = "sha256:cb0a2b4aa34f932c007117b194e945bd74e0ec24133ceb5bac59009cda1cb9f3", size = 73070 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/94/54/e7d793b573f298e1c9013b8c4dade17d481164aa517d1d7148619c2cedbf/markdown_it_py-4.0.0-py3-none-any.whl", hash = "sha256:87327c59b172c5011896038353a81343b6754500a08cd7a4973bb48c6d578147", size = 87321 },
+]
+
+[[package]]
+name = "markdown2"
+version = "2.5.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/42/f8/b2ae8bf5f28f9b510ae097415e6e4cb63226bb28d7ee01aec03a755ba03b/markdown2-2.5.4.tar.gz", hash = "sha256:a09873f0b3c23dbfae589b0080587df52ad75bb09a5fa6559147554736676889", size = 145652 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b8/06/2697b5043c3ecb720ce0d243fc7cf5024c0b5b1e450506e9b21939019963/markdown2-2.5.4-py3-none-any.whl", hash = "sha256:3c4b2934e677be7fec0e6f2de4410e116681f4ad50ec8e5ba7557be506d3f439", size = 49954 },
 ]
 
 [[package]]
@@ -1859,9 +1886,11 @@ dependencies = [
     { name = "dj-database-url" },
     { name = "django" },
     { name = "django-dbbackup" },
+    { name = "django-markdown-deux" },
     { name = "djangorestframework" },
     { name = "gunicorn" },
     { name = "logfire", extra = ["django"] },
+    { name = "markdown" },
     { name = "pgvector" },
     { name = "psycopg", extra = ["binary"] },
     { name = "sentence-transformers" },
@@ -1888,9 +1917,11 @@ requires-dist = [
     { name = "dj-database-url", specifier = "==2.3.0" },
     { name = "django", specifier = "==5.0.8" },
     { name = "django-dbbackup", specifier = ">=5.1.0" },
+    { name = "django-markdown-deux", specifier = ">=1.0.6" },
     { name = "djangorestframework", specifier = "==3.16.1" },
     { name = "gunicorn", specifier = "==22.0.0" },
     { name = "logfire", extras = ["django"], specifier = ">=3.7.1" },
+    { name = "markdown", specifier = ">=3.10.1" },
     { name = "pgvector", specifier = ">=0.4.1" },
     { name = "psycopg", extras = ["binary"], specifier = ">=3.2.9" },
     { name = "sentence-transformers", specifier = ">=5.1.1" },

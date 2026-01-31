@@ -20,6 +20,8 @@ dependencies = [
     "sentence-transformers>=5.1.1",
     "djangorestframework==3.16.1",
     "django-dbbackup>=5.1.0",
+    "markdown>=3.10.1",
+    "django-markdown-deux>=1.0.6",
 ]
 
 [build-system]
