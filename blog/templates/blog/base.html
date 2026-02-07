@@ -22,7 +22,7 @@
             </a>{% if not forloop.last %}, {% endif %}
           {% endfor %}
         </small>
-        <p class="mt-2 mb-0">{{ post.text|slice:":100" }}...</p>
+        <p class="mt-2 mb-0">{{ post.plain_text_preview|slice:":100" }}...</p>
       </div>
     {% endfor %}
   </div>

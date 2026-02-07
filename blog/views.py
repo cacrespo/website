@@ -59,6 +59,9 @@ def _markdown_to_html(markdown_text):
 
 def blog_list(request):
     posts = Post.objects.filter(status=1).order_by("-created_at")
+    for post in posts:
+        # Convert Markdown to HTML, then strip HTML tags for plain text preview
+        post.plain_text_preview = strip_tags(_markdown_to_html(post.text))
     context = {
         "posts": posts,
     }
@@ -69,6 +72,9 @@ def blog_category(request, category):
     posts = Post.objects.filter(categories__name__contains=category, status=1).order_by(
         "-created_at"
     )
+    for post in posts:
+        # Convert Markdown to HTML, then strip HTML tags for plain text preview
+        post.plain_text_preview = strip_tags(_markdown_to_html(post.text))
     context = {
         "category": category,
         "posts": posts,
