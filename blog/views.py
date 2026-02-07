@@ -1,8 +1,9 @@
 import re
 from itertools import chain
 
+import bleach
+import markdown
 from django.shortcuts import get_object_or_404, render
-
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django.urls import reverse
@@ -13,8 +14,54 @@ from blog.models import Post, Article
 from blog.serializers import ArticleSerializer
 
 
+def _markdown_to_html(markdown_text):
+    """
+    Converts Markdown text to HTML and sanitizes it.
+    """
+    html = markdown.markdown(markdown_text, extensions=["fenced_code"])
+    # Define allowed tags and attributes for sanitization
+    allowed_tags = [
+        "a",
+        "abbr",
+        "acronym",
+        "b",
+        "blockquote",
+        "code",
+        "em",
+        "i",
+        "li",
+        "ol",
+        "p",
+        "strong",
+        "ul",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "pre",
+        "div",
+        "span",
+        "br",
+    ]
+    allowed_attrs = {
+        "*": ["id", "class"],
+        "a": ["href", "title"],
+        "abbr": ["title"],
+        "acronym": ["title"],
+    }
+    sanitized_html = bleach.clean(
+        html, tags=allowed_tags, attributes=allowed_attrs, strip=True
+    )
+    return mark_safe(sanitized_html)
+
+
 def blog_list(request):
     posts = Post.objects.filter(status=1).order_by("-created_at")
+    for post in posts:
+        # Convert Markdown to HTML, then strip HTML tags for plain text preview
+        post.plain_text_preview = strip_tags(_markdown_to_html(post.text))
     context = {
         "posts": posts,
     }
@@ -25,6 +72,9 @@ def blog_category(request, category):
     posts = Post.objects.filter(categories__name__contains=category, status=1).order_by(
         "-created_at"
     )
+    for post in posts:
+        # Convert Markdown to HTML, then strip HTML tags for plain text preview
+        post.plain_text_preview = strip_tags(_markdown_to_html(post.text))
     context = {
         "category": category,
         "posts": posts,
@@ -34,6 +84,7 @@ def blog_category(request, category):
 
 def blog_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
+    post.html_text = _markdown_to_html(post.text)  # Convert Markdown to HTML
     context = {
         "post": post,
     }
@@ -78,7 +129,15 @@ def search_results(request):
             else:
                 continue
 
-            text = strip_tags(text_content)
+            # Convert markdown to HTML for display in search results snippet if it's a Post
+            if isinstance(result, Post):
+                display_text_content = _markdown_to_html(text_content)
+            else:
+                display_text_content = text_content
+
+            text = strip_tags(
+                display_text_content
+            )  # Strip tags from the HTML for snippet generation
             position = text.lower().find(query.lower())
             snippet = ""
             if position != -1:
@@ -102,7 +161,7 @@ def search_results(request):
                     "snippet": snippet,
                     "is_external": is_external,
                     "categories": categories,
-                    "text": text_content,
+                    "text": display_text_content,  # Pass the HTML text to the context
                 }
             )
 
