@@ -17,7 +17,7 @@
         {% endif %}
     </small>
     <article>
-        {{ post.text|linebreaks }}
+        {{ post.html_text|safe }}
     </article>
 </section>
 {% endblock content %}
