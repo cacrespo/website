@@ -15,30 +15,25 @@
 
 <body class="d-flex flex-column min-vh-100">
 
-  <header class="mb-2 p-2">
-    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">Carlos A. Crespo</a>
+  <header class="mb-3">
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary border-bottom border-dark" data-bs-theme="dark">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="/">Carlos A. Crespo</a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor04" aria-controls="navbarColor04" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon" style="font-size: 1rem;"></span>
+        <button class="navbar-toggler border-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor04" aria-controls="navbarColor04" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon" style="font-size: 1.1rem;"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarColor04">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'blog_list' %}">Blog</a>
+              <a class="nav-link py-2" href="{% url 'blog_list' %}"><i class="bi bi-journal-text me-1"></i> Blog</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'blog_article' %}">Articles</a>
+              <a class="nav-link py-2" href="{% url 'blog_article' %}"><i class="bi bi-bookmark-star me-1"></i> Articles</a>
             </li>
-{% comment %}            
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'about' %}">About</a>
-            </li>
-{% endcomment %} 
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle"
+              <a class="nav-link dropdown-toggle py-2"
                  href="#"
                  role="button"
                  data-bs-toggle="dropdown"
@@ -49,38 +44,40 @@
                  title="Get in touch with me!">
                 🤩 Contact Me
               </a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" href="{% url 'contact' %}">
-                  <i class="bi bi-card-text" aria-hidden="true" title="Contact Form"></i> Contact Form
+              <div class="dropdown-menu shadow-sm">
+                <a class="dropdown-item py-2" href="{% url 'contact' %}">
+                  <i class="bi bi-card-text me-2" aria-hidden="true"></i> Contact Form
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="https://www.linkedin.com/in/carloscrespoi">
-                  <i class="bi bi-linkedin" aria-hidden="true" title="LinkedIn"></i> LinkedIn
+                <a class="dropdown-item py-2" href="https://www.linkedin.com/in/carloscrespoi" target="_blank">
+                  <i class="bi bi-linkedin me-2" aria-hidden="true"></i> LinkedIn
                 </a>
-                <a class="dropdown-item" href="mailto:lvccrespo@gmail.com">
-                  <i class="bi bi-envelope-fill" aria-hidden="true" title="Email"></i> Email
+                <a class="dropdown-item py-2" href="mailto:lvccrespo@gmail.com">
+                  <i class="bi bi-envelope-fill me-2" aria-hidden="true"></i> Email
                 </a>
-                <a class="dropdown-item" href="https://github.com/cacrespo">
-                  <i class="bi bi-github" aria-hidden="true" title="GitHub"></i> GitHub
+                <a class="dropdown-item py-2" href="https://github.com/cacrespo" target="_blank">
+                  <i class="bi bi-github me-2" aria-hidden="true"></i> GitHub
                 </a>
               </div>
             </li>
           </ul>
 
           <form class="d-flex" action="{% url 'search_results' %}" method="get">
-            <input class="form-control me-sm-2" name="q" type="search" placeholder="Search...">
-            {% comment %}<button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>{% endcomment %}
+            <div class="input-group">
+              <input class="form-control" name="q" type="search" placeholder="Search..." aria-label="Search">
+              <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
+            </div>
           </form>
         </div>
       </div>
     </nav>
   </header>
 
-  <main class="flex-fill mx-3 p-2" style="margin-top: 40px;">
+  <main class="flex-fill container py-3 mt-4">
     {% if messages %}
-      <div class="messages">
+      <div class="messages mb-3">
         {% for message in messages %}
-          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show border-2 shadow-sm" role="alert">
             {{ message }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>
@@ -88,16 +85,22 @@
       </div>
     {% endif %}
 
+    <div class="page-header mb-3">
+      {% block page_title %}{% endblock %}
+    </div>
+
     {% block content %}
     <!-- Page content goes here -->
     {% endblock %}
   </main>
 
-  <footer class="pt-1 mt-2 border-top text-center">
-    <small class="d-block">
-      <p class="mb-0">&copy; 2025 Carlos A. Crespo</p>
-      The emojis in different parts of the site are the exclusive aesthetic touch of my daughter Sofía. 🧡
-    </small>
+  <footer class="py-2 mt-auto border-top border-dark bg-light text-center">
+    <div class="container">
+      <p class="mb-1 fw-bold">&copy; 2025 Carlos A. Crespo</p>
+      <small class="text-muted">
+        The emojis in different parts of the site are the exclusive aesthetic touch of my daughter Sofía. 🧡
+      </small>
+    </div>
   </footer>
 
   <!-- Bootstrap Bundle JS (and Popper) -->

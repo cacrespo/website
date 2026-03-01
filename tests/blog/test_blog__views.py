@@ -102,8 +102,12 @@ class BlogViewTests(TestCase):
         # Check if the category is displayed
         self.assertContains(response, self.category.name)
 
-        # Check if the publication date is displayed
-        self.assertContains(response, self.post.published_at.strftime("%Y-%m-%d"))
+        # Check if the publication date is displayed (matching the new 'F j, Y' format)
+        from django.template.defaultfilters import date as django_date_filter
+
+        self.assertContains(
+            response, django_date_filter(self.post.published_at, "F j, Y")
+        )
 
     def test_draft_post_not_shown(self):
         # Create a draft post

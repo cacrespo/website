@@ -1,50 +1,84 @@
 {% extends 'base.html' %}
 
 {% block page_title %}
-  Search Results
+<div class="mb-4">
+  {% if query %}
+    <h1 class="display-5 fw-bold mb-0 text-primary">Search results</h1>
+    <p class="lead text-muted mt-2">Showing matches for "<mark class="p-1 px-2 bg-warning rounded">{{ query }}</mark>"</p>
+  {% else %}
+    <h1 class="display-5 fw-bold mb-0">Search</h1>
+    <p class="lead text-muted mt-2">Please enter a search term above.</p>
+  {% endif %}
+</div>
 {% endblock page_title %}
 
 {% block content %}
-<section class="bg-light p-4 rounded mb-4">
-  <div class="container mt-4">
-    {% if query %}
-      <h1 class="mb-4">Search results for "<mark class="p-0 bg-warning">{{ query }}</mark>"</h1>
-    {% else %}
-      <h1 class="mb-4">Please enter a search term</h1>
-    {% endif %}
-
+<section class="container-fluid px-0">
     {% if results %}
-      <div class="list-group">
+      <div class="row g-4">
         {% for result in results %}
-          <a href="{{ result.url }}" class="list-group-item list-group-item-action flex-column align-items-start" {% if result.is_external %}target="_blank" rel="noopener noreferrer"{% endif %}>
-            <div class="d-flex w-100 justify-content-between">
-              <h4 class="mb-1">{{ result.title }} <span class="badge {% if result.type == 'Post' %}bg-primary{% else %}bg-success{% endif %}">{{ result.type }}</span></h4>
-              <small>{{ result.date|date:"Y-m-d" }}</small>
-            </div>
-            {% if result.snippet %}
-              <p class="mb-1">{{ result.snippet|safe }}</p>
-            {% else %}
-              <p class="mb-1">{{ result.text|striptags|truncatewords:50 }}</p>
-            {% endif %}
-            {% if result.categories %}
-              <small>
-                Categories:
-                {% for category in result.categories %}
-                  {{ category.name }}{% if not forloop.last %}, {% endif %}
-                {% endfor %}
-              </small>
-            {% endif %}
-          </a>
+          <div class="col-12">
+            <a href="{{ result.url }}" class="card border-2 shadow-sm list-group-item-action text-decoration-none transition-all hover-translate" {% if result.is_external %}target="_blank" rel="noopener noreferrer"{% endif %}>
+              <div class="card-body p-4">
+                <div class="d-flex w-100 justify-content-between align-items-start mb-3">
+                  <h3 class="h4 mb-0 text-dark fw-bold">
+                    {{ result.title }}
+                    <span class="badge {% if result.type == 'Post' %}bg-primary{% else %}bg-success{% endif %} ms-2 small">
+                      {{ result.type }}
+                      {% if result.is_external %}<i class="bi bi-box-arrow-up-right ms-1"></i>{% endif %}
+                    </span>
+                  </h3>
+                  <small class="text-muted"><i class="bi bi-calendar3 me-1"></i> {{ result.date|date:"M d, Y" }}</small>
+                </div>
+                
+                <div class="result-snippet text-muted mb-3 fs-5">
+                  {% if result.snippet %}
+                    {{ result.snippet|safe }}
+                  {% else %}
+                    {{ result.text|striptags|truncatewords:40 }}
+                  {% endif %}
+                </div>
+                
+                {% if result.categories %}
+                  <div class="mt-3">
+                    {% for category in result.categories %}
+                      <span class="badge bg-light text-muted border me-1">{{ category.name }}</span>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            </a>
+          </div>
         {% endfor %}
       </div>
     {% elif query %}
-      <div class="alert alert-warning mt-4" role="alert">
-        <h4 class="alert-heading">No Results Found</h4>
-        <p>Sorry, we couldn't find anything matching your search for "{{ query }}".</p>
-        <hr>
-        <p class="mb-0">Please try again with different keywords.</p>
+      <div class="card border-warning border-2 bg-light shadow-sm mt-4">
+        <div class="card-body text-center py-5">
+          <i class="bi bi-search display-1 text-warning mb-4 d-block"></i>
+          <h2 class="h3 fw-bold">No Results Found</h2>
+          <p class="lead text-muted">Sorry, we couldn't find anything matching your search for <strong>"{{ query }}"</strong>.</p>
+          <div class="mt-4">
+            <p class="mb-3">Try checking your spelling or use more general keywords.</p>
+            <a href="{% url 'blog_list' %}" class="btn btn-primary">Browse all blog posts</a>
+          </div>
+        </div>
       </div>
     {% endif %}
-  </div>
 </section>
 {% endblock content %}
+
+{% block extra_css %}
+<style>
+  .hover-translate:hover {
+    transform: translateX(10px);
+    border-color: var(--bs-primary) !important;
+  }
+  .transition-all {
+    transition: all 0.3s ease-in-out;
+  }
+  .result-snippet mark {
+    padding: 0.1em 0.2em;
+    border-radius: 3px;
+  }
+</style>
+{% endblock extra_css %}

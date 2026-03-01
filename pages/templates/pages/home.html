@@ -2,83 +2,117 @@
 {% load static %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid px-0">
 
-  <!-- Welcome Section -->
-  <section class="text-center mb-5">
-    <h1 class="display-4">Glad you’re here! 🧪</h1>
-    <p class="lead">
-      This space serves as a live lab for my projects and experiments!
-    </p>
+  <!-- Hero Section -->
+  <section class="text-center py-4 mb-4 bg-light rounded-4 shadow-sm border-2 border">
+    <div class="py-2">
+        <h1 class="display-4 fw-bold mb-2 text-primary">Glad you’re here! 🧪</h1>
+        <p class="lead fs-5 text-muted max-width-700 mx-auto px-3">
+          This space serves as a live lab for my projects and experiments!
+        </p>
+    </div>
   </section>
 
-  <div class="row">
+  <div class="row g-4">
     <!-- Left Column -->
     <div class="col-lg-8">
       <!-- About Me Section -->
-      <div class="card mb-4">
-        <div class="card-header">
-          <h4 class="mb-0"><i class="bi bi-person-circle me-2"></i>About Me</h4>
+      <article class="card mb-4 border-2 shadow-sm hover-shadow transition-all">
+        <div class="card-header bg-primary text-white py-2 border-bottom border-dark">
+          <h2 class="h5 mb-0 fw-bold"><i class="bi bi-person-circle me-2"></i>About Me</h2>
         </div>
-        <div class="card-body">
+        <div class="card-body p-3 fs-5 lh-base">
           <p>
-              My name is Carlos and I live in the city of <u strong data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="The city is the birthplace of some of the main rock bands of the country, such as Sumo, Divididos and Las Pelotas. En el oeste está el agite!">Hurlingham</u> — Rock capital of the world!<br>
-              I have a Bachelor's degree in <strong>Sociology</strong> from the University of Buenos Aires and extensive experience in data engineering and analysis, which helps me connect the dots between technical aspects and real user needs. After a successful transition from Data Analyst to Data Engineer, I am now focusing on my passion for <strong>Software Development</strong>. 
+              My name is Carlos and I live in the city of <strong class="text-primary border-bottom border-primary border-2" data-bs-toggle="tooltip" data-bs-placement="top" title="The city is the birthplace of some of the main rock bands of the country, such as Sumo, Divididos and Las Pelotas. En el oeste está el agite!">Hurlingham</strong> — Rock capital of the world!<br>
+              I have a Bachelor's degree in <strong>Sociology</strong> from the University of Buenos Aires and extensive experience in data engineering and analysis, which helps me connect the dots between technical aspects and real user needs.
           </p>
           <p>
-            I have extensive experience with Python and the "Modern Data Stack". I'm also a strong believer in community and contribute to open-source projects, such as the <a href="https://github.com/python/python-docs-es">Spanish translation of Python's documentation</a>. I also co-organize local events like <a href="https://eventos.python.org.ar/events/pyday-hurlingham-2024">PyDay Hurlingham</a>.
+            After a successful transition from Data Analyst to Data Engineer, I am now focusing on my passion for <strong>Software Development</strong>. I have extensive experience with Python and the "Modern Data Stack".
+          </p>
+          <p>
+            I'm also a strong believer in community and contribute to open-source projects, such as the <a href="https://github.com/python/python-docs-es" class="fw-bold text-decoration-underline" target="_blank">Spanish translation of Python's documentation</a>. I also co-organize local events like <a href="https://eventos.python.org.ar/events/pyday-hurlingham-2024" class="fw-bold text-decoration-underline" target="_blank">PyDay Hurlingham</a>.
           </p>
           <p class="mb-0">
             If you're interested in the intersection of data, technology, and society, let's connect!
           </p>
         </div>
-      </div>
+      </article>
 
       <!-- About This Site Section -->
-      <div class="card mb-4">
-        <div class="card-header">
-          <h4 class="mb-0"><i class="bi bi-info-circle me-2"></i>About This Site</h4>
+      <section class="card mb-3 border-2 shadow-sm border-info bg-light-subtle">
+        <div class="card-header bg-info text-white py-2">
+          <h3 class="h6 mb-0 fw-bold"><i class="bi bi-info-circle me-2"></i>About This Site</h3>
         </div>
-        <div class="card-body">
-          <p>
-            This website is built with <strong>Django</strong> and styled using the hand-drawn <a href="https://bootswatch.com/sketchy/" target="_blank" rel="noopener">Sketchy</a> theme from Bootswatch.
+        <div class="card-body p-3">
+          <p class="mb-2">
+            This website is built with <strong>Django</strong> and styled using the hand-drawn <a href="https://bootswatch.com/sketchy/" target="_blank" rel="noopener" class="fw-bold">Sketchy</a> theme from Bootswatch.
           </p>
-          <p class="mb-0">
-            Images are sourced from <a href="https://www.freepik.com" target="_blank" rel="noopener">Freepik</a>, and icons are provided by <a href="https://icons.getbootstrap.com/" target="_blank" rel="noopener">Bootstrap Icons</a>.
+          <p class="mb-0 text-muted small">
+            Images from <a href="https://www.freepik.com" target="_blank" rel="noopener">Freepik</a> & icons from <a href="https://icons.getbootstrap.com/" target="_blank" rel="noopener">Bootstrap Icons</a>.
           </p>
         </div>
-      </div>
- 
-
+      </section>
    </div>
 
     <!-- Right Column -->
-    <div class="col-lg-4">
+    <aside class="col-lg-4">
       <!-- Recent Activities Section -->
-      <div class="card mb-4">
-        <div class="card-header">
-          <h4 class="mb-0"><i class="bi bi-activity me-2"></i>What I've Been Up To</h4>
+      <div class="card mb-3 border-2 shadow-sm border-warning sticky-top" style="top: 80px; z-index: 100;">
+        <div class="card-header bg-warning text-dark py-2 border-bottom border-dark">
+          <h4 class="h6 mb-0 fw-bold text-uppercase tracking-wider"><i class="bi bi-activity me-2"></i>What I've Been Up To</h4>
         </div>
-        <div class="card-body">
-          <ul class="list-group list-group-flush">
+        <div class="card-body p-0">
+          <ul class="list-group list-group-flush rounded-bottom">
             {% for activity in activities %}
-              <li class="list-group-item">
-                {{ activity.details }}
-                <a href="{{ activity.link }}" class="float-end">{{ activity.link_hpv }}</a>
+              <li class="list-group-item p-3 border-bottom-0 hover-bg-light transition-all">
+                <div class="d-flex flex-column gap-2">
+                  <p class="mb-0 fw-medium small">{{ activity.details }}</p>
+                  <a href="{{ activity.link }}" class="btn btn-sm btn-outline-dark d-inline-block align-self-start border-2 fw-bold" target="_blank">
+                    {{ activity.link_hpv }} <i class="bi bi-box-arrow-up-right ms-1"></i>
+                  </a>
+                </div>
               </li>
             {% empty %}
-              <li class="list-group-item">No recent activities to show.</li>
+              <li class="list-group-item p-3 text-center text-muted">No recent activities to show.</li>
             {% endfor %}
           </ul>
         </div>
+        <div class="card-footer bg-white py-2 text-center border-top-0 rounded-bottom">
+            <span class="small text-uppercase fw-bold text-muted letter-spacing-1">Stay updated!</span>
+        </div>
       </div>
- 
-
-    </div>
+    </aside>
   </div>
 
 </div>
 {% endblock %}
+
+{% block extra_css %}
+<style>
+  .max-width-700 { max-width: 700px; }
+  .tracking-wider { letter-spacing: 0.1rem; }
+  .letter-spacing-1 { letter-spacing: 1px; }
+  
+  .hover-shadow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 .75rem 1.5rem rgba(0,0,0,.125)!important;
+  }
+  
+  .hover-bg-light:hover {
+    background-color: #f8f9fa;
+  }
+  
+  .transition-all {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  @media (max-width: 991.98px) {
+    .sticky-top { position: relative !important; top: 0 !important; }
+  }
+</style>
+{% endblock %}
+
 {% block extra_js %}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
