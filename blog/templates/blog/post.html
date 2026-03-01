@@ -26,7 +26,7 @@
     </header>
 
     <div class="post-content fs-5 lh-base mb-4">
-      {{ post.text|linebreaks }}
+      {{ post.html_text|safe }}
     </div>
 
     {% if related_posts %}

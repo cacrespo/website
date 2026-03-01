@@ -85,6 +85,19 @@ def blog_category(request, category):
 def blog_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
     post.html_text = _markdown_to_html(post.text)  # Convert Markdown to HTML
+
+    # Find related posts using semantic search (excluding the current post)
+    related_posts = []
+    if post.embedding is not None:
+        from pgvector.django import CosineDistance
+
+        related_posts = (
+            Post.objects.filter(status=1)
+            .exclude(pk=post.pk)
+            .alias(distance=CosineDistance("embedding", post.embedding))
+            .order_by("distance")[:3]
+        )
+
     context = {
         "post": post,
         "related_posts": related_posts,
