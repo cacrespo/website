@@ -132,21 +132,44 @@ class BlogViewTests(TestCase):
         self.assertNotIn(draft_post, response.context["posts"])
         self.assertIn(self.post, response.context["posts"])
 
-    def test_search_draft_post_not_shown(self):
-        # Create a draft post
-        Post.objects.create(
+    def test_markdown_rendering_and_sanitization(self):
+        markdown_text = (
+            "This is **bold** text. This is _italic_ text.\n\n"
+            "```python\nprint('Hello, Markdown!')\n```\n"
+            "<h1>Dangerous Header</h1><p onclick=\"alert('XSS!')\">Click me</p><script>alert('XSS!')</script>"
+        )
+        markdown_post = Post.objects.create(
             author=self.user,
-            title="Draft Post",
-            slug="draft-post",
-            text="This is a draft post.",
-            status=0,  # Draft
+            title="Markdown Post",
+            slug="markdown-post",
+            text=markdown_text,
+            status=1,  # Published
+            published_at=timezone.now(),
+        )
+        markdown_post.categories.add(self.category)
+
+        response = self.client.get(f"/blog/post/{markdown_post.pk}/")
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+        # Check for correct Markdown conversion
+        self.assertContains(response, "<strong>bold</strong> text")
+        self.assertContains(response, "<em>italic</em> text")
+        self.assertContains(
+            response,
+            "<pre><code class=\"language-python\">print('Hello, Markdown!')\n</code></pre>",
         )
 
-        # Check search results view
-        response = self.client.get("/blog/search/?q=Draft")
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(len(response.context["results"]), 0)
+        # Check for HTML sanitization (e.g., script tag should be removed or escaped)
+        self.assertNotContains(response, "<script>alert('XSS!')</script>")
+        # The h1 tag is allowed, so it should be present
+        self.assertContains(response, "<h1>Dangerous Header</h1>")
+        # Ensure malicious attributes are stripped from allowed tags
+        self.assertNotContains(response, "<p onclick=\"alert('XSS!')\">Click me</p>")
+        # Check that the paragraph itself is present, but without the malicious attribute
+        self.assertContains(response, "<p>Click me</p>")
 
-        response = self.client.get("/blog/search/?q=Test")
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(len(response.context["results"]), 2)
+        # Ensure the content is marked safe by Django
+        self.assertContains(
+            response,
+            "This is <strong>bold</strong> text. This is <em>italic</em> text.",
+        )

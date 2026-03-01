@@ -59,6 +59,7 @@ Dependencies are managed with `uv` and are defined in `pyproject.toml`.
   ```bash
   uv sync --all-groups
   ```
+- **New Libraries:** All new Python libraries should be added to `pyproject.toml` and installed using `uv`.
 
 ## Linting and Formatting
 
