@@ -63,7 +63,7 @@ class BlogViewTests(TestCase):
         self.assertEqual(response.context["post"], self.post)
 
     def test_blog_article_view(self):
-        response = self.client.get("/blog/articles/")
+        response = self.client.get("/articles/")
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, "blog/article.html")

@@ -1,3 +1,4 @@
+from blog import views as blog_views
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
@@ -6,6 +7,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("pages.urls")),
     path("blog/", include("blog.urls")),
+    path("articles/", blog_views.blog_article, name="blog_article"),
     path("api/v1/", include("blog.api_urls")),
 ]
 
