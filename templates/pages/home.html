@@ -14,9 +14,9 @@
     </div>
   </section>
 
-  <div class="row g-4">
+  <div class="row g-4 align-items-stretch">
     <!-- Left Column -->
-    <div class="col-lg-8">
+    <div class="col-lg-8 d-flex flex-column">
       <!-- About Me Section -->
       <article class="card mb-4 border-2 shadow-sm hover-shadow transition-all">
         <div class="card-header bg-primary text-white py-2 border-bottom border-dark">
@@ -40,7 +40,7 @@
       </article>
 
       <!-- About This Site Section -->
-      <section class="card mb-3 border-2 shadow-sm border-info bg-light-subtle">
+      <section class="card mb-0 border-2 shadow-sm border-info bg-light-subtle flex-grow-1">
         <div class="card-header bg-info text-white py-2">
           <h3 class="h6 mb-0 fw-bold"><i class="bi bi-info-circle me-2"></i>About This Site</h3>
         </div>
@@ -56,9 +56,9 @@
    </div>
 
     <!-- Right Column -->
-    <aside class="col-lg-4">
+    <aside class="col-lg-4 d-flex flex-column">
       <!-- Recent Activities Section -->
-      <div class="card mb-3 border-2 shadow-sm border-warning sticky-top" style="top: 80px; z-index: 100;">
+      <div class="card mb-0 border-2 shadow-sm border-warning h-100 flex-grow-1">
         <div class="card-header bg-warning text-dark py-2 border-bottom border-dark">
           <h4 class="h6 mb-0 fw-bold text-uppercase tracking-wider"><i class="bi bi-activity me-2"></i>What I've Been Up To</h4>
         </div>
@@ -78,7 +78,7 @@
             {% endfor %}
           </ul>
         </div>
-        <div class="card-footer bg-white py-2 text-center border-top-0 rounded-bottom">
+        <div class="card-footer bg-white py-2 text-center border-top-0 rounded-bottom mt-auto">
             <span class="small text-uppercase fw-bold text-muted letter-spacing-1">Stay updated!</span>
         </div>
       </div>
