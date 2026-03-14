@@ -5,7 +5,7 @@ description = "My web site!"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "django==5.0.8",
+    "django==5.1.15",
     "gunicorn==22.0.0",
     "asgiref==3.8.1",
     "sqlparse==0.5.0",
