@@ -1,0 +1,262 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --primary-gradient: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  --primary-hover-gradient: linear-gradient(135deg, #059669 0%, #0891b2 100%);
+  
+  --font-headers: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  
+  /* Light theme values */
+  --site-bg: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-color: rgba(15, 23, 42, 0.08);
+  --accent-color: #059669;
+  --accent-hover: #047857;
+  --nav-bg: rgba(255, 255, 255, 0.85);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.02);
+}
+
+[data-bs-theme="dark"] {
+  --site-bg: #0b0f19;
+  --card-bg: #111827;
+  --text-main: #f9fafb;
+  --text-muted: #9ca3af;
+  --border-color: rgba(243, 244, 246, 0.08);
+  --accent-color: #34d399;
+  --accent-hover: #10b981;
+  --nav-bg: rgba(11, 15, 25, 0.85);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.1);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -1px rgba(0,0,0,0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.35), 0 4px 6px -2px rgba(0,0,0,0.2);
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--site-bg);
+  color: var(--text-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-headers);
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* Glassmorphism navbar */
+.navbar-custom {
+  background-color: var(--nav-bg) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.navbar-brand {
+  font-family: var(--font-headers);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+/* Custom cards */
+.card-modern {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 1rem;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s ease;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.card-modern:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg), 0 12px 30px -10px rgba(16, 185, 129, 0.15);
+  border-color: var(--accent-color);
+}
+
+/* Buttons and Links */
+.btn-gradient {
+  background: var(--primary-gradient);
+  border: none;
+  color: #fff !important;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+  background: var(--primary-hover-gradient);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.btn-outline-custom {
+  border: 1.5px solid var(--accent-color);
+  color: var(--accent-color);
+  background: transparent;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-custom:hover {
+  background: var(--accent-color);
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+
+.text-accent {
+  color: var(--accent-color) !important;
+}
+
+a.text-accent-hover:hover {
+  color: var(--accent-hover) !important;
+}
+
+/* Hero Section */
+.hero-gradient {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 1.5rem;
+  padding: 3rem 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-gradient::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Text decoration */
+.text-gradient {
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* Footer modern style */
+footer {
+  background-color: var(--card-bg);
+  border-top: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Badge custom styles */
+.badge-custom {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--accent-color);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 2rem;
+  padding: 0.35em 0.75em;
+  font-weight: 600;
+}
+
+/* Inputs styling */
+.form-control, .form-select {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+  background-color: var(--card-bg);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 0.25rem rgba(16, 185, 129, 0.15);
+  color: var(--text-main);
+}
+
+/* Custom dropdown */
+.dropdown-menu {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-lg);
+  border-radius: 0.75rem;
+}
+
+.dropdown-item {
+  color: var(--text-main);
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(16, 185, 129, 0.08);
+  color: var(--accent-color);
+}
+
+/* List groups */
+.list-group-item {
+  background-color: transparent;
+  border-color: var(--border-color);
+  color: var(--text-main);
+}
+
+/* Theme switch button styling */
+#theme-toggle {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+#theme-toggle:hover {
+  color: var(--accent-color);
+  background-color: rgba(16, 185, 129, 0.08);
+}
+
+/* Custom text utility */
+.text-muted-custom {
+  color: var(--text-muted) !important;
+}
+
+/* Breadcrumbs / Badges */
+.bg-light-subtle-custom {
+  background-color: rgba(148, 163, 184, 0.08) !important;
+}
+
+/* Code container dark contrast */
+pre, code {
+  font-family: Consolas, Menlo, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+}
+
+pre {
+  background-color: #0f172a !important;
+  color: #e2e8f0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+code {
+  color: #10b981;
+}
+
+pre code {
+  color: inherit;
+}
