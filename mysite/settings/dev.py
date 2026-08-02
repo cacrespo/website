@@ -32,3 +32,14 @@ if ENABLE_DEBUG_TOOLBAR:
 
 # Print emails to console in development
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# Use standard StaticFilesStorage in development/testing to avoid
+# ValueError about missing manifest entries when running pytest.
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
