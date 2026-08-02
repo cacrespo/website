@@ -1,33 +1,57 @@
 {% extends 'base.html' %}
 
-{% block title %}About Me{% endblock %}
+{% block title %}About Me - Carlos A. Crespo{% endblock %}
 
 {% block content %}
-<section>
-    <h1>Hello World! 😀</h1>
- <p>
-     My name is Carlos and I've been working with <strong>Python</strong> for the last few years, mostly as a Data-Many Hats-Something :P. Having successfully <strong>transitioned from Data Analyst to Data Engineer</strong>, I am now eager to focus fully on <strong>Software Development</strong>.
-</p>
-<p>
-    I have a Bachelor's degree in <strong data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Apparently, I'm the only Sociologist in the world who uses vim.">Sociology</strong> from the University of Buenos Aires and extensive experience in data engineering and analysis, which helps me connect the dots between technical stuff and what people actually need.
-</p>
-<p>
-    My skills cover a wide range of technologies, mainly everything related to the <strong>'Modern Data Stack'</strong> (maybe post-modern!).
-</p>
-<p>
-    I also like to contribute to <strong>open-source projects</strong>, such as helping with the Spanish translation of <a href="https://github.com/python/python-docs-es"> Python’s official documentation</a> or organizing <a href="https://eventos.python.org.ar/events/pyday-hurlingham-2024">PyDay Hurlingham</a>, a local Python conference.
-</p>
-<p>
-    If you have something interesting to share about intersection of data, technology, and/or society, don't hesitate to contact me!
-</p>
-</section>
-<section>
-<h4>About this site</h4>
-    Styling by 
-    <a href="https://bootswatch.com/sketchy/" target="_blank" rel="noopener">Sketchy</a>, 
-    a Bootswatch theme with a hand-drawn feel. Images designed by 
-    <a href="https://www.freepik.com" target="_blank" rel="noopener">Freepik</a>. The rest? Only God knows where I found it.
-</section>
+<div class="row justify-content-center my-4">
+  <div class="col-lg-10">
+    <!-- Header Section -->
+    <section class="text-center hero-gradient shadow-sm mb-4">
+      <div class="py-2">
+        <h1 class="display-5 fw-bold mb-2 text-gradient">Hello World! 😀</h1>
+        <p class="lead fs-5 text-muted-custom">
+          My journey at the intersection of data, technology, and society.
+        </p>
+      </div>
+    </section>
+
+    <!-- Biography Card -->
+    <article class="card card-modern mb-4">
+      <div class="card-body p-4 p-md-5 fs-5 lh-base">
+        <p>
+          My name is Carlos and I've been working with <strong>Python</strong> for the last few years, mostly as a Data-Many Hats-Something :P. Having successfully <strong>transitioned from Data Analyst to Data Engineer</strong>, I am now eager to focus fully on <strong>Software Development</strong>.
+        </p>
+        <p>
+          I have a Bachelor's degree in <strong class="text-accent" data-bs-toggle="tooltip" data-bs-placement="right" title="Apparently, I'm the only Sociologist in the world who uses vim.">Sociology</strong> from the University of Buenos Aires and extensive experience in data engineering and analysis, which helps me connect the dots between technical stuff and what people actually need.
+        </p>
+        <p>
+          My skills cover a wide range of technologies, mainly everything related to the <strong>'Modern Data Stack'</strong> (maybe post-modern!).
+        </p>
+        <p>
+          I also like to contribute to <strong>open-source projects</strong>, such as helping with the Spanish translation of <a href="https://github.com/python/python-docs-es" class="text-accent text-accent-hover text-decoration-underline" target="_blank" rel="noopener">Python’s official documentation</a> or organizing <a href="https://eventos.python.org.ar/events/pyday-hurlingham-2024" class="text-accent text-accent-hover text-decoration-underline" target="_blank" rel="noopener">PyDay Hurlingham</a>, a local Python conference.
+        </p>
+        <p class="mb-0">
+          If you have something interesting to share about intersection of data, technology, and/or society, don't hesitate to <a href="{% url 'contact' %}" class="text-accent text-accent-hover text-decoration-underline">contact me</a>!
+        </p>
+      </div>
+    </article>
+
+    <!-- Site Meta Card -->
+    <section class="card card-modern bg-light-subtle-custom">
+      <div class="card-header bg-transparent border-bottom border-light-subtle py-3">
+        <h4 class="h6 mb-0 fw-bold text-accent"><i class="bi bi-info-circle me-2"></i>About This Site</h4>
+      </div>
+      <div class="card-body p-4">
+        <p class="mb-2">
+          This website is built with <strong>Django</strong> and styled using a custom modern <strong>Emerald & Slate</strong> theme with a dark/light mode toggle.
+        </p>
+        <p class="mb-0 text-muted-custom small">
+          Images from <a href="https://www.freepik.com" target="_blank" rel="noopener" class="text-accent text-accent-hover">Freepik</a> & icons from <a href="https://icons.getbootstrap.com/" target="_blank" rel="noopener" class="text-accent text-accent-hover">Bootstrap Icons</a>.
+        </p>
+      </div>
+    </section>
+  </div>
+</div>
 {% endblock %}
 
 {% block extra_js %}
