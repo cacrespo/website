@@ -38,13 +38,13 @@
         <div class="collapse navbar-collapse" id="navbarColor04">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link py-2" href="{% url 'blog_list' %}"><i class="bi bi-journal-text me-1"></i> Blog</a>
+              <a class="nav-link py-2 {% if request.resolver_match.url_name == 'blog_list' or request.resolver_match.url_name == 'blog_post' or request.resolver_match.url_name == 'blog_category' %}active fw-bold text-accent{% endif %}" href="{% url 'blog_list' %}"><i class="bi bi-journal-text me-1"></i> Blog</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link py-2" href="{% url 'blog_article' %}"><i class="bi bi-bookmark-star me-1"></i> Articles</a>
+              <a class="nav-link py-2 {% if request.resolver_match.url_name == 'blog_article' %}active fw-bold text-accent{% endif %}" href="{% url 'blog_article' %}"><i class="bi bi-bookmark-star me-1"></i> Articles</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle py-2"
+              <a class="nav-link dropdown-toggle py-2 {% if request.resolver_match.url_name == 'contact' %}active fw-bold text-accent{% endif %}"
                  href="#"
                  id="contactDropdown"
                  role="button"
