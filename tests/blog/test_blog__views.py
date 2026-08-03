@@ -156,7 +156,7 @@ class BlogViewTests(TestCase):
         self.assertContains(response, "<em>italic</em> text")
         self.assertContains(
             response,
-            "<pre><code class=\"language-python\">print('Hello, Markdown!')\n</code></pre>",
+            '<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Hello, Markdown!&#39;</span><span class="p">)</span>',
         )
 
         # Check for HTML sanitization (e.g., script tag should be removed or escaped)
