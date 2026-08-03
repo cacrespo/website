@@ -18,7 +18,7 @@ def _markdown_to_html(markdown_text):
     """
     Converts Markdown text to HTML and sanitizes it.
     """
-    html = markdown.markdown(markdown_text, extensions=["fenced_code"])
+    html = markdown.markdown(markdown_text, extensions=["fenced_code", "codehilite"])
     # Define allowed tags and attributes for sanitization
     allowed_tags = [
         "a",
