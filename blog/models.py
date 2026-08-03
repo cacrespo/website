@@ -88,6 +88,11 @@ class Post(Embeddable):
         self.published_at = timezone.now()
         self.save()
 
+    @property
+    def estimated_read_time(self) -> int:
+        word_count = len(self.text.split())
+        return max(1, round(word_count / 200))
+
     def __str__(self):
         return self.title
 

@@ -11,6 +11,7 @@
       
       <div class="d-flex flex-wrap align-items-center gap-3 text-muted-custom mb-4 pb-3 border-bottom border-light-subtle">
         <span class="small"><i class="bi bi-calendar3 me-1"></i> {{ post.published_at|default:post.created_at|date:"F j, Y" }}</span>
+        <span class="small"><i class="bi bi-clock me-1"></i> {{ post.estimated_read_time }} min read</span>
         <span class="small"><i class="bi bi-person me-1"></i> By {{ post.author.get_full_name|default:post.author.username }}</span>
         
         {% if post.categories.all %}
