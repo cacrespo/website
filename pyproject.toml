@@ -5,20 +5,20 @@ description = "My web site!"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "django==5.1.15",
-    "gunicorn==22.0.0",
-    "asgiref==3.8.1",
-    "sqlparse==0.5.0",
+    "django>=5.2.18",
+    "gunicorn>=23.0.0",
+    "asgiref>=3.8.1",
+    "sqlparse>=0.6.0",
     "typing-extensions>=4.13.0",
-    "whitenoise==6.7.0",
-    "dj-database-url==2.3.0",
+    "whitenoise>=6.9.0",
+    "dj-database-url>=2.3.0",
     "logfire[django]>=3.7.1",
     "sentry-sdk[django]>=2.22.0",
     "psycopg[binary]>=3.2.9",
     "pgvector>=0.4.1",
     "torch>=2.8.0",
-    "sentence-transformers>=5.1.1",
-    "djangorestframework==3.16.1",
+    "sentence-transformers>=6.1.0",
+    "djangorestframework>=3.18.3",
     "django-dbbackup>=5.1.0",
     "markdown>=3.6",
     "bleach>=6.1",
@@ -34,7 +34,7 @@ build-backend = "hatchling.build"
 dev-dependencies = [
     "pytest>=8.3.3",
     "pytest-django>=4.9.0",
-    "ruff>=0.9.9",
+    "ruff>=0.9.9,<=0.13.2",
     "pre-commit>=4.1.0",
     "django-debug-toolbar>=5.1.0",
 ]
