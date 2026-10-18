@@ -4,12 +4,25 @@ from django.db.models import Q
 from django.utils import timezone
 
 from pgvector.django import VectorField, CosineDistance
-from sentence_transformers import SentenceTransformer
 import numpy as np
 
 STATUS = ((0, "Draft"), (1, "Publish"))
 
-T = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+_embedding_model = None
+
+
+def get_embedding_model():
+    """
+    Lazily loads the SentenceTransformer model to avoid high memory
+    usage on module import (e.g. during migrations, management commands,
+    and web worker startup).
+    """
+    global _embedding_model
+    if _embedding_model is None:
+        from sentence_transformers import SentenceTransformer
+
+        _embedding_model = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
+    return _embedding_model
 
 
 class TimeStampedModel(models.Model):
@@ -35,9 +48,10 @@ class EmbeddableManager(models.Manager):
         if status is not None and hasattr(self.model, "status"):
             queryset = queryset.filter(status=status)
 
+        model = get_embedding_model()
         literal_qs = queryset.filter(filter_query)
         semantic_qs = (
-            queryset.alias(distance=CosineDistance("embedding", T.encode(q)))
+            queryset.alias(distance=CosineDistance("embedding", model.encode(q)))
             .filter(distance__lt=dmax)
             .order_by("distance")
         )
@@ -58,9 +72,10 @@ class Embeddable(TimeStampedModel):
             raise NotImplementedError(
                 "Subclasses of Embeddable must define '_content_field'."
             )
+        model = get_embedding_model()
         content = getattr(self, self._content_field)
-        title_vec = T.encode(self.title)
-        content_vec = T.encode(content)
+        title_vec = model.encode(self.title)
+        content_vec = model.encode(content)
         # Normalize embeddings
         title_vec /= np.linalg.norm(title_vec)
         content_vec /= np.linalg.norm(content_vec)
