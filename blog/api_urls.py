@@ -1,5 +1,9 @@
 from django.urls import path
-from .views import ArticleAutoCreateAPIView, ArticleListCreateAPIView
+from .views import (
+    ArticleAutoCreateAPIView,
+    ArticleExtractAPIView,
+    ArticleListCreateAPIView,
+)
 
 urlpatterns = [
     path(
@@ -11,5 +15,10 @@ urlpatterns = [
         "articles/auto/",
         ArticleAutoCreateAPIView.as_view(),
         name="api-article-auto-create",
+    ),
+    path(
+        "articles/extract/",
+        ArticleExtractAPIView.as_view(),
+        name="api-article-extract",
     ),
 ]

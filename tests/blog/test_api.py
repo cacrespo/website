@@ -230,3 +230,67 @@ class ArticleAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn("error", response.data)
         self.assertEqual(Article.objects.count(), 1)
+
+    def test_extract_article_unauthenticated(self):
+        """
+        Ensure unauthenticated requests to extract endpoint are rejected.
+        """
+        extract_url = reverse("api-article-extract")
+        response = self.client.post(
+            extract_url, {"url": "https://example.com/article"}, format="json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_extract_article_invalid_url(self):
+        """
+        Ensure invalid URLs to extract endpoint return 400 Bad Request.
+        """
+        self.client.login(username="testuser", password="testpassword")
+        extract_url = reverse("api-article-extract")
+        response = self.client.post(
+            extract_url, {"url": "not-a-valid-url"}, format="json"
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("url", response.data)
+
+    @patch("blog.extractor.httpx.Client")
+    def test_extract_article_success(self, mock_client_cls):
+        """
+        Ensure extract endpoint returns extracted fields without saving to DB.
+        """
+        self.client.login(username="testuser", password="testpassword")
+        extract_url = reverse("api-article-extract")
+
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_response.text = "<html><body><h1>Article</h1></body></html>"
+        mock_response.raise_for_status.return_value = None
+        mock_client = MagicMock()
+        mock_client.__enter__.return_value = mock_client
+        mock_client.get.return_value = mock_response
+        mock_client_cls.return_value = mock_client
+
+        test_model = TestModel(
+            custom_output_args={
+                "title": "Extracted Preview Title",
+                "author": "John Doe",
+                "description": "Preview description for admin review.",
+            }
+        )
+
+        initial_count = Article.objects.count()
+        with article_agent.override(model=test_model):
+            response = self.client.post(
+                extract_url,
+                {"url": "https://example.com/preview"},
+                format="json",
+            )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["title"], "Extracted Preview Title")
+        self.assertEqual(response.data["author"], "John Doe")
+        self.assertEqual(
+            response.data["description"], "Preview description for admin review."
+        )
+        # Ensure it was NOT saved to database (human in the loop review)
+        self.assertEqual(Article.objects.count(), initial_count)
