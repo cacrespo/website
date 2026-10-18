@@ -63,14 +63,31 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
             const response = await fetch("/api/v1/articles/extract/", {
                 method: "POST",
+                credentials: "same-origin",
                 headers: {
                     "Content-Type": "application/json",
+                    "Accept": "application/json",
                     "X-CSRFToken": csrfToken,
                 },
                 body: JSON.stringify({ url: urlValue }),
             });
 
-            const data = await response.json();
+            const contentType = response.headers.get("content-type") || "";
+            let data = null;
+
+            if (contentType.includes("application/json")) {
+                data = await response.json();
+            } else {
+                if (response.status === 403) {
+                    statusSpan.style.color = "#dc3545";
+                    statusSpan.textContent =
+                        "❌ Error 403: Sesión o verificación CSRF falló. Recarga la página e intenta nuevamente.";
+                    return;
+                }
+                statusSpan.style.color = "#dc3545";
+                statusSpan.textContent = `❌ Error del servidor (${response.status} ${response.statusText}).`;
+                return;
+            }
 
             if (!response.ok) {
                 const errorMsg =
@@ -99,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
             statusSpan.textContent = "✅ ¡Campos completados! Revisa y guarda cuando quieras.";
         } catch (err) {
             statusSpan.style.color = "#dc3545";
-            statusSpan.textContent = `❌ Error de red: ${err.message}`;
+            statusSpan.textContent = `❌ Error: ${err.message}`;
         } finally {
             button.disabled = false;
             button.textContent = "✨ Completar con IA";

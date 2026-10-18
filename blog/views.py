@@ -1,3 +1,4 @@
+import logging
 import re
 from itertools import chain
 
@@ -217,6 +218,9 @@ class ArticleListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
 
+logger = logging.getLogger(__name__)
+
+
 def _extract_article_or_error(url: str):
     """
     Helper function to extract article details or return an appropriate error Response.
@@ -235,9 +239,10 @@ def _extract_article_or_error(url: str):
             status=status.HTTP_400_BAD_REQUEST,
         )
     except Exception as e:
+        logger.exception("Error extracting article from URL: %s", url)
         return None, Response(
             {"error": f"Extraction failed: {str(e)}"},
-            status=status.HTTP_502_BAD_GATEWAY,
+            status=status.HTTP_400_BAD_REQUEST,
         )
 
 

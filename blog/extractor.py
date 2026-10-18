@@ -110,6 +110,24 @@ def fetch_webpage_content(url: str, timeout: float = 10.0) -> str:
     )
 
 
+def ensure_api_key(agent: Agent | None = None):
+    """
+    Ensure GOOGLE_API_KEY is synchronized from GEMINI_API_KEY if present,
+    or raise a clear descriptive error if missing.
+    """
+    target_agent = agent if agent is not None else article_agent
+    override_model = getattr(target_agent, "_override_model", None)
+    if override_model is not None and override_model.get() is not None:
+        return
+
+    if "GEMINI_API_KEY" in os.environ and "GOOGLE_API_KEY" not in os.environ:
+        os.environ["GOOGLE_API_KEY"] = os.environ["GEMINI_API_KEY"]
+    if not os.environ.get("GOOGLE_API_KEY") and not os.environ.get("GEMINI_API_KEY"):
+        raise ValueError(
+            "GEMINI_API_KEY o GOOGLE_API_KEY no está configurada en el servidor."
+        )
+
+
 def extract_article_from_url(
     url: str, agent: Agent | None = None, timeout: float = 10.0
 ) -> ExtractedArticle:
@@ -117,6 +135,7 @@ def extract_article_from_url(
     Fetches the webpage at the given URL and uses Pydantic AI to extract
     the title, author, and description.
     """
+    ensure_api_key(agent)
     content_prompt = fetch_webpage_content(url, timeout=timeout)
     active_agent = agent if agent is not None else article_agent
     result = active_agent.run_sync(content_prompt)
