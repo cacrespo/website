@@ -21,7 +21,11 @@ WORKDIR /usr/src/app
 # Install uv
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-# copy project
+# Install dependencies in a separate layer to leverage Docker layer caching
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-install-project
+
+# Copy project source code
 COPY . .
 RUN uv sync --frozen
 
@@ -31,7 +35,7 @@ RUN uv sync --frozen
 FROM base AS development
 ENV DJANGO_SETTINGS_MODULE=mysite.settings.dev
 
-RUN uv sync --all-groups
+RUN uv sync --frozen --all-groups
 
 # Run the Django development server
 CMD ["uv", "run", "manage.py", "runserver", "0.0.0.0:8000"]
@@ -48,7 +52,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Collect static files to be served in production
-RUN uv run python manage.py collectstatic --no-input
+RUN SECRET_KEY="${SECRET_KEY:-dummy-build-key-for-collectstatic}" uv run python manage.py collectstatic --no-input
 
 # Command to run Gunicorn
 CMD ["uv", "run", "gunicorn", "mysite.wsgi:application", "--bind", "0.0.0.0:8000"]
