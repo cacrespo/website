@@ -8,7 +8,7 @@ from pydantic_ai import Agent
 if "GEMINI_API_KEY" in os.environ and "GOOGLE_API_KEY" not in os.environ:
     os.environ["GOOGLE_API_KEY"] = os.environ["GEMINI_API_KEY"]
 
-DEFAULT_MODEL = os.getenv("LLM_MODEL", "google-gla:gemini-1.5-flash")
+DEFAULT_MODEL = os.getenv("LLM_MODEL", "google-gla:gemini-3.8-flash")
 
 
 class ExtractedArticle(BaseModel):
