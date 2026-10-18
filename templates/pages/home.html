@@ -28,7 +28,7 @@
                 <span class="term-dot term-dot-yellow"></span>
                 <span class="term-dot term-dot-green"></span>
               </div>
-              <span class="small font-monospace text-muted-custom">carlos@cacrespo-lab: ~/dosbox</span>
+              <span class="small font-monospace text-muted-custom">carlos@cacrespo.xyz: ~</span>
               <div style="width: 36px;"></div>
             </div>
 
@@ -52,10 +52,14 @@
                   <span><strong class="text-info">Kasparov's Gambit:</strong> Garry: <em>"Are you sure?"</em></span>
                 </div>
 
-                <!-- Línea de comando interactiva -->
-                <form id="term-form" class="pt-2 border-top border-secondary border-opacity-25 d-flex align-items-center m-0 p-0" onsubmit="return false;">
+                <!-- Línea de comando interactiva (Easter Egg sutil) -->
+                <form id="term-form" class="pt-2 border-top border-secondary border-opacity-25 d-flex align-items-center m-0 p-0 position-relative" onsubmit="return false;">
                   <label for="term-input" class="text-accent fw-bold me-1 text-nowrap mb-0">carlos@lab:<span class="text-info">~</span>$&nbsp;</label>
-                  <input type="text" id="term-input" class="term-input" autocomplete="off" spellcheck="false" placeholder="type & press enter..." aria-label="Terminal command input" maxlength="40">
+                  <div class="position-relative flex-grow-1 d-flex align-items-center overflow-hidden" style="min-height: 1.5rem;">
+                    <span id="term-cmd-display" class="text-info font-monospace text-nowrap"></span>
+                    <span class="terminal-cursor text-accent">█</span>
+                    <input type="text" id="term-input" class="term-input-stealth" autocomplete="off" spellcheck="false" aria-label="Terminal command input" maxlength="40">
+                  </div>
                 </form>
               </div>
 
@@ -197,26 +201,33 @@
   .term-dot-yellow { background-color: #f59e0b; }
   .term-dot-green { background-color: #10b981; }
 
-  .term-input {
+  /* Terminal blinking cursor */
+  .terminal-cursor {
+    display: inline-block;
+    font-weight: 300;
+    line-height: 1;
+    animation: blinkCursor 1s step-end infinite;
+  }
+
+  @keyframes blinkCursor {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .term-input-stealth {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: text;
     background: transparent;
     border: none;
     outline: none;
-    color: #38bdf8;
-    font-family: var(--bs-font-monospace);
-    font-size: 0.95rem;
-    width: 100%;
-    caret-color: #10b981;
     padding: 0;
     margin: 0;
-  }
-  .term-input:focus {
-    outline: none;
-    box-shadow: none;
-  }
-  .term-input::placeholder {
-    color: rgba(148, 163, 184, 0.45);
-    font-style: italic;
-    font-size: 0.85rem;
+    font-size: 16px;
   }
 
   @keyframes termGlitch {
@@ -252,6 +263,7 @@
     const termWindow = document.querySelector('.terminal-window');
     const termForm = document.getElementById('term-form');
     const termInput = document.getElementById('term-input');
+    const termCmdDisplay = document.getElementById('term-cmd-display');
     const normalState = document.getElementById('term-normal-state');
     const panicState = document.getElementById('term-panic-state');
     const panicCommLine = document.getElementById('panic-comm-line');
@@ -259,6 +271,12 @@
     const panicRebootBtn = document.getElementById('panic-reboot-btn');
 
     let countdownInterval = null;
+
+    if (termInput && termCmdDisplay) {
+      termInput.addEventListener('input', function () {
+        termCmdDisplay.textContent = termInput.value;
+      });
+    }
 
     function rebootTerminal() {
       if (countdownInterval) {
@@ -271,6 +289,7 @@
         termWindow.classList.remove('terminal-panic-active');
         if (termInput) {
           termInput.value = '';
+          if (termCmdDisplay) termCmdDisplay.textContent = '';
           termInput.focus();
         }
       }
