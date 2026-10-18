@@ -55,7 +55,7 @@ class BlogViewTests(TestCase):
         self.assertEqual(response.context["posts"][0], self.post)
 
     def test_blog_post_view(self):
-        response = self.client.get(f"/blog/post/{self.post.pk}/")
+        response = self.client.get(f"/blog/post/{self.post.slug}/")
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, "blog/post.html")
@@ -71,8 +71,8 @@ class BlogViewTests(TestCase):
         self.assertEqual(len(response.context["articles"]), 1)
         self.assertEqual(response.context["articles"][0], self.article)
 
-    def test_blog_post_view_invalid_pk(self):
-        response = self.client.get("/blog/post/999/")  # Non-existent post
+    def test_blog_post_view_invalid_slug(self):
+        response = self.client.get("/blog/post/non-existent-slug/")  # Non-existent post
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
     def test_blog_category_view_no_posts(self):
@@ -83,7 +83,7 @@ class BlogViewTests(TestCase):
         self.assertEqual(len(response.context["posts"]), 0)
 
     def test_blog_post_content_rendering(self):
-        response = self.client.get(f"/blog/post/{self.post.pk}/")
+        response = self.client.get(f"/blog/post/{self.post.slug}/")
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, "blog/post.html")
@@ -148,7 +148,7 @@ class BlogViewTests(TestCase):
         )
         markdown_post.categories.add(self.category)
 
-        response = self.client.get(f"/blog/post/{markdown_post.pk}/")
+        response = self.client.get(f"/blog/post/{markdown_post.slug}/")
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
         # Check for correct Markdown conversion

@@ -39,7 +39,7 @@
             <div class="card card-modern h-100">
               <div class="card-body d-flex flex-column p-4">
                 <h5 class="card-title h6 fw-bold mb-3">
-                  <a href="{% url 'blog_post' related.pk %}" class="text-decoration-none text-main stretched-link">
+                  <a href="{% url 'blog_post' related.slug %}" class="text-decoration-none text-main stretched-link">
                     {{ related.title }}
                   </a>
                 </h5>

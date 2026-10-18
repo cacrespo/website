@@ -82,8 +82,8 @@ def blog_category(request, category):
     return render(request, "blog/base.html", context)
 
 
-def blog_post(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def blog_post(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     post.html_text = _markdown_to_html(post.text)  # Convert Markdown to HTML
 
     # Find related posts using semantic search (excluding the current post)
@@ -130,7 +130,7 @@ def search_results(request):
         for result in combined_results:
             if isinstance(result, Post):
                 text_content = result.text
-                url = reverse("blog_post", args=[result.pk])
+                url = reverse("blog_post", args=[result.slug])
                 is_external = False
                 categories = result.categories.all()
                 item_type = "Post"
