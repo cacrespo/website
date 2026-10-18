@@ -13,9 +13,6 @@
           <h1 class="display-5 fw-bold mb-3 text-gradient">
             Glad you’re here! 🧪
           </h1>
-          <p class="fs-4 fw-bold text-main mb-3 lh-sm">
-            Building at the intersection of data, software & society.
-          </p>
           <p class="fs-5 text-muted-custom mb-0 lh-base">
             This space serves as a live lab for technical projects, data engineering experiments, and writing.
           </p>
@@ -37,25 +34,47 @@
 
             <!-- Contenido de la Terminal -->
             <div class="terminal-body p-3 p-md-4 font-monospace fs-6">
-              <div class="mb-2">
-                <span class="text-accent fw-bold">carlos@lab</span>:<span class="text-info">~</span>$ ./system_diagnostic.sh
+              <!-- Estado Normal -->
+              <div id="term-normal-state">
+                <div class="mb-2">
+                  <span class="text-accent fw-bold">carlos@lab</span>:<span class="text-info">~</span>$ ./system_diagnostic.sh
+                </div>
+
+                <!-- Referencia a Prince of Persia -->
+                <div class="text-muted-custom mb-2 d-flex align-items-start gap-2">
+                  <span class="text-warning">⚔</span>
+                  <span><strong class="text-warning">Prince of Persia:</strong> 59 min left • Drinking potion to restore HP 🧪</span>
+                </div>
+
+                <!-- Referencia a Kasparov's Gambit -->
+                <div class="text-muted-custom mb-3 d-flex align-items-start gap-2">
+                  <span class="text-info">♟</span>
+                  <span><strong class="text-info">Kasparov's Gambit:</strong> Garry: <em>"Are you sure?"</em></span>
+                </div>
+
+                <!-- Línea de comando interactiva -->
+                <form id="term-form" class="pt-2 border-top border-secondary border-opacity-25 d-flex align-items-center m-0 p-0" onsubmit="return false;">
+                  <label for="term-input" class="text-accent fw-bold me-1 text-nowrap mb-0">carlos@lab:<span class="text-info">~</span>$&nbsp;</label>
+                  <input type="text" id="term-input" class="term-input" autocomplete="off" spellcheck="false" placeholder="type & press enter..." aria-label="Terminal command input" maxlength="40">
+                </form>
               </div>
 
-              <!-- Referencia a Prince of Persia -->
-              <div class="text-muted-custom mb-2 d-flex align-items-start gap-2">
-                <span class="text-warning">⚔</span>
-                <span><strong class="text-warning">Prince of Persia:</strong> 59 min left • Drinking potion to restore HP 🧪</span>
-              </div>
-
-              <!-- Referencia a Kasparov's Gambit -->
-              <div class="text-muted-custom mb-3 d-flex align-items-start gap-2">
-                <span class="text-info">♟</span>
-                <span><strong class="text-info">Kasparov's Gambit:</strong> Garry: <em>"Are you sure?"</em></span>
-              </div>
-
-              <!-- Línea de comando estática con cursor -->
-              <div class="pt-2 border-top border-secondary border-opacity-25 d-flex align-items-center">
-                <span class="text-accent fw-bold me-1">carlos@lab</span>:<span class="text-info me-1">~</span>$&nbsp;<span class="terminal-cursor text-accent">█</span>
+              <!-- Estado Kernel Panic (Easter Egg) -->
+              <div id="term-panic-state" class="d-none">
+                <div class="text-danger fw-bold mb-1">[ 0.042103] Kernel panic - not syncing: Fatal Exception</div>
+                <div class="text-warning small mb-1" id="panic-comm-line">[ 0.042189] CPU: 0 PID: 1337 Comm: crash_cmd</div>
+                <div class="text-secondary small mb-2">[ 0.042250] Hardware: IBM PC/AT 486DX2 • Sound Blaster 16</div>
+                <div class="text-light-50 small mb-1">Call Trace:</div>
+                <div class="text-muted-custom small ps-2 font-monospace">
+                  &gt; [<span class="text-info">0xc02a4e12</span>] prince_of_persia_fell_on_spikes+0x42<br>
+                  &gt; [<span class="text-info">0xc031b804</span>] kasparov_gambit_blunder("Are you sure?")+0x88<br>
+                  &gt; [<span class="text-info">0xc0107291</span>] sys_enter_key_pressed+0x13
+                </div>
+                <div class="text-danger small mt-2 mb-2">---[ end Kernel panic: System halted ]---</div>
+                <div class="pt-2 border-top border-secondary border-opacity-25 small text-muted-custom d-flex justify-content-between align-items-center">
+                  <span>Rebooting in <span id="panic-timer" class="text-warning fw-bold">5</span>s...</span>
+                  <button type="button" id="panic-reboot-btn" class="btn btn-sm btn-outline-warning py-0 px-2 font-monospace" style="font-size: 0.75rem;">[ Reboot Now ]</button>
+                </div>
               </div>
             </div>
           </div>
@@ -152,26 +171,20 @@
     transition: all 0.3s ease-in-out;
   }
 
-  /* Terminal blinking cursor */
-  .terminal-cursor {
-    display: inline-block;
-    font-weight: 300;
-    animation: blinkCursor 1s step-end infinite;
-  }
-
-  @keyframes blinkCursor {
-    from, to { opacity: 1; }
-    50% { opacity: 0; }
-  }
-
   /* Terminal Window Styles */
   .terminal-window {
     background-color: #0b111e;
     color: #e2e8f0;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
   .terminal-header {
     background-color: rgba(15, 23, 42, 0.85);
+  }
+
+  .terminal-body {
+    cursor: text;
+    min-height: 200px;
   }
 
   .term-dot {
@@ -184,6 +197,42 @@
   .term-dot-yellow { background-color: #f59e0b; }
   .term-dot-green { background-color: #10b981; }
 
+  .term-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #38bdf8;
+    font-family: var(--bs-font-monospace);
+    font-size: 0.95rem;
+    width: 100%;
+    caret-color: #10b981;
+    padding: 0;
+    margin: 0;
+  }
+  .term-input:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  .term-input::placeholder {
+    color: rgba(148, 163, 184, 0.45);
+    font-style: italic;
+    font-size: 0.85rem;
+  }
+
+  @keyframes termGlitch {
+    0% { transform: translate(0); box-shadow: 0 0 0 rgba(239, 68, 68, 0); }
+    20% { transform: translate(-2px, 2px); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+    40% { transform: translate(2px, -1px); box-shadow: 0 0 25px rgba(239, 68, 68, 0.6); }
+    60% { transform: translate(-1px, -1px); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+    80% { transform: translate(1px, 1px); }
+    100% { transform: translate(0); box-shadow: 0 0 10px rgba(239, 68, 68, 0.25); }
+  }
+
+  .terminal-panic-active {
+    animation: termGlitch 0.4s ease-in-out;
+    border-color: rgba(239, 68, 68, 0.6) !important;
+  }
+
   @media (max-width: 991.98px) {
     .sticky-top { position: relative !important; top: 0 !important; }
   }
@@ -193,9 +242,96 @@
 {% block extra_js %}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
+    // Tooltips
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.forEach(function (tooltipTriggerEl) {
       new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    // Terminal Easter Egg
+    const termWindow = document.querySelector('.terminal-window');
+    const termForm = document.getElementById('term-form');
+    const termInput = document.getElementById('term-input');
+    const normalState = document.getElementById('term-normal-state');
+    const panicState = document.getElementById('term-panic-state');
+    const panicCommLine = document.getElementById('panic-comm-line');
+    const panicTimer = document.getElementById('panic-timer');
+    const panicRebootBtn = document.getElementById('panic-reboot-btn');
+
+    let countdownInterval = null;
+
+    function rebootTerminal() {
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+      }
+      if (panicState && normalState && termWindow) {
+        panicState.classList.add('d-none');
+        normalState.classList.remove('d-none');
+        termWindow.classList.remove('terminal-panic-active');
+        if (termInput) {
+          termInput.value = '';
+          termInput.focus();
+        }
+      }
+    }
+
+    function triggerKernelPanic(cmd) {
+      if (!panicState || !normalState) return;
+
+      const safeCmd = (cmd || 'user_cmd').replace(/[^\w\s\-\.\/]/gi, '').substring(0, 24) || 'user_cmd';
+      if (panicCommLine) {
+        panicCommLine.textContent = `[ 0.042189] CPU: 0 PID: 1337 Comm: ${safeCmd}`;
+      }
+
+      normalState.classList.add('d-none');
+      panicState.classList.remove('d-none');
+      if (termWindow) {
+        termWindow.classList.add('terminal-panic-active');
+      }
+
+      let timeLeft = 5;
+      if (panicTimer) panicTimer.textContent = timeLeft;
+
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(function () {
+        timeLeft--;
+        if (panicTimer) panicTimer.textContent = timeLeft;
+        if (timeLeft <= 0) {
+          rebootTerminal();
+        }
+      }, 1000);
+    }
+
+    if (termForm && termInput) {
+      termForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        triggerKernelPanic(termInput.value.trim());
+      });
+    }
+
+    if (panicRebootBtn) {
+      panicRebootBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        rebootTerminal();
+      });
+    }
+
+    if (termWindow) {
+      termWindow.addEventListener('click', function (e) {
+        if (!panicState || panicState.classList.contains('d-none')) {
+          if (termInput) termInput.focus();
+        }
+      });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (panicState && !panicState.classList.contains('d-none')) {
+        if (e.key === 'Enter' || e.key === 'Escape' || e.key === ' ') {
+          e.preventDefault();
+          rebootTerminal();
+        }
+      }
     });
   });
 </script>
