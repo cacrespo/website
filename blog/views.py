@@ -4,14 +4,17 @@ from itertools import chain
 import bleach
 import markdown
 from django.shortcuts import get_object_or_404, render
-from rest_framework import generics
+import httpx
+from rest_framework import generics, permissions, status, views
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.response import Response
 from django.urls import reverse
 from django.utils.html import strip_tags
 from django.utils.safestring import mark_safe
 
+from blog.extractor import extract_article_from_url
 from blog.models import Post, Article
-from blog.serializers import ArticleSerializer
+from blog.serializers import ArticleAutoCreateSerializer, ArticleSerializer
 
 
 def _markdown_to_html(markdown_text):
@@ -212,3 +215,110 @@ class ArticleListCreateAPIView(generics.ListCreateAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+
+def _extract_article_or_error(url: str):
+    """
+    Helper function to extract article details or return an appropriate error Response.
+    """
+    try:
+        extracted = extract_article_from_url(url)
+        return extracted, None
+    except httpx.HTTPStatusError as e:
+        return None, Response(
+            {"error": f"Failed to fetch URL: HTTP {e.response.status_code}"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    except httpx.RequestError as e:
+        return None, Response(
+            {"error": f"Failed to connect to URL: {str(e)}"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+    except Exception as e:
+        return None, Response(
+            {"error": f"Extraction failed: {str(e)}"},
+            status=status.HTTP_502_BAD_GATEWAY,
+        )
+
+
+class ArticleExtractAPIView(views.APIView):
+    """
+    API endpoint that extracts article details from a URL using Pydantic AI
+    without saving them to the database. Useful for autofilling forms in Django Admin.
+
+    **POST:**
+    Extracts article title, author, and description from a URL.
+    Authentication is required.
+
+    *Request body:*
+    ```json
+    {
+        "url": "https://example.com/some-article"
+    }
+    ```
+    """
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = ArticleAutoCreateSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        url = serializer.validated_data["url"]
+        extracted, error_response = _extract_article_or_error(url)
+        if error_response is not None:
+            return error_response
+
+        return Response(
+            {
+                "title": extracted.title[:200],
+                "author": extracted.author[:200],
+                "description": extracted.description,
+            },
+            status=status.HTTP_200_OK,
+        )
+
+
+class ArticleAutoCreateAPIView(views.APIView):
+    """
+    API endpoint that automatically creates an article from a URL.
+    Extracts title, author, and description using Pydantic AI.
+
+    **POST:**
+    Creates a new article from a given URL.
+    Authentication is required for this method.
+
+    *Request body:*
+    ```json
+    {
+        "url": "https://example.com/some-article",
+        "comment": "optional comment override"
+    }
+    ```
+    """
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        serializer = ArticleAutoCreateSerializer(data=request.data)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        url = serializer.validated_data["url"]
+        user_comment = serializer.validated_data.get("comment", "").strip()
+
+        extracted, error_response = _extract_article_or_error(url)
+        if error_response is not None:
+            return error_response
+
+        comment = user_comment if user_comment else extracted.description
+        article = Article.objects.create(
+            title=extracted.title[:200],
+            author=extracted.author[:200],
+            comment=comment,
+            link=url,
+        )
+
+        response_serializer = ArticleSerializer(article)
+        return Response(response_serializer.data, status=status.HTTP_201_CREATED)

@@ -2,8 +2,17 @@ from django.contrib import admin
 from .models import Article, Category, Post, Activity
 
 admin.site.register(Category)
-admin.site.register(Article)
 admin.site.register(Activity)
+
+
+@admin.register(Article)
+class ArticleAdmin(admin.ModelAdmin):
+    fields = ("link", "title", "author", "comment")
+    list_display = ("title", "author", "link", "created_at")
+    search_fields = ("title", "author", "comment", "link")
+
+    class Media:
+        js = ("js/article_autofill.js",)
 
 
 @admin.register(Post)
