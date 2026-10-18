@@ -4,8 +4,160 @@
 {% block content %}
 <div class="container-fluid px-0">
 
-  <!-- Hero Section -->
-  <section class="text-center hero-gradient shadow-sm mb-4">
+  <!-- Interactive Hero Switcher (para comparar las 3 opciones) -->
+  <div class="d-flex justify-content-center align-items-center mb-4">
+    <div class="p-1 px-2 bg-light-subtle-custom border border-light-subtle rounded-pill d-inline-flex align-items-center gap-1 shadow-sm flex-wrap justify-content-center">
+      <span class="small fw-bold text-muted-custom px-2 d-none d-md-inline">
+        <i class="bi bi-sliders me-1"></i> Comparar opciones:
+      </span>
+      <button type="button" class="btn btn-sm btn-outline-custom rounded-pill hero-toggle-btn active" data-target="opt1">
+        🧪 Opción 1: Live Lab
+      </button>
+      <button type="button" class="btn btn-sm btn-outline-custom rounded-pill hero-toggle-btn" data-target="opt2">
+        🍱 Opción 2: Bento Specs
+      </button>
+      <button type="button" class="btn btn-sm btn-outline-custom rounded-pill hero-toggle-btn" data-target="opt3">
+        💻 Opción 3: Terminal
+      </button>
+      <button type="button" class="btn btn-sm btn-outline-custom rounded-pill hero-toggle-btn" data-target="original">
+        📋 Original
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- OPCIÓN 1: Live Lab Interactivo             -->
+  <!-- ========================================== -->
+  <section id="hero-opt1" class="hero-variant position-relative hero-gradient shadow-sm mb-4 text-center overflow-hidden py-4 py-md-5">
+    <canvas id="labCanvas" class="position-absolute top-0 start-0 w-100 h-100"></canvas>
+    
+    <div class="position-relative" style="z-index: 1;">
+      <!-- Live Status Badge con pulso -->
+      <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3 border border-success border-opacity-25 bg-success bg-opacity-10 small text-accent">
+        <span class="status-pulse"></span>
+        <span class="fw-semibold">Live Lab</span> • Python 3.13 & Django • pgvector
+      </div>
+
+      <h1 class="display-4 fw-bold mb-3 text-gradient">Glad you’re here! 🧪</h1>
+      
+      <p class="lead fs-5 text-muted-custom max-width-700 mx-auto px-3 mb-4">
+        A personal space for experiments in 
+        <span id="typewriter" class="text-accent fw-bold border-bottom border-success border-2 pb-1"></span><span class="typewriter-cursor">|</span>
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a href="{% url 'blog_list' %}" class="btn btn-gradient px-4 py-2">
+          <i class="bi bi-journal-text me-1"></i> Explore Blog 🍡
+        </a>
+        <a href="{% url 'contact' %}" class="btn btn-outline-custom px-4 py-2">
+          <i class="bi bi-send me-1"></i> Get In Touch 🤩
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- OPCIÓN 2: Compacto + Bento Specs Card      -->
+  <!-- ========================================== -->
+  <section id="hero-opt2" class="hero-variant card card-modern mb-4 shadow-sm d-none">
+    <div class="card-body p-4 p-md-5">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-7">
+          <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3 border border-success border-opacity-25 bg-success bg-opacity-10 small text-accent">
+            <i class="bi bi-cpu"></i>
+            <span class="fw-semibold">Personal Lab & Sandbox</span>
+          </div>
+          <h2 class="display-6 fw-bold mb-3 text-gradient">
+            Building at the intersection of data, software & society.
+          </h2>
+          <p class="fs-5 text-muted-custom mb-4 lh-base">
+            Glad you're here! 🧪 This site serves as a live laboratory for technical projects, open-source work, and personal writing.
+          </p>
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="{% url 'blog_list' %}" class="btn btn-gradient px-4 py-2">
+              <i class="bi bi-journal-text me-1"></i> Read Blog 🍡
+            </a>
+            <a href="{% url 'contact' %}" class="btn btn-outline-custom px-4 py-2">
+              <i class="bi bi-send me-1"></i> Contact Me 🤩
+            </a>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="p-3 p-md-4 rounded-4 bg-light-subtle-custom border border-light-subtle">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <span class="small fw-bold text-uppercase tracking-wider text-accent">
+                <i class="bi bi-sliders2 me-1"></i> Lab Specs
+              </span>
+              <span class="badge badge-custom small">Online</span>
+            </div>
+            <div class="d-flex flex-column gap-2 small">
+              <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-card-custom hover-translate-sm transition-all">
+                <span class="text-main fw-medium"><i class="bi bi-terminal me-2 text-accent"></i>Runtime</span>
+                <span class="text-muted-custom">Python 3.13 + uv</span>
+              </div>
+              <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-card-custom hover-translate-sm transition-all">
+                <span class="text-main fw-medium"><i class="bi bi-database me-2 text-accent"></i>Database & AI</span>
+                <span class="text-muted-custom">Postgres 16 + pgvector</span>
+              </div>
+              <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-card-custom hover-translate-sm transition-all">
+                <span class="text-main fw-medium"><i class="bi bi-box-seam me-2 text-accent"></i>Framework</span>
+                <span class="text-muted-custom">Django 5.1 + Gunicorn</span>
+              </div>
+              <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-card-custom hover-translate-sm transition-all">
+                <span class="text-main fw-medium"><i class="bi bi-palette me-2 text-accent"></i>UI Palette</span>
+                <span class="text-muted-custom">Emerald & Slate Theme</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- OPCIÓN 3: Developer Terminal / CLI         -->
+  <!-- ========================================== -->
+  <section id="hero-opt3" class="hero-variant mb-4 d-none">
+    <div class="terminal-window rounded-4 overflow-hidden border border-light-subtle shadow-lg">
+      <div class="terminal-header d-flex align-items-center justify-content-between px-3 py-2 border-bottom border-secondary border-opacity-25">
+        <div class="d-flex align-items-center gap-2">
+          <span class="term-dot term-dot-red"></span>
+          <span class="term-dot term-dot-yellow"></span>
+          <span class="term-dot term-dot-green"></span>
+        </div>
+        <span class="small font-monospace text-muted-custom">carlos@cacrespo-lab: ~</span>
+        <div style="width: 48px;"></div>
+      </div>
+      <div class="terminal-body p-4 font-monospace fs-6">
+        <p class="mb-2"><span class="text-accent fw-bold">carlos@lab</span>:<span class="text-info">~</span>$ ./run_experiment.sh --target="production" 🧪</p>
+        <p class="mb-1 text-muted-custom">Loading lab modules... <span class="text-success">[OK]</span></p>
+        <p class="mb-1 text-muted-custom">Initializing semantic vector index (pgvector)... <span class="text-success">[READY]</span></p>
+        <p class="mb-3 text-main">Glad you're here! This space serves as a live laboratory for software development, data pipelines & writing.</p>
+        
+        <p class="mb-2"><span class="text-accent fw-bold">carlos@lab</span>:<span class="text-info">~</span>$ <span id="term-input"></span><span class="typewriter-cursor text-accent">█</span></p>
+
+        <div class="d-flex gap-2 flex-wrap mt-4 pt-3 border-top border-secondary border-opacity-25">
+          <span class="small text-muted-custom align-self-center me-1">Quick commands:</span>
+          <a href="{% url 'blog_list' %}" class="btn btn-sm btn-outline-custom font-monospace">
+            <i class="bi bi-journal-text me-1"></i> cat /blog
+          </a>
+          <a href="{% url 'contact' %}" class="btn btn-sm btn-outline-custom font-monospace">
+            <i class="bi bi-send me-1"></i> ./contact.sh
+          </a>
+          <a href="{% url 'blog_article' %}" class="btn btn-sm btn-outline-custom font-monospace">
+            <i class="bi bi-bookmark me-1"></i> ls /articles
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- ORIGINAL: Para referencia                  -->
+  <!-- ========================================== -->
+  <section id="hero-original" class="hero-variant text-center hero-gradient shadow-sm mb-4 d-none">
     <div class="py-3">
         <h1 class="display-4 fw-bold mb-2 text-gradient">Glad you’re here! 🧪</h1>
         <p class="lead fs-5 text-muted-custom max-width-700 mx-auto px-3">
@@ -102,6 +254,70 @@
     transition: all 0.3s ease-in-out;
   }
   
+  .bg-card-custom {
+    background-color: var(--card-bg);
+  }
+
+  .hover-translate-sm:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Status pulse badge */
+  .status-pulse {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #10b981;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    animation: statusPulseAnim 2s infinite;
+  }
+
+  @keyframes statusPulseAnim {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  }
+
+  /* Typewriter cursor */
+  .typewriter-cursor {
+    display: inline-block;
+    font-weight: 300;
+    color: var(--accent-color);
+    animation: blinkCursor 1s step-end infinite;
+  }
+
+  @keyframes blinkCursor {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* Terminal Window Styles */
+  .terminal-window {
+    background-color: #0c121e;
+    color: #e2e8f0;
+  }
+
+  .terminal-header {
+    background-color: rgba(15, 23, 42, 0.8);
+  }
+
+  .term-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .term-dot-red { background-color: #ef4444; }
+  .term-dot-yellow { background-color: #f59e0b; }
+  .term-dot-green { background-color: #10b981; }
+
+  #labCanvas {
+    pointer-events: none;
+    opacity: 0.85;
+  }
+
   @media (max-width: 991.98px) {
     .sticky-top { position: relative !important; top: 0 !important; }
   }
@@ -111,10 +327,183 @@
 {% block extra_js %}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    // 1. Tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-      new bootstrap.Tooltip(tooltipTriggerEl)
-    })
+      new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    // 2. Switcher de opciones para que el usuario compare
+    const toggleButtons = document.querySelectorAll('.hero-toggle-btn');
+    const heroVariants = document.querySelectorAll('.hero-variant');
+
+    function setActiveHero(targetId) {
+      heroVariants.forEach(el => el.classList.add('d-none'));
+      const activeEl = document.getElementById(`hero-${targetId}`);
+      if (activeEl) {
+        activeEl.classList.remove('d-none');
+      }
+
+      toggleButtons.forEach(btn => {
+        if (btn.getAttribute('data-target') === targetId) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      localStorage.setItem('selected_hero_variant', targetId);
+    }
+
+    toggleButtons.forEach(btn => {
+      btn.addEventListener('click', function () {
+        setActiveHero(this.getAttribute('data-target'));
+      });
+    });
+
+    const savedVariant = localStorage.getItem('selected_hero_variant') || 'opt1';
+    setActiveHero(savedVariant);
+
+    // 3. Typewriter Animation (Opción 1)
+    const phrases = [
+      "Software Development.",
+      "Data Pipelines & Engineering.",
+      "Semantic Search & AI Vectors.",
+      "Open Source Contributions."
+    ];
+    let phraseIdx = 0;
+    let charIdx = 0;
+    let isDeleting = false;
+    const typewriterEl = document.getElementById('typewriter');
+
+    function typeLoop() {
+      if (!typewriterEl) return;
+      const currentPhrase = phrases[phraseIdx];
+
+      if (isDeleting) {
+        typewriterEl.textContent = currentPhrase.substring(0, charIdx - 1);
+        charIdx--;
+      } else {
+        typewriterEl.textContent = currentPhrase.substring(0, charIdx + 1);
+        charIdx++;
+      }
+
+      let speed = isDeleting ? 40 : 80;
+
+      if (!isDeleting && charIdx === currentPhrase.length) {
+        speed = 2200; // pausa al terminar la frase
+        isDeleting = true;
+      } else if (isDeleting && charIdx === 0) {
+        isDeleting = false;
+        phraseIdx = (phraseIdx + 1) % phrases.length;
+        speed = 500;
+      }
+
+      setTimeout(typeLoop, speed);
+    }
+    typeLoop();
+
+    // 4. Interactive Particles Canvas (Opción 1)
+    const canvas = document.getElementById('labCanvas');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let width, height;
+      const mouse = { x: null, y: null, maxDist: 120 };
+
+      function resize() {
+        if (!canvas.parentElement) return;
+        width = canvas.width = canvas.parentElement.offsetWidth;
+        height = canvas.height = canvas.parentElement.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      canvas.parentElement.addEventListener('mousemove', function (e) {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      });
+
+      canvas.parentElement.addEventListener('mouseleave', function () {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      class Particle {
+        constructor() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.8;
+          this.vy = (Math.random() - 0.5) * 0.8;
+          this.radius = Math.random() * 2 + 1.2;
+        }
+
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+
+          // Suave atracción hacia el mouse
+          if (mouse.x !== null && mouse.y !== null) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < mouse.maxDist) {
+              this.x += (dx / dist) * 0.6;
+              this.y += (dy / dist) * 0.6;
+            }
+          }
+        }
+
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(16, 185, 129, 0.6)';
+          ctx.fill();
+        }
+      }
+
+      function initParticles() {
+        particles = [];
+        const count = Math.min(Math.floor(width / 22), 45);
+        for (let i = 0; i < count; i++) {
+          particles.push(new Particle());
+        }
+      }
+      initParticles();
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        // Conectar partículas cercanas con líneas suaves
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            if (dist < 90) {
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(16, 185, 129, ${0.2 * (1 - dist / 90)})`;
+              ctx.lineWidth = 1;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        particles.forEach(p => {
+          p.update();
+          p.draw();
+        });
+
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
   });
 </script>
 {% endblock %}
