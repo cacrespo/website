@@ -40,16 +40,16 @@
                   <span class="text-accent fw-bold">carlos@lab</span>:<span class="text-info">~</span>$ ./system_diagnostic.sh
                 </div>
 
-                <!-- Referencia a Prince of Persia -->
-                <div class="text-muted-custom mb-2 d-flex align-items-start gap-2">
-                  <span class="text-warning">⚔</span>
-                  <span><strong class="text-warning">Prince of Persia:</strong> 59 min left • Drinking potion to restore HP 🧪</span>
-                </div>
-
-                <!-- Referencia a Kasparov's Gambit -->
-                <div class="text-muted-custom mb-3 d-flex align-items-start gap-2">
-                  <span class="text-info">♟</span>
-                  <span><strong class="text-info">Kasparov's Gambit:</strong> Garry: <em>"Are you sure?"</em></span>
+                <!-- Referencias a Juegos Retro (aleatorias) -->
+                <div id="term-game-lines">
+                  <div class="text-muted-custom mb-2 d-flex align-items-start gap-2">
+                    <span class="text-warning">⚔</span>
+                    <span><strong class="text-warning">Prince of Persia:</strong> 59 min left • Drinking potion to restore HP 🧪</span>
+                  </div>
+                  <div class="text-muted-custom mb-3 d-flex align-items-start gap-2">
+                    <span class="text-info">♟</span>
+                    <span><strong class="text-info">Kasparov's Gambit:</strong> Garry: <em>"Are you sure?"</em></span>
+                  </div>
                 </div>
 
                 <!-- Línea de comando interactiva (Easter Egg sutil) -->
@@ -69,7 +69,7 @@
                 <div class="text-warning small mb-1" id="panic-comm-line">[ 0.042189] CPU: 0 PID: 1337 Comm: crash_cmd</div>
                 <div class="text-secondary small mb-2">[ 0.042250] Hardware: IBM PC/AT 486DX2 • Sound Blaster 16</div>
                 <div class="text-light-50 small mb-1">Call Trace:</div>
-                <div class="text-muted-custom small ps-2 font-monospace">
+                <div id="panic-call-trace" class="text-muted-custom small ps-2 font-monospace">
                   &gt; [<span class="text-info">0xc02a4e12</span>] prince_of_persia_fell_on_spikes+0x42<br>
                   &gt; [<span class="text-info">0xc031b804</span>] kasparov_gambit_blunder("Are you sure?")+0x88<br>
                   &gt; [<span class="text-info">0xc0107291</span>] sys_enter_key_pressed+0x13
@@ -259,6 +259,132 @@
       new bootstrap.Tooltip(tooltipTriggerEl);
     });
 
+    // Retro Games List (MS-DOS / Early 90s Classics)
+    const RETRO_GAMES = [
+      {
+        name: "Prince of Persia",
+        icon: "⚔",
+        color: "text-warning",
+        status: "59 min left • Drinking potion to restore HP 🧪",
+        traceFunc: "prince_of_persia_fell_on_spikes+0x42"
+      },
+      {
+        name: "Kasparov's Gambit",
+        icon: "♟",
+        color: "text-info",
+        status: 'Garry: <em>"Are you sure?"</em>',
+        traceFunc: 'kasparov_gambit_blunder("Are you sure?")+0x88'
+      },
+      {
+        name: "DOOM",
+        icon: "🔥",
+        color: "text-danger",
+        status: "E1M1 Hangar • IDDQD active • BFG9000 charged 💥",
+        traceFunc: "doom_bfg9000_overcharge_overflow+0x66"
+      },
+      {
+        name: "Warcraft",
+        icon: "🪓",
+        color: "text-warning",
+        status: 'Peon: <em>"Work, work!"</em> • Gathering lumber 🌲',
+        traceFunc: "warcraft_peon_need_more_gold+0x50"
+      },
+      {
+        name: "Monkey Island",
+        icon: "🦜",
+        color: "text-info",
+        status: 'Guybrush: <em>"You fight like a dairy farmer!"</em> ⚔',
+        traceFunc: "monkey_island_insult_sword_counter+0x77"
+      },
+      {
+        name: "SimCity 2000",
+        icon: "🏗️",
+        color: "text-success",
+        status: "Reticulating splines • Monster spotted downtown 🦖",
+        traceFunc: "simcity_spline_reticulation_overflow+0x21"
+      },
+      {
+        name: "Wolfenstein 3D",
+        icon: "🎯",
+        color: "text-danger",
+        status: "Episode 1 • Searching secret pushwalls • MEIN LEBEN! 🚪",
+        traceFunc: "wolf3d_mein_leben_pushwall_fault+0x10"
+      },
+      {
+        name: "Command & Conquer",
+        icon: "📡",
+        color: "text-info",
+        status: 'EVA: <em>"Construction complete. Harvester under attack"</em> 🚜',
+        traceFunc: "cnc_harvester_lost_in_tiberium+0x34"
+      },
+      {
+        name: "Civilization",
+        icon: "🌍",
+        color: "text-info",
+        status: 'Gandhi discovered Nuclear Fission • <em>"Just one more turn..."</em> ⏳',
+        traceFunc: "civ_gandhi_nuclear_democracy_overflow+0x99"
+      },
+      {
+        name: "Lemmings",
+        icon: "🐾",
+        color: "text-success",
+        status: "Diggers: 2 • Builders: 5 • 98% saved from cliff 🕳️",
+        traceFunc: "lemmings_cliff_plunge_loop+0x14"
+      },
+      {
+        name: "Duke Nukem 3D",
+        icon: "🕶️",
+        color: "text-warning",
+        status: 'Duke: <em>"Hail to the king, baby"</em> • Out of bubblegum',
+        traceFunc: "duke3d_out_of_bubblegum_exception+0x3d"
+      },
+      {
+        name: "Mortal Kombat",
+        icon: "🐉",
+        color: "text-danger",
+        status: 'Scorpion: <em>"GET OVER HERE!"</em> • Flawless Victory 🩸',
+        traceFunc: "mk_toasty_fatality_segfault+0x0f"
+      }
+    ];
+
+    let currentGame1 = RETRO_GAMES[0];
+    let currentGame2 = RETRO_GAMES[1];
+
+    function randomizeGames() {
+      const i1 = Math.floor(Math.random() * RETRO_GAMES.length);
+      let i2 = Math.floor(Math.random() * (RETRO_GAMES.length - 1));
+      if (i2 >= i1) i2++;
+
+      currentGame1 = RETRO_GAMES[i1];
+      currentGame2 = RETRO_GAMES[i2];
+
+      const gameLines = document.getElementById('term-game-lines');
+      if (gameLines) {
+        gameLines.innerHTML = `
+          <div class="text-muted-custom mb-2 d-flex align-items-start gap-2">
+            <span class="${currentGame1.color}">${currentGame1.icon}</span>
+            <span><strong class="${currentGame1.color}">${currentGame1.name}:</strong> ${currentGame1.status}</span>
+          </div>
+          <div class="text-muted-custom mb-3 d-flex align-items-start gap-2">
+            <span class="${currentGame2.color}">${currentGame2.icon}</span>
+            <span><strong class="${currentGame2.color}">${currentGame2.name}:</strong> ${currentGame2.status}</span>
+          </div>
+        `;
+      }
+
+      const callTrace = document.getElementById('panic-call-trace');
+      if (callTrace) {
+        callTrace.innerHTML = `
+          &gt; [<span class="text-info">0xc02a4e12</span>] ${currentGame1.traceFunc}<br>
+          &gt; [<span class="text-info">0xc031b804</span>] ${currentGame2.traceFunc}<br>
+          &gt; [<span class="text-info">0xc0107291</span>] sys_enter_key_pressed+0x13
+        `;
+      }
+    }
+
+    // Inicializar juegos aleatorios en la carga
+    randomizeGames();
+
     // Terminal Easter Egg
     const termWindow = document.querySelector('.terminal-window');
     const termForm = document.getElementById('term-form');
@@ -287,6 +413,7 @@
         panicState.classList.add('d-none');
         normalState.classList.remove('d-none');
         termWindow.classList.remove('terminal-panic-active');
+        randomizeGames();
         if (termInput) {
           termInput.value = '';
           if (termCmdDisplay) termCmdDisplay.textContent = '';
