@@ -40,27 +40,22 @@
               <div class="mb-2">
                 <span class="text-accent fw-bold">carlos@lab</span>:<span class="text-info">~</span>$ ./system_diagnostic.sh
               </div>
-              
-              <div class="text-muted-custom mb-1 d-flex align-items-start gap-2">
-                <span class="text-success fw-bold">✔</span>
-                <span><strong class="text-light">Stack:</strong> Python 3.13 • Django 5.1 • pgvector</span>
-              </div>
 
-              <!-- Referencia a Prince of Persia (1989) -->
-              <div class="text-muted-custom mb-1 d-flex align-items-start gap-2">
-                <span class="text-warning">⚔</span>
-                <span><strong class="text-warning">Prince of Persia (1989):</strong> 59 min left • Drinking potion to restore HP 🧪</span>
-              </div>
-
-              <!-- Referencia a Kasparov's Gambit (1993) -->
+              <!-- Referencia a Prince of Persia -->
               <div class="text-muted-custom mb-2 d-flex align-items-start gap-2">
-                <span class="text-info">♟</span>
-                <span><strong class="text-info">Kasparov's Gambit (1993):</strong> 1.e4 c5 2.Nf3 d6 • Garry: <em>"Sharp tactical line!"</em></span>
+                <span class="text-warning">⚔</span>
+                <span><strong class="text-warning">Prince of Persia:</strong> 59 min left • Drinking potion to restore HP 🧪</span>
               </div>
 
-              <!-- Línea de comando animada -->
+              <!-- Referencia a Kasparov's Gambit -->
+              <div class="text-muted-custom mb-3 d-flex align-items-start gap-2">
+                <span class="text-info">♟</span>
+                <span><strong class="text-info">Kasparov's Gambit:</strong> Garry: <em>"Are you sure?"</em></span>
+              </div>
+
+              <!-- Línea de comando estática con cursor -->
               <div class="pt-2 border-top border-secondary border-opacity-25 d-flex align-items-center">
-                <span class="text-accent fw-bold me-1">carlos@lab</span>:<span class="text-info me-1">~</span>$&nbsp;<span id="term-typing" class="text-light"></span><span class="typewriter-cursor text-accent">█</span>
+                <span class="text-accent fw-bold me-1">carlos@lab</span>:<span class="text-info me-1">~</span>$&nbsp;<span class="terminal-cursor text-accent">█</span>
               </div>
             </div>
           </div>
@@ -157,8 +152,8 @@
     transition: all 0.3s ease-in-out;
   }
 
-  /* Typewriter cursor */
-  .typewriter-cursor {
+  /* Terminal blinking cursor */
+  .terminal-cursor {
     display: inline-block;
     font-weight: 300;
     animation: blinkCursor 1s step-end infinite;
@@ -198,51 +193,10 @@
 {% block extra_js %}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    // 1. Tooltips
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.forEach(function (tooltipTriggerEl) {
       new bootstrap.Tooltip(tooltipTriggerEl);
     });
-
-    // 2. Typewriter animation for terminal prompt (DOS & Dev Easter Eggs)
-    const commands = [
-      "prince_of_persia.exe --drink-potion",
-      "kasparov_gambit.exe --eval-depth=16",
-      "python manage.py runserver 0.0.0.0:8000",
-      "shift_to_grab_ledge.sh",
-      "garry_advice.py --open-sicilian-defense"
-    ];
-    let cmdIdx = 0;
-    let charIdx = 0;
-    let isDeleting = false;
-    const termTypingEl = document.getElementById('term-typing');
-
-    function termLoop() {
-      if (!termTypingEl) return;
-      const currentCmd = commands[cmdIdx];
-
-      if (isDeleting) {
-        termTypingEl.textContent = currentCmd.substring(0, charIdx - 1);
-        charIdx--;
-      } else {
-        termTypingEl.textContent = currentCmd.substring(0, charIdx + 1);
-        charIdx++;
-      }
-
-      let speed = isDeleting ? 30 : 70;
-
-      if (!isDeleting && charIdx === currentCmd.length) {
-        speed = 2400; // pausa cuando termina de tipear el comando
-        isDeleting = true;
-      } else if (isDeleting && charIdx === 0) {
-        isDeleting = false;
-        cmdIdx = (cmdIdx + 1) % commands.length;
-        speed = 400;
-      }
-
-      setTimeout(termLoop, speed);
-    }
-    termLoop();
   });
 </script>
 {% endblock %}
