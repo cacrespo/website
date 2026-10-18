@@ -4,13 +4,86 @@
 {% block content %}
 <div class="container-fluid px-0">
 
-  <!-- Hero Section -->
-  <section class="text-center hero-gradient shadow-sm mb-4">
-    <div class="py-3">
-        <h1 class="display-4 fw-bold mb-2 text-gradient">Glad you’re here! 🧪</h1>
-        <p class="lead fs-5 text-muted-custom max-width-700 mx-auto px-3">
-          This space serves as a live lab for my projects and experiments!
-        </p>
+  <!-- Hero Section: Hybrid Bento Layout + Retro Dev Terminal -->
+  <section class="card card-modern mb-4 shadow-sm overflow-hidden">
+    <div class="card-body p-4 p-md-5">
+      <div class="row g-4 align-items-center">
+        <!-- Columna Izquierda: Mensaje y Declaración -->
+        <div class="col-lg-6 col-xl-7">
+          <h1 class="display-5 fw-bold mb-3 text-gradient">
+            Glad you’re here! 🧪
+          </h1>
+          <p class="fs-5 text-muted-custom mb-0 lh-base">
+            This space serves as a live lab for technical projects, data engineering experiments, and writing.
+          </p>
+        </div>
+
+        <!-- Columna Derecha: Terminal con Guiños Retro (Prince of Persia & Kasparov's Gambit) -->
+        <div class="col-lg-6 col-xl-5">
+          <div class="terminal-window rounded-4 overflow-hidden border border-secondary border-opacity-25 shadow">
+            <!-- Barra superior estilo macOS / Linux -->
+            <div class="terminal-header d-flex align-items-center justify-content-between px-3 py-2 border-bottom border-secondary border-opacity-25">
+              <div class="d-flex align-items-center gap-2">
+                <span class="term-dot term-dot-red"></span>
+                <span class="term-dot term-dot-yellow"></span>
+                <span class="term-dot term-dot-green"></span>
+              </div>
+              <span class="small font-monospace text-muted-custom">guest@cacrespo.xyz: ~</span>
+              <div style="width: 36px;"></div>
+            </div>
+
+            <!-- Contenido de la Terminal -->
+            <div class="terminal-body p-3 p-md-4 font-monospace fs-6">
+              <!-- Estado Normal -->
+              <div id="term-normal-state">
+                <div class="mb-2">
+                  <span class="text-accent fw-bold">carlos@lab</span>:<span class="text-info">~</span>$ ./system_diagnostic.sh
+                </div>
+
+                <!-- Referencias a Juegos Retro (aleatorias) -->
+                <div id="term-game-lines">
+                  <div class="text-muted-custom mb-2 d-flex align-items-start gap-2">
+                    <span class="text-warning">⚔</span>
+                    <span><strong class="text-warning">Prince of Persia:</strong> 59 min left • Drinking potion to restore HP 🧪</span>
+                  </div>
+                  <div class="text-muted-custom mb-3 d-flex align-items-start gap-2">
+                    <span class="text-info">♟</span>
+                    <span><strong class="text-info">Kasparov's Gambit:</strong> Garry: <em>"Are you sure?"</em></span>
+                  </div>
+                </div>
+
+                <!-- Línea de comando interactiva (Easter Egg sutil) -->
+                <form id="term-form" class="pt-2 border-top border-secondary border-opacity-25 d-flex align-items-center m-0 p-0 position-relative" onsubmit="return false;">
+                  <label for="term-input" class="text-accent fw-bold me-1 text-nowrap mb-0">guest@lab:<span class="text-info">~</span>$&nbsp;</label>
+                  <div class="position-relative flex-grow-1 d-flex align-items-center overflow-hidden" style="min-height: 1.5rem;">
+                    <span id="term-cmd-display" class="text-info font-monospace text-nowrap"></span>
+                    <span class="terminal-cursor text-accent">█</span>
+                    <input type="text" id="term-input" class="term-input-stealth" autocomplete="off" spellcheck="false" aria-label="Terminal command input" maxlength="40">
+                  </div>
+                </form>
+              </div>
+
+              <!-- Estado Kernel Panic (Easter Egg) -->
+              <div id="term-panic-state" class="d-none">
+                <div class="text-danger fw-bold mb-1">[ 0.042103] Kernel panic - not syncing: Fatal Exception</div>
+                <div class="text-warning small mb-1" id="panic-comm-line">[ 0.042189] CPU: 0 PID: 1337 Comm: crash_cmd</div>
+                <div class="text-secondary small mb-2">[ 0.042250] Hardware: IBM PC/AT 486DX2 • Sound Blaster 16</div>
+                <div class="text-light-50 small mb-1">Call Trace:</div>
+                <div id="panic-call-trace" class="text-muted-custom small ps-2 font-monospace">
+                  &gt; [<span class="text-info">0xc02a4e12</span>] prince_of_persia_fell_on_spikes+0x42<br>
+                  &gt; [<span class="text-info">0xc031b804</span>] kasparov_gambit_blunder("Are you sure?")+0x88<br>
+                  &gt; [<span class="text-info">0xc0107291</span>] sys_enter_key_pressed+0x13
+                </div>
+                <div class="text-danger small mt-2 mb-2">---[ end Kernel panic: System halted ]---</div>
+                <div class="pt-2 border-top border-secondary border-opacity-25 small text-muted-custom d-flex justify-content-between align-items-center">
+                  <span>Rebooting in <span id="panic-timer" class="text-warning fw-bold">5</span>s...</span>
+                  <button type="button" id="panic-reboot-btn" class="btn btn-sm btn-outline-warning py-0 px-2 font-monospace" style="font-size: 0.75rem;">[ Reboot Now ]</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -101,7 +174,76 @@
   .transition-all {
     transition: all 0.3s ease-in-out;
   }
-  
+
+  /* Terminal Window Styles */
+  .terminal-window {
+    background-color: #0b111e;
+    color: #e2e8f0;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .terminal-header {
+    background-color: rgba(15, 23, 42, 0.85);
+  }
+
+  .terminal-body {
+    cursor: text;
+    min-height: 200px;
+  }
+
+  .term-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .term-dot-red { background-color: #ef4444; }
+  .term-dot-yellow { background-color: #f59e0b; }
+  .term-dot-green { background-color: #10b981; }
+
+  /* Terminal blinking cursor */
+  .terminal-cursor {
+    display: inline-block;
+    font-weight: 300;
+    line-height: 1;
+    animation: blinkCursor 1s step-end infinite;
+  }
+
+  @keyframes blinkCursor {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .term-input-stealth {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: text;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+  }
+
+  @keyframes termGlitch {
+    0% { transform: translate(0); box-shadow: 0 0 0 rgba(239, 68, 68, 0); }
+    20% { transform: translate(-2px, 2px); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+    40% { transform: translate(2px, -1px); box-shadow: 0 0 25px rgba(239, 68, 68, 0.6); }
+    60% { transform: translate(-1px, -1px); box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); }
+    80% { transform: translate(1px, 1px); }
+    100% { transform: translate(0); box-shadow: 0 0 10px rgba(239, 68, 68, 0.25); }
+  }
+
+  .terminal-panic-active {
+    animation: termGlitch 0.4s ease-in-out;
+    border-color: rgba(239, 68, 68, 0.6) !important;
+  }
+
   @media (max-width: 991.98px) {
     .sticky-top { position: relative !important; top: 0 !important; }
   }
@@ -111,10 +253,239 @@
 {% block extra_js %}
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    // Tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.forEach(function (tooltipTriggerEl) {
-      new bootstrap.Tooltip(tooltipTriggerEl)
-    })
+      new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    // Retro Games List (MS-DOS / Early 90s Classics)
+    const RETRO_GAMES = [
+      {
+        name: "Prince of Persia",
+        icon: "⚔",
+        color: "text-warning",
+        status: "59 min left • Drinking potion to restore HP 🧪",
+        traceFunc: "prince_of_persia_fell_on_spikes+0x42"
+      },
+      {
+        name: "Kasparov's Gambit",
+        icon: "♟",
+        color: "text-info",
+        status: 'Garry: <em>"Are you sure?"</em>',
+        traceFunc: 'kasparov_gambit_blunder("Are you sure?")+0x88'
+      },
+      {
+        name: "DOOM",
+        icon: "🔥",
+        color: "text-danger",
+        status: "E1M1 Hangar • IDDQD active • BFG9000 charged 💥",
+        traceFunc: "doom_bfg9000_overcharge_overflow+0x66"
+      },
+      {
+        name: "Warcraft",
+        icon: "🪓",
+        color: "text-warning",
+        status: 'Peon: <em>"Work, work!"</em> • Gathering lumber 🌲',
+        traceFunc: "warcraft_peon_need_more_gold+0x50"
+      },
+      {
+        name: "Monkey Island",
+        icon: "🦜",
+        color: "text-info",
+        status: 'Guybrush: <em>"You fight like a dairy farmer!"</em> ⚔',
+        traceFunc: "monkey_island_insult_sword_counter+0x77"
+      },
+      {
+        name: "Day of the Tentacle",
+        icon: "🐙",
+        color: "text-info",
+        status: 'Purple Tentacle: <em>"I feel like I could... TAKE OVER THE WORLD!"</em> 🧪',
+        traceFunc: "dott_chronojohn_temporal_fault+0x10"
+      },
+      {
+        name: "Grim Fandango",
+        icon: "💀",
+        color: "text-warning",
+        status: 'Manny: <em>"My scythe... I like to keep it where my heart used to be"</em> 🎟️',
+        traceFunc: "grim_fandango_number_nine_derailed+0x99"
+      },
+      {
+        name: "Eye of the Beholder II",
+        icon: "👁️",
+        color: "text-success",
+        status: 'Temple of Darkmoon • "The party rests. You hear bones rattling..." 💀',
+        traceFunc: "eob2_darkmoon_medusa_petrify_trap+0x20"
+      },
+      {
+        name: "SimCity 2000",
+        icon: "🏗️",
+        color: "text-success",
+        status: "Reticulating splines • Monster spotted downtown 🦖",
+        traceFunc: "simcity_spline_reticulation_overflow+0x21"
+      },
+      {
+        name: "Wolfenstein 3D",
+        icon: "🎯",
+        color: "text-danger",
+        status: "Episode 1 • Searching secret pushwalls • MEIN LEBEN! 🚪",
+        traceFunc: "wolf3d_mein_leben_pushwall_fault+0x10"
+      },
+      {
+        name: "Command & Conquer",
+        icon: "📡",
+        color: "text-info",
+        status: 'EVA: <em>"Construction complete. Harvester under attack"</em> 🚜',
+        traceFunc: "cnc_harvester_lost_in_tiberium+0x34"
+      },
+      {
+        name: "Lemmings",
+        icon: "🐾",
+        color: "text-success",
+        status: "Diggers: 2 • Builders: 5 • 98% saved from cliff 🕳️",
+        traceFunc: "lemmings_cliff_plunge_loop+0x14"
+      },
+      {
+        name: "Duke Nukem 3D",
+        icon: "🕶️",
+        color: "text-warning",
+        status: 'Duke: <em>"Hail to the king, baby"</em> • Out of bubblegum',
+        traceFunc: "duke3d_out_of_bubblegum_exception+0x3d"
+      }
+    ];
+
+    let currentGame1 = RETRO_GAMES[0];
+    let currentGame2 = RETRO_GAMES[1];
+
+    function randomizeGames() {
+      const i1 = Math.floor(Math.random() * RETRO_GAMES.length);
+      let i2 = Math.floor(Math.random() * (RETRO_GAMES.length - 1));
+      if (i2 >= i1) i2++;
+
+      currentGame1 = RETRO_GAMES[i1];
+      currentGame2 = RETRO_GAMES[i2];
+
+      const gameLines = document.getElementById('term-game-lines');
+      if (gameLines) {
+        gameLines.innerHTML = `
+          <div class="text-muted-custom mb-2 d-flex align-items-start gap-2">
+            <span class="${currentGame1.color}">${currentGame1.icon}</span>
+            <span><strong class="${currentGame1.color}">${currentGame1.name}:</strong> ${currentGame1.status}</span>
+          </div>
+          <div class="text-muted-custom mb-3 d-flex align-items-start gap-2">
+            <span class="${currentGame2.color}">${currentGame2.icon}</span>
+            <span><strong class="${currentGame2.color}">${currentGame2.name}:</strong> ${currentGame2.status}</span>
+          </div>
+        `;
+      }
+
+      const callTrace = document.getElementById('panic-call-trace');
+      if (callTrace) {
+        callTrace.innerHTML = `
+          &gt; [<span class="text-info">0xc02a4e12</span>] ${currentGame1.traceFunc}<br>
+          &gt; [<span class="text-info">0xc031b804</span>] ${currentGame2.traceFunc}<br>
+          &gt; [<span class="text-info">0xc0107291</span>] sys_enter_key_pressed+0x13
+        `;
+      }
+    }
+
+    // Inicializar juegos aleatorios en la carga
+    randomizeGames();
+
+    // Terminal Easter Egg
+    const termWindow = document.querySelector('.terminal-window');
+    const termForm = document.getElementById('term-form');
+    const termInput = document.getElementById('term-input');
+    const termCmdDisplay = document.getElementById('term-cmd-display');
+    const normalState = document.getElementById('term-normal-state');
+    const panicState = document.getElementById('term-panic-state');
+    const panicCommLine = document.getElementById('panic-comm-line');
+    const panicTimer = document.getElementById('panic-timer');
+    const panicRebootBtn = document.getElementById('panic-reboot-btn');
+
+    let countdownInterval = null;
+
+    if (termInput && termCmdDisplay) {
+      termInput.addEventListener('input', function () {
+        termCmdDisplay.textContent = termInput.value;
+      });
+    }
+
+    function rebootTerminal() {
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+      }
+      if (panicState && normalState && termWindow) {
+        panicState.classList.add('d-none');
+        normalState.classList.remove('d-none');
+        termWindow.classList.remove('terminal-panic-active');
+        randomizeGames();
+        if (termInput) {
+          termInput.value = '';
+          if (termCmdDisplay) termCmdDisplay.textContent = '';
+          termInput.focus();
+        }
+      }
+    }
+
+    function triggerKernelPanic(cmd) {
+      if (!panicState || !normalState) return;
+
+      const safeCmd = (cmd || 'user_cmd').replace(/[^\w\s\-\.\/]/gi, '').substring(0, 24) || 'user_cmd';
+      if (panicCommLine) {
+        panicCommLine.textContent = `[ 0.042189] CPU: 0 PID: 1337 Comm: ${safeCmd}`;
+      }
+
+      normalState.classList.add('d-none');
+      panicState.classList.remove('d-none');
+      if (termWindow) {
+        termWindow.classList.add('terminal-panic-active');
+      }
+
+      let timeLeft = 5;
+      if (panicTimer) panicTimer.textContent = timeLeft;
+
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(function () {
+        timeLeft--;
+        if (panicTimer) panicTimer.textContent = timeLeft;
+        if (timeLeft <= 0) {
+          rebootTerminal();
+        }
+      }, 1000);
+    }
+
+    if (termForm && termInput) {
+      termForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        triggerKernelPanic(termInput.value.trim());
+      });
+    }
+
+    if (panicRebootBtn) {
+      panicRebootBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        rebootTerminal();
+      });
+    }
+
+    if (termWindow) {
+      termWindow.addEventListener('click', function (e) {
+        if (!panicState || panicState.classList.contains('d-none')) {
+          if (termInput) termInput.focus();
+        }
+      });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (panicState && !panicState.classList.contains('d-none')) {
+        if (e.key === 'Enter' || e.key === 'Escape' || e.key === ' ') {
+          e.preventDefault();
+          rebootTerminal();
+        }
+      }
+    });
   });
 </script>
 {% endblock %}
