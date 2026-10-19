@@ -14,9 +14,13 @@ import os
 from pathlib import Path
 
 import dj_database_url
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# Load environment variables from .env if present
+load_dotenv(BASE_DIR / ".env")
 
 
 # Quick-start development settings - unsuitable for production
@@ -136,3 +140,16 @@ STORAGES = {
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# LLM / AI Configuration
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY") or GEMINI_API_KEY
+if GEMINI_API_KEY and not os.environ.get("GOOGLE_API_KEY"):
+    os.environ["GOOGLE_API_KEY"] = GEMINI_API_KEY
+
+_raw_llm_model = os.environ.get("LLM_MODEL", "google:gemini-3.8-flash")
+if _raw_llm_model.startswith("google-gla:"):
+    LLM_MODEL = "google:" + _raw_llm_model.removeprefix("google-gla:")
+else:
+    LLM_MODEL = _raw_llm_model
