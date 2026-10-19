@@ -4772,7 +4772,6 @@ dependencies = [
     { name = "psycopg", extra = ["binary"] },
     { name = "pydantic-ai", version = "2.54.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "pydantic-ai", version = "2.57.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
-    { name = "python-dotenv" },
     { name = "sentence-transformers" },
     { name = "sentry-sdk", extra = ["django"] },
     { name = "sqlparse" },
@@ -4789,6 +4788,7 @@ dev = [
     { name = "pre-commit", version = "4.7.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "pytest" },
     { name = "pytest-django" },
+    { name = "python-dotenv" },
     { name = "ruff" },
 ]
 
@@ -4807,7 +4807,6 @@ requires-dist = [
     { name = "pgvector", specifier = ">=0.4.1" },
     { name = "psycopg", extras = ["binary"], specifier = ">=3.2.9" },
     { name = "pydantic-ai", specifier = ">=1.31.0" },
-    { name = "python-dotenv", specifier = ">=1.0.0" },
     { name = "sentence-transformers", specifier = ">=6.1.0" },
     { name = "sentry-sdk", extras = ["django"], specifier = ">=2.22.0" },
     { name = "sqlparse", specifier = ">=0.6.0" },
@@ -4822,6 +4821,7 @@ dev = [
     { name = "pre-commit", specifier = ">=4.1.0" },
     { name = "pytest", specifier = ">=8.3.3" },
     { name = "pytest-django", specifier = ">=4.9.0" },
+    { name = "python-dotenv", specifier = ">=1.0.0" },
     { name = "ruff", specifier = ">=0.9.9,<=0.13.2" },
 ]
 

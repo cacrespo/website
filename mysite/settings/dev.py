@@ -1,6 +1,17 @@
-from .base import *  # noqa
-from .base import INSTALLED_APPS, MIDDLEWARE
 import os
+from pathlib import Path
+
+# Load .env for local development only
+_BASE_DIR = Path(__file__).resolve().parent.parent.parent
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv(_BASE_DIR / ".env")
+except ImportError:
+    pass
+
+from .base import *  # noqa: E402, F403
+from .base import INSTALLED_APPS, MIDDLEWARE  # noqa: E402
 
 ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
 
