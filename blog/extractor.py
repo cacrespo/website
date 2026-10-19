@@ -1,12 +1,16 @@
 import os
 from bs4 import BeautifulSoup
+from dotenv import load_dotenv
 import httpx
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent
 
+load_dotenv()
+
 # Synchronize GEMINI_API_KEY with GOOGLE_API_KEY for Pydantic AI Google provider
 if "GEMINI_API_KEY" in os.environ and "GOOGLE_API_KEY" not in os.environ:
     os.environ["GOOGLE_API_KEY"] = os.environ["GEMINI_API_KEY"]
+
 
 DEFAULT_MODEL = os.getenv("LLM_MODEL", "google-gla:gemini-3.8-flash")
 
@@ -115,6 +119,7 @@ def ensure_api_key(agent: Agent | None = None):
     Ensure GOOGLE_API_KEY is synchronized from GEMINI_API_KEY if present,
     or raise a clear descriptive error if missing.
     """
+    load_dotenv()
     target_agent = agent if agent is not None else article_agent
     override_model = getattr(target_agent, "_override_model", None)
     if override_model is not None and override_model.get() is not None:
