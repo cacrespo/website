@@ -1,14 +1,21 @@
 import os
 from bs4 import BeautifulSoup
+from django.conf import settings
 import httpx
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent
 
-# Synchronize GEMINI_API_KEY with GOOGLE_API_KEY for Pydantic AI Google provider
-if "GEMINI_API_KEY" in os.environ and "GOOGLE_API_KEY" not in os.environ:
-    os.environ["GOOGLE_API_KEY"] = os.environ["GEMINI_API_KEY"]
 
-DEFAULT_MODEL = os.getenv("LLM_MODEL", "google-gla:gemini-3.8-flash")
+def _get_default_model() -> str:
+    configured = getattr(settings, "LLM_MODEL", None) or os.getenv(
+        "LLM_MODEL", "google:gemini-3.8-flash"
+    )
+    if configured.startswith("google-gla:"):
+        return "google:" + configured.removeprefix("google-gla:")
+    return configured
+
+
+DEFAULT_MODEL = _get_default_model()
 
 
 class ExtractedArticle(BaseModel):
@@ -120,9 +127,17 @@ def ensure_api_key(agent: Agent | None = None):
     if override_model is not None and override_model.get() is not None:
         return
 
-    if "GEMINI_API_KEY" in os.environ and "GOOGLE_API_KEY" not in os.environ:
-        os.environ["GOOGLE_API_KEY"] = os.environ["GEMINI_API_KEY"]
-    if not os.environ.get("GOOGLE_API_KEY") and not os.environ.get("GEMINI_API_KEY"):
+    gemini_key = getattr(settings, "GEMINI_API_KEY", None) or os.environ.get(
+        "GEMINI_API_KEY"
+    )
+    google_key = getattr(settings, "GOOGLE_API_KEY", None) or os.environ.get(
+        "GOOGLE_API_KEY"
+    )
+
+    if gemini_key and not os.environ.get("GOOGLE_API_KEY"):
+        os.environ["GOOGLE_API_KEY"] = gemini_key
+
+    if not os.environ.get("GOOGLE_API_KEY") and not google_key and not gemini_key:
         raise ValueError(
             "GEMINI_API_KEY o GOOGLE_API_KEY no está configurada en el servidor."
         )
