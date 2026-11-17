@@ -10,12 +10,26 @@
       <div class="row g-4 align-items-center">
         <!-- Columna Izquierda: Mensaje y Declaración -->
         <div class="col-lg-6 col-xl-7">
+          <div class="mb-3">
+            <span class="badge-custom d-inline-flex align-items-center gap-2 small">
+              <span class="status-dot"></span>
+              <span>Happy to help with whatever you need 🤝</span>
+            </span>
+          </div>
           <h1 class="display-5 fw-bold mb-3 text-gradient">
-            Glad you’re here! 🧪
+            Data Engineer &amp; Software Developer
           </h1>
-          <p class="fs-5 text-muted-custom mb-0 lh-base">
-            This space serves as a live lab for technical projects, data engineering experiments, and writing.
+          <p class="fs-5 text-muted-custom mb-4 lh-base">
+            Building resilient data pipelines, backend solutions, and software experiments with Python and Django. Driven by curiosity, real user needs, and open source.
           </p>
+          <div class="d-flex flex-wrap gap-3 pt-1">
+            <a href="{% url 'contact' %}" class="btn btn-gradient d-inline-flex align-items-center gap-2 px-4 py-2">
+              <i class="bi bi-chat-text-fill"></i> Get in Touch
+            </a>
+            <a href="{% url 'blog_list' %}" class="btn btn-outline-custom d-inline-flex align-items-center gap-2 px-4 py-2">
+              <i class="bi bi-journal-text"></i> Read Blog
+            </a>
+          </div>
         </div>
 
         <!-- Columna Derecha: Terminal con Guiños Retro (Prince of Persia & Kasparov's Gambit) -->
@@ -52,7 +66,10 @@
                   </div>
                 </div>
 
-                <!-- Línea de comando interactiva (Easter Egg sutil) -->
+                <!-- Historial interactivo de comandos -->
+                <div id="term-history"></div>
+
+                <!-- Línea de comando interactiva (Totalmente funcional) -->
                 <form id="term-form" class="pt-2 border-top border-secondary border-opacity-25 d-flex align-items-center m-0 p-0 position-relative" onsubmit="return false;">
                   <label for="term-input" class="text-accent fw-bold me-1 text-nowrap mb-0">guest@lab:<span class="text-info">~</span>$&nbsp;</label>
                   <div class="position-relative flex-grow-1 d-flex align-items-center overflow-hidden" style="min-height: 1.5rem;">
@@ -61,6 +78,17 @@
                     <input type="text" id="term-input" class="term-input-stealth" autocomplete="off" spellcheck="false" aria-label="Terminal command input" maxlength="40">
                   </div>
                 </form>
+
+                <!-- Comandos rápidos clickeables -->
+                <div class="small text-muted-custom mt-2 d-flex align-items-center flex-wrap gap-1" style="font-size: 0.72rem;">
+                  <i class="bi bi-terminal me-1 text-info"></i>
+                  <span>Try:</span>
+                  <button type="button" class="btn btn-link p-0 text-info text-decoration-none term-quick-cmd font-monospace" style="font-size: 0.72rem;">help</button>,
+                  <button type="button" class="btn btn-link p-0 text-info text-decoration-none term-quick-cmd font-monospace" style="font-size: 0.72rem;">skills</button>,
+                  <button type="button" class="btn btn-link p-0 text-info text-decoration-none term-quick-cmd font-monospace" style="font-size: 0.72rem;">projects</button>,
+                  <button type="button" class="btn btn-link p-0 text-info text-decoration-none term-quick-cmd font-monospace" style="font-size: 0.72rem;">contact</button>,
+                  <button type="button" class="btn btn-link p-0 text-warning text-decoration-none term-quick-cmd font-monospace" style="font-size: 0.72rem;">panic</button>
+                </div>
               </div>
 
               <!-- Estado Kernel Panic (Easter Egg) -->
@@ -117,13 +145,21 @@
         <div class="card-header bg-transparent border-bottom border-light-subtle py-3">
           <h3 class="h6 mb-0 fw-bold text-accent"><i class="bi bi-info-circle me-2"></i>About This Site</h3>
         </div>
-        <div class="card-body p-4">
-          <p class="mb-2">
-            This website is built with <strong>Django</strong> and styled using a custom modern <strong>Emerald & Slate</strong> theme with a dark/light mode toggle.
-          </p>
-          <p class="mb-0 text-muted-custom small">
-            Images shown are mine or by the mentioned author. Icons from <a href="https://icons.getbootstrap.com/" target="_blank" rel="noopener" class="text-accent text-accent-hover">Bootstrap Icons</a>.
-          </p>
+        <div class="card-body p-4 d-flex flex-column justify-content-between">
+          <div>
+            <p class="mb-2">
+              This website is built with <strong>Django</strong> and styled using a custom modern <strong>Emerald &amp; Slate</strong> theme with a dark/light mode toggle.
+            </p>
+            <p class="mb-0 text-muted-custom small">
+              Images shown are mine or by the mentioned author. Icons from <a href="https://icons.getbootstrap.com/" target="_blank" rel="noopener" class="text-accent text-accent-hover">Bootstrap Icons</a>.
+            </p>
+          </div>
+          <div class="pt-3 border-top border-light-subtle mt-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <span class="text-muted-custom small">Open source codebase</span>
+            <a href="https://github.com/cacrespo/website" target="_blank" rel="noopener" class="btn btn-sm btn-outline-custom d-inline-flex align-items-center gap-1">
+              <i class="bi bi-github"></i> View Repository
+            </a>
+          </div>
         </div>
       </section>
    </div>
@@ -151,12 +187,70 @@
             {% endfor %}
           </ul>
         </div>
-        <div class="card-footer bg-transparent py-3 text-center border-top-0 rounded-bottom mt-auto">
-            <span class="small text-uppercase fw-bold text-muted-custom letter-spacing-1">Stay updated!</span>
+        <div class="card-footer bg-transparent py-3 border-top border-light-subtle rounded-bottom mt-auto">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <span class="small fw-semibold text-muted-custom">Stay connected:</span>
+            <div class="d-flex align-items-center gap-2">
+              <a href="https://www.linkedin.com/in/carloscrespoi" target="_blank" rel="noopener" class="btn btn-sm btn-outline-custom py-1 px-2 d-inline-flex align-items-center gap-1" title="Connect on LinkedIn">
+                <i class="bi bi-linkedin"></i> LinkedIn
+              </a>
+              <a href="https://github.com/cacrespo" target="_blank" rel="noopener" class="btn btn-sm btn-outline-custom py-1 px-2 d-inline-flex align-items-center gap-1" title="Follow on GitHub">
+                <i class="bi bi-github"></i> GitHub
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </aside>
   </div>
+
+  {% if latest_posts %}
+  <!-- Latest From The Blog Section -->
+  <section class="mt-5 pt-2">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <div>
+        <h3 class="h4 mb-1 fw-bold text-gradient">
+          <i class="bi bi-journal-text me-2"></i>Latest from the Blog
+        </h3>
+        <p class="text-muted-custom small mb-0">Thoughts, experiments, and technical deep dives.</p>
+      </div>
+      <a href="{% url 'blog_list' %}" class="btn btn-sm btn-outline-custom d-inline-flex align-items-center gap-1">
+        All Articles <i class="bi bi-arrow-right"></i>
+      </a>
+    </div>
+
+    <div class="row g-4">
+      {% for post in latest_posts %}
+      <div class="col-md-4">
+        <article class="card card-modern h-100 d-flex flex-column transition-all shadow-sm">
+          <div class="card-body p-4 d-flex flex-column">
+            <div class="d-flex align-items-center justify-content-between gap-2 mb-2">
+              <span class="small text-muted-custom">
+                <i class="bi bi-calendar3 me-1"></i>{{ post.created_at|date:"M d, Y" }}
+              </span>
+              <span class="small text-muted-custom">
+                <i class="bi bi-clock me-1"></i>{{ post.estimated_read_time }} min read
+              </span>
+            </div>
+            <h4 class="h5 fw-bold mb-2">
+              <a href="{% url 'blog_post' slug=post.slug %}" class="text-decoration-none text-main stretched-link">
+                {{ post.title }}
+              </a>
+            </h4>
+            <p class="small text-muted-custom mb-3 flex-grow-1">
+              {{ post.plain_text_preview }}...
+            </p>
+            <div class="mt-auto pt-2 border-top border-light-subtle d-flex align-items-center justify-content-between">
+              <span class="small text-accent fw-semibold">Read article</span>
+              <i class="bi bi-arrow-right text-accent"></i>
+            </div>
+          </div>
+        </article>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
 
 </div>
 {% endblock %}
@@ -182,6 +276,17 @@
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
   }
 
+  /* High-contrast colors for WCAG AA compliance inside terminal */
+  .terminal-window .text-muted-custom {
+    color: #94a3b8 !important;
+  }
+  .terminal-window .text-info {
+    color: #38bdf8 !important;
+  }
+  .terminal-window .text-warning {
+    color: #fbbf24 !important;
+  }
+
   .terminal-header {
     background-color: rgba(15, 23, 42, 0.85);
   }
@@ -189,6 +294,25 @@
   .terminal-body {
     cursor: text;
     min-height: 200px;
+    max-height: 320px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+
+  .terminal-body::-webkit-scrollbar {
+    width: 6px;
+  }
+  .terminal-body::-webkit-scrollbar-thumb {
+    background-color: rgba(148, 163, 184, 0.25);
+    border-radius: 3px;
+  }
+
+  .term-quick-cmd {
+    transition: all 0.2s ease;
+  }
+  .term-quick-cmd:hover {
+    filter: brightness(1.3);
+    text-decoration: underline !important;
   }
 
   .term-dot {
@@ -421,6 +545,8 @@
         normalState.classList.remove('d-none');
         termWindow.classList.remove('terminal-panic-active');
         randomizeGames();
+        const historyDiv = document.getElementById('term-history');
+        if (historyDiv) historyDiv.innerHTML = '';
         if (termInput) {
           termInput.value = '';
           if (termCmdDisplay) termCmdDisplay.textContent = '';
@@ -456,12 +582,163 @@
       }, 1000);
     }
 
+    function executeCommand(rawCmd) {
+      const cmd = rawCmd.trim().toLowerCase();
+
+      if (cmd === '' || cmd === 'panic' || cmd === 'crash' || cmd === 'halt') {
+        triggerKernelPanic(cmd || 'enter_key');
+        return;
+      }
+
+      const historyDiv = document.getElementById('term-history');
+      const entry = document.createElement('div');
+      entry.className = 'mb-2 pt-1 border-top border-secondary border-opacity-25';
+
+      let responseHtml = '';
+
+      switch (cmd) {
+        case 'help':
+          responseHtml = `
+            <div class="text-light-50 mb-1">Available commands:</div>
+            <div class="ps-2 text-muted-custom">
+              • <span class="text-info fw-bold">skills</span>   : Technical stack & competencies<br>
+              • <span class="text-info fw-bold">projects</span> : Key projects & open source work<br>
+              • <span class="text-info fw-bold">contact</span>  : Direct channels to get in touch<br>
+              • <span class="text-info fw-bold">about</span>    : Background & path<br>
+              • <span class="text-info fw-bold">games</span>    : Random 90s DOS throwback<br>
+              • <span class="text-info fw-bold">clear</span>    : Reset terminal screen<br>
+              • <span class="text-warning fw-bold">panic</span>    : Trigger Kernel Panic 💥
+            </div>
+          `;
+          break;
+
+        case 'skills':
+          responseHtml = `
+            <div class="ps-2 text-muted-custom">
+              <span class="text-warning">🐍 Python:</span> Django, FastAPI, Pydantic, pytest<br>
+              <span class="text-info">📊 Data:</span> PostgreSQL, pgvector, dbt, Spark, Pandas<br>
+              <span class="text-success">⚙️ DevOps:</span> Docker, Linux, CI/CD, Git, uv
+            </div>
+          `;
+          break;
+
+        case 'projects':
+        case 'work':
+          responseHtml = `
+            <div class="ps-2 text-muted-custom">
+              • <span class="text-info fw-bold">cacrespo.xyz:</span> Personal site & blog (Django, pgvector)<br>
+              • <span class="text-info fw-bold">python-docs-es:</span> Python documentation translator<br>
+              • <span class="text-info fw-bold">PyDay Hurlingham:</span> Co-organizer of community conference<br>
+              <span class="small text-secondary">&gt; Check out repo links below or on GitHub.</span>
+            </div>
+          `;
+          break;
+
+        case 'contact':
+        case 'hire':
+          responseHtml = `
+            <div class="ps-2 text-muted-custom">
+              • <span class="text-info">Email:</span> <a href="mailto:lvccrespo@gmail.com" class="text-accent text-decoration-underline">lvccrespo@gmail.com</a><br>
+              • <span class="text-info">LinkedIn:</span> <a href="https://www.linkedin.com/in/carloscrespoi" target="_blank" rel="noopener" class="text-accent text-decoration-underline">linkedin.com/in/carloscrespoi</a><br>
+              • <span class="text-info">Form:</span> <a href="{% url 'contact' %}" class="text-accent text-decoration-underline">cacrespo.xyz/contact/</a>
+            </div>
+          `;
+          break;
+
+        case 'about':
+        case 'bio':
+          responseHtml = `
+            <div class="ps-2 text-muted-custom">
+              Carlos A. Crespo • Hurlingham, Argentina<br>
+              Sociology (UBA) ➔ Data Engineering ➔ Software Development.<br>
+              Connecting technology with real human needs.
+            </div>
+          `;
+          break;
+
+        case 'games':
+          randomizeGames();
+          responseHtml = `
+            <div class="ps-2 text-success small">
+              ✔ Diagnostic refreshed with classic 90s PC gems!
+            </div>
+          `;
+          break;
+
+        case 'clear':
+        case 'cls':
+          if (historyDiv) historyDiv.innerHTML = '';
+          if (termInput) {
+            termInput.value = '';
+            if (termCmdDisplay) termCmdDisplay.textContent = '';
+          }
+          return;
+
+        case 'sudo':
+          responseHtml = `
+            <div class="ps-2 text-danger small">
+              guest is not in the sudoers file. This incident will be reported. 🚨
+            </div>
+          `;
+          break;
+
+        case 'ls':
+        case 'dir':
+          responseHtml = `
+            <div class="ps-2 text-info">
+              README.md &nbsp; system_diagnostic.sh &nbsp; skills.txt &nbsp; projects/
+            </div>
+          `;
+          break;
+
+        default:
+          const safeEscaped = cmd.replace(/[<>&"']/g, '').substring(0, 30);
+          responseHtml = `
+            <div class="ps-2 text-warning small">
+              guest@lab: command not found: "${safeEscaped}". Try '<span class="text-info">help</span>' or '<span class="text-warning">panic</span>'.
+            </div>
+          `;
+          break;
+      }
+
+      const escapedCmd = rawCmd.replace(/[<>&"']/g, '').substring(0, 40);
+      entry.innerHTML = `
+        <div class="mb-1"><span class="text-accent fw-bold">guest@lab</span>:<span class="text-info">~</span>$ ${escapedCmd}</div>
+        ${responseHtml}
+      `;
+
+      if (historyDiv) {
+        historyDiv.appendChild(entry);
+        while (historyDiv.children.length > 5) {
+          historyDiv.removeChild(historyDiv.firstChild);
+        }
+      }
+
+      if (termInput) {
+        termInput.value = '';
+        if (termCmdDisplay) termCmdDisplay.textContent = '';
+      }
+
+      const termBody = document.querySelector('.terminal-body');
+      if (termBody) {
+        termBody.scrollTop = termBody.scrollHeight;
+      }
+    }
+
     if (termForm && termInput) {
       termForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        triggerKernelPanic(termInput.value.trim());
+        executeCommand(termInput.value);
       });
     }
+
+    document.querySelectorAll('.term-quick-cmd').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        executeCommand(btn.textContent.trim());
+      });
+    });
 
     if (panicRebootBtn) {
       panicRebootBtn.addEventListener('click', function (e) {

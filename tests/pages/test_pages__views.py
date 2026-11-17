@@ -1,9 +1,12 @@
 from http import HTTPStatus
+from django.contrib.auth import get_user_model
 from django.core import mail
 from django.test import TestCase
 from django.urls import reverse
-from blog.models import Activity
+from blog.models import Activity, Post
 from pages.forms import ContactForm
+
+User = get_user_model()
 
 
 class FaviconTests(TestCase):
@@ -36,6 +39,32 @@ class HomeViewTests(TestCase):
         self.assertTemplateUsed(response, "pages/home.html")
         self.assertIn("activities", response.context)
         self.assertEqual(len(response.context["activities"]), 3)
+        self.assertIn("latest_posts", response.context)
+
+    def test_get_with_latest_posts(self):
+        user = User.objects.create_user(username="author", password="password")
+        Post.objects.create(
+            author=user,
+            title="Published Post",
+            slug="published-post",
+            text="Hello world from markdown content.",
+            status=1,
+        )
+        Post.objects.create(
+            author=user,
+            title="Draft Post",
+            slug="draft-post",
+            text="Draft content.",
+            status=0,
+        )
+
+        response = self.client.get("/")
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(len(response.context["latest_posts"]), 1)
+        self.assertEqual(response.context["latest_posts"][0].title, "Published Post")
+        self.assertContains(response, "Latest from the Blog")
+        self.assertContains(response, "Published Post")
+        self.assertNotContains(response, "Draft Post")
 
 
 class ContactViewTests(TestCase):

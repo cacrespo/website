@@ -9,7 +9,10 @@ from django.urls import reverse
 from django.views.decorators.cache import cache_control
 from django.views.decorators.http import require_GET
 
-from blog.models import Activity
+from django.utils.html import strip_tags
+
+from blog.models import Activity, Post
+from blog.views import _markdown_to_html
 
 from .forms import ContactForm
 
@@ -23,8 +26,12 @@ def favicon(request: HttpRequest) -> HttpResponse:
 
 def home(request):
     activities = Activity.objects.order_by("-created_at")[:5]
+    latest_posts = Post.objects.filter(status=1).order_by("-created_at")[:3]
+    for post in latest_posts:
+        post.plain_text_preview = strip_tags(_markdown_to_html(post.text))[:160]
     context = {
         "activities": activities,
+        "latest_posts": latest_posts,
     }
     return render(request, "pages/home.html", context)
 
