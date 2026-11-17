@@ -10,12 +10,26 @@
       <div class="row g-4 align-items-center">
         <!-- Columna Izquierda: Mensaje y Declaración -->
         <div class="col-lg-6 col-xl-7">
+          <div class="mb-3">
+            <span class="badge-custom d-inline-flex align-items-center gap-2 small">
+              <span class="status-dot"></span>
+              <span>Happy to help with whatever you need 🤝</span>
+            </span>
+          </div>
           <h1 class="display-5 fw-bold mb-3 text-gradient">
-            Glad you’re here! 🧪
+            Data Engineer &amp; Software Developer
           </h1>
-          <p class="fs-5 text-muted-custom mb-0 lh-base">
-            This space serves as a live lab for technical projects, data engineering experiments, and writing.
+          <p class="fs-5 text-muted-custom mb-4 lh-base">
+            Building resilient data pipelines, backend solutions, and software experiments with Python and Django. Driven by curiosity, real user needs, and open source.
           </p>
+          <div class="d-flex flex-wrap gap-3 pt-1">
+            <a href="{% url 'contact' %}" class="btn btn-gradient d-inline-flex align-items-center gap-2 px-4 py-2">
+              <i class="bi bi-chat-text-fill"></i> Get in Touch
+            </a>
+            <a href="{% url 'blog_list' %}" class="btn btn-outline-custom d-inline-flex align-items-center gap-2 px-4 py-2">
+              <i class="bi bi-journal-text"></i> Read Blog
+            </a>
+          </div>
         </div>
 
         <!-- Columna Derecha: Terminal con Guiños Retro (Prince of Persia & Kasparov's Gambit) -->
@@ -117,13 +131,21 @@
         <div class="card-header bg-transparent border-bottom border-light-subtle py-3">
           <h3 class="h6 mb-0 fw-bold text-accent"><i class="bi bi-info-circle me-2"></i>About This Site</h3>
         </div>
-        <div class="card-body p-4">
-          <p class="mb-2">
-            This website is built with <strong>Django</strong> and styled using a custom modern <strong>Emerald & Slate</strong> theme with a dark/light mode toggle.
-          </p>
-          <p class="mb-0 text-muted-custom small">
-            Images shown are mine or by the mentioned author. Icons from <a href="https://icons.getbootstrap.com/" target="_blank" rel="noopener" class="text-accent text-accent-hover">Bootstrap Icons</a>.
-          </p>
+        <div class="card-body p-4 d-flex flex-column justify-content-between">
+          <div>
+            <p class="mb-2">
+              This website is built with <strong>Django</strong> and styled using a custom modern <strong>Emerald &amp; Slate</strong> theme with a dark/light mode toggle.
+            </p>
+            <p class="mb-0 text-muted-custom small">
+              Images shown are mine or by the mentioned author. Icons from <a href="https://icons.getbootstrap.com/" target="_blank" rel="noopener" class="text-accent text-accent-hover">Bootstrap Icons</a>.
+            </p>
+          </div>
+          <div class="pt-3 border-top border-light-subtle mt-3 d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <span class="text-muted-custom small">Open source codebase</span>
+            <a href="https://github.com/cacrespo/website" target="_blank" rel="noopener" class="btn btn-sm btn-outline-custom d-inline-flex align-items-center gap-1">
+              <i class="bi bi-github"></i> View Repository
+            </a>
+          </div>
         </div>
       </section>
    </div>
@@ -151,8 +173,18 @@
             {% endfor %}
           </ul>
         </div>
-        <div class="card-footer bg-transparent py-3 text-center border-top-0 rounded-bottom mt-auto">
-            <span class="small text-uppercase fw-bold text-muted-custom letter-spacing-1">Stay updated!</span>
+        <div class="card-footer bg-transparent py-3 border-top border-light-subtle rounded-bottom mt-auto">
+          <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <span class="small fw-semibold text-muted-custom">Stay connected:</span>
+            <div class="d-flex align-items-center gap-2">
+              <a href="https://www.linkedin.com/in/carloscrespoi" target="_blank" rel="noopener" class="btn btn-sm btn-outline-custom py-1 px-2 d-inline-flex align-items-center gap-1" title="Connect on LinkedIn">
+                <i class="bi bi-linkedin"></i> LinkedIn
+              </a>
+              <a href="https://github.com/cacrespo" target="_blank" rel="noopener" class="btn btn-sm btn-outline-custom py-1 px-2 d-inline-flex align-items-center gap-1" title="Follow on GitHub">
+                <i class="bi bi-github"></i> GitHub
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </aside>
@@ -180,6 +212,17 @@
     background-color: #0b111e;
     color: #e2e8f0;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  /* High-contrast colors for WCAG AA compliance inside terminal */
+  .terminal-window .text-muted-custom {
+    color: #94a3b8 !important;
+  }
+  .terminal-window .text-info {
+    color: #38bdf8 !important;
+  }
+  .terminal-window .text-warning {
+    color: #fbbf24 !important;
   }
 
   .terminal-header {
